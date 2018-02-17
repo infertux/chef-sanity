@@ -1,0 +1,23 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  product_name: chef
+  deprecations_as_errors: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: debian/stretch64
+
+suites:
+  - name: default
+    run_list:
+      - recipe[sanity::default]
+    attributes:
+      sanity:
+        ssh:
+          authorized_keys: ["ssh-rsa bogguskey test@example.net"]
