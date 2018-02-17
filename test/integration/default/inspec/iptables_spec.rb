@@ -1,5 +1,5 @@
 control 'iptables-1' do
-  title 'incoming policies are set to DROP'
+  title 'default policies are set properly'
   impact 1.0
 
   describe command('iptables -nL INPUT') do
@@ -24,5 +24,9 @@ control 'iptables-1' do
 
   describe command('ip6tables -nL OUTPUT') do
     its('stdout') { should include 'Chain OUTPUT (policy ACCEPT)' }
+  end
+
+  describe iptables do
+    it { should have_rule('-A INPUT -i lo -j ACCEPT') }
   end
 end
