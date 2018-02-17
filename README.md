@@ -11,6 +11,5 @@ This cookbook is an opinionated yet configurable set of packages and settings to
 
 You can include [extra recipes](https://github.com/infertux/chef-sanity/tree/master/recipes) as you see fit.
 
-License
--------
+## License
 MIT

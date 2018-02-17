@@ -5,4 +5,7 @@ node.normal['resolver']['nameservers'] = %w(
   2620:0:ccc::2
 )
 
+node.normal['resolver']['domain'] = nil
+node.normal['resolver']['search'] = nil
+
 include_recipe 'resolver::default'
