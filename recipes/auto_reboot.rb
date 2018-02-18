@@ -1,7 +1,7 @@
 # Auto reboot weekly
 
 cron 'auto_reboot' do
-  action node['sanity']['auto_reboot']['action']
+  action node['sanity']['auto_reboot']['action'].to_sym
   hour 12
   minute 30
   weekday node['sanity'].dig('auto_reboot', 'weekday', node['ipaddress'])
