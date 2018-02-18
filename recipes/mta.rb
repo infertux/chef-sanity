@@ -7,6 +7,9 @@ when 'postfix'
 when 'msmtp'
   include_recipe 'msmtp::default'
 
+when false
+  puts 'Warning: no MTA will be installed'
+
 else
   raise "Invalid MTA: #{node['sanity']['mta'].inspect}"
 end

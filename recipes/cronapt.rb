@@ -1,4 +1,4 @@
-node.normal['cronapt']['mailto'] = 'root'
+node.normal['cronapt']['mailto'] = node['sanity']['aliases']['root']
 node.normal['cronapt']['mailon'] = 'upgrade'
 node.normal['cronapt']['hourly'] = true
 node.normal['cronapt']['enable_upgrade'] = true
