@@ -1,3 +1,5 @@
+node.normal['monit']['config']['start_delay'] = 60 * 5
+
 unless node['sanity']['aliases']['root'].empty?
   node.normal['monit']['config']['alert'] = [{
     name: node['sanity']['aliases']['root'],
