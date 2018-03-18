@@ -1,7 +1,7 @@
 case node['sanity']['mta']
 when 'postfix'
-  node.normal['postfix']['aliases']['root'] ||= node['sanity']['aliases']['root']
-  node.normal['postfix']['main']['inet_interfaces'] = 'all'
+  node.default['postfix']['aliases']['root'] ||= node['sanity']['aliases']['root']
+  node.default['postfix']['main']['inet_interfaces'] = 'all'
   include_recipe 'postfix::default'
 
 when 'msmtp'

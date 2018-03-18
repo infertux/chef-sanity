@@ -1,7 +1,7 @@
-node.normal['iptables-ng']['auto_prune_attribute_rules'] = true
-node.normal['iptables-ng']['rules']['filter']['INPUT']['default'] = 'DROP [0:0]'
-node.normal['iptables-ng']['rules']['filter']['FORWARD']['default'] = 'DROP [0:0]'
-node.normal['iptables-ng']['rules']['filter']['OUTPUT']['default'] = 'ACCEPT [0:0]'
+node.default['iptables-ng']['auto_prune_attribute_rules'] = true
+node.default['iptables-ng']['rules']['filter']['INPUT']['default'] = 'DROP [0:0]'
+node.default['iptables-ng']['rules']['filter']['FORWARD']['default'] = 'DROP [0:0]'
+node.default['iptables-ng']['rules']['filter']['OUTPUT']['default'] = 'ACCEPT [0:0]'
 
 include_recipe 'iptables-ng::default'
 
