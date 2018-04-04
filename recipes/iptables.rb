@@ -37,6 +37,7 @@ iptables_ng_rule '30-mass-scan' do
     '-s 77.72.82.175 -j DROP', # mass scan from UK
     '-s 77.72.82.96 -j DROP', # mass scan from UK
     '-s 178.159.37.99 -j DROP', # mass scan from UA
+    '-s 218.12.231.80 -j DROP', # mass scan from CN
   ]
 end
 
