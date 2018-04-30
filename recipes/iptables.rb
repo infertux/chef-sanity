@@ -13,9 +13,20 @@ iptables_ng_rule '10-established' do
   rule '-m state --state ESTABLISHED,RELATED -j ACCEPT'
 end
 
-iptables_ng_rule '10-ping' do
+iptables_ng_rule '10-icmpv4' do
   ip_version 4
-  rule '-p icmp --icmp-type 8 -j ACCEPT'
+  rule [
+    '-p icmp --icmp-type echo-request -j ACCEPT' # ping
+  ]
+end
+
+iptables_ng_rule '10-icmpv6' do
+  ip_version 6
+  rule [
+    '-p icmpv6 --icmpv6-type router-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 134
+    '-p icmpv6 --icmpv6-type neighbour-solicitation -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 135
+    '-p icmpv6 --icmpv6-type neighbour-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 136
+  ]
 end
 
 iptables_ng_rule '20-ssh' do
@@ -51,6 +62,8 @@ iptables_ng_rule '30-common-ports' do
     '-p tcp --dport 445 -j DROP',
     '-p tcp --dport 1433 -j DROP',
     '-p tcp --dport 5060:5061 -j DROP', # SIP
+
+    '-p udp --sport 138 --dport 138 -j DROP', # NetBIOS
     '-p udp --dport 5060 -j DROP', # SIP
   ]
 end
