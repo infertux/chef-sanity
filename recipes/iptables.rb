@@ -64,15 +64,3 @@ iptables_ng_rule '90-log' do
   chain 'FORWARD'
   rule '-j LOG --log-prefix "iptables:filter:FORWARD "'
 end
-
-service 'rsyslog' do
-  action :nothing
-end
-
-file '/etc/rsyslog.d/30-iptables.conf' do
-  content <<-CONF.gsub(/^\s+/, '')
-    :msg,contains,"iptables:" /var/log/iptables.log
-    & stop
-  CONF
-  notifies :restart, 'service[rsyslog]', :immediately
-end
