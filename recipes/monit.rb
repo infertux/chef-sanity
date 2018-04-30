@@ -17,9 +17,9 @@ file '/etc/monit/conf.d/system.conf' do
   content <<-MONIT.gsub(/^\s+/, '')
     check system $HOST
       if loadavg (5min) > 1.0 for 3 cycles then alert
-      if memory usage > 50% for 3 cycles then alert
+      if memory usage > 75% for 3 cycles then alert
       if swap usage > 0% then alert
-      if cpu usage > 50% for 3 cycles then alert
+      if cpu usage > 75% for 3 cycles then alert
       if uptime > 30 days then alert
 
     check filesystem root with path /
