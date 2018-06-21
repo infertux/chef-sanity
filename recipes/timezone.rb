@@ -1,7 +1,7 @@
 # Set TZ to UTC
 
 case node['platform_family']
-when 'debian'
+when 'arch', 'debian'
   execute 'set-timezone UTC' do
     command 'timedatectl set-timezone UTC'
     not_if "timedatectl status | grep 'Time zone: UTC'"
@@ -9,7 +9,7 @@ when 'debian'
 
   execute 'set-ntp true' do
     command 'timedatectl set-ntp true'
-    not_if "timedatectl status | grep 'Network time on: yes'"
+    not_if "timedatectl status | grep -E '(Network time on|systemd-timesyncd\.service active): yes'"
   end
 
 else
