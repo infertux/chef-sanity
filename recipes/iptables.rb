@@ -37,18 +37,22 @@ end
 iptables_ng_rule '30-mass-scan' do
   ip_version 4
   rule [
-    '-s 23.96.189.32 -j DROP', # mass scan from US / Microsoft
-    '-s 52.176.108.199 -j DROP', # mass scan from US / Microsoft
-    '-s 52.187.124.3 -j DROP', # mass scan from US / Microsoft
-    '-s 52.228.28.160 -j DROP', # mass scan from US / Microsoft
-    '-s 52.228.29.179 -j DROP', # mass scan from US / Microsoft
-    '-s 52.228.30.50 -j DROP', # mass scan from US / Microsoft
-    '-s 52.228.71.224 -j DROP', # mass scan from US / Microsoft
-    '-s 77.72.82.135 -j DROP', # mass scan from UK
-    '-s 77.72.82.175 -j DROP', # mass scan from UK
-    '-s 77.72.82.96 -j DROP', # mass scan from UK
-    '-s 178.159.37.99 -j DROP', # mass scan from UA
-    '-s 218.12.231.80 -j DROP', # mass scan from CN
+    '-s 23.92.36.2 -j DROP', # US
+    '-s 23.96.189.32 -j DROP', # US / Microsoft
+    '-s 52.176.108.199 -j DROP', # US / Microsoft
+    '-s 52.187.124.3 -j DROP', # US / Microsoft
+    '-s 52.228.28.160 -j DROP', # US / Microsoft
+    '-s 52.228.29.179 -j DROP', # US / Microsoft
+    '-s 52.228.30.50 -j DROP', # US / Microsoft
+    '-s 52.228.71.224 -j DROP', # US / Microsoft
+    '-s 77.72.82.135 -j DROP', # UK
+    '-s 77.72.82.175 -j DROP', # UK
+    '-s 77.72.82.96 -j DROP', # UK
+    '-s 129.13.252.47 -j DROP', # DE
+    '-s 136.243.139.96 -j DROP', # DE / Hetzner
+    '-s 159.65.205.242 -j DROP', # US / DigitalOcean
+    '-s 178.159.37.99 -j DROP', # UA
+    '-s 218.12.231.80 -j DROP', # CN
   ]
 end
 

@@ -6,8 +6,8 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.2.0'
-chef_version     '>= 13'
+version          '1.3.0'
+chef_version     '>= 14'
 
 supports 'debian', '>= 9.3'
 
