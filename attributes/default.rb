@@ -8,3 +8,12 @@ default['sanity']['auto_reboot']['action'] = 'create' # or 'delete'
 # default['sanity']['auto_reboot']['weekday']['1.2.3.4'] = 1
 
 default['sanity']['mta'] = 'postfix' # or 'msmtp'
+
+default['sanity']['monit'] = {
+  'cpu' => '75%',
+  'loadavg' => node['cpu']['total'] || '1.0',
+  'memory' => '75%',
+  'swap' => '5%',
+  'uptime' => '30 days',
+  'filesystem' => { 'root' => '75%' },
+}
