@@ -16,10 +16,10 @@ file '/etc/monit/conf.d/system.conf' do
   notifies :reload, 'service[monit]'
   content <<-MONIT.gsub(/^\s+/, '')
     check system $HOST
-      if cpu usage > #{node['sanity']['monit']['cpu']} for 3 cycles then alert
-      if loadavg (5min) > #{node['sanity']['monit']['loadavg']} for 3 cycles then alert
-      if memory usage > #{node['sanity']['monit']['memory']} for 3 cycles then alert
-      if swap usage > #{node['sanity']['monit']['swap']} then alert
+      if cpu usage > #{node['sanity']['monit']['cpu']} for #{node['sanity']['monit']['duration']} then alert
+      if loadavg (5min) > #{node['sanity']['monit']['loadavg']} for #{node['sanity']['monit']['duration']} then alert
+      if memory usage > #{node['sanity']['monit']['memory']} for #{node['sanity']['monit']['duration']} then alert
+      if swap usage > #{node['sanity']['monit']['swap']} for #{node['sanity']['monit']['duration']} then alert
       if uptime > #{node['sanity']['monit']['uptime']} then alert
 
     check filesystem root with path /

@@ -10,6 +10,7 @@ default['sanity']['auto_reboot']['action'] = 'create' # or 'delete'
 default['sanity']['mta'] = 'postfix' # or 'msmtp'
 
 default['sanity']['monit'] = {
+  'duration' => '5 cycles',
   'cpu' => '75%',
   'loadavg' => node['cpu']['total'] || '1.0',
   'memory' => '75%',
