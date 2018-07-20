@@ -6,6 +6,6 @@ node.default['resolver']['nameservers'] = %w(
 )
 
 node.default['resolver']['domain'] = nil
-node.default['resolver']['search'] = nil
+node.default['resolver']['search'] = []
 
 include_recipe 'resolver::default'
