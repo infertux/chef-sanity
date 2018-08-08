@@ -9,7 +9,6 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.3.0'
 chef_version     '>= 14'
 
-supports 'arch'
 supports 'debian', '>= 9.4'
 
 depends 'cronapt', '~> 0.3'
