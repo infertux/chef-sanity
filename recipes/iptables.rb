@@ -20,18 +20,49 @@ iptables_ng_rule '10-icmpv4' do
   ]
 end
 
+iptables_ng_rule '10-dhcpv4' do
+  ip_version 4
+  rule [
+    '-p udp --sport 67 --dport 68 -d 255.255.255.255 -j ACCEPT', # allow DHCPOFFER message
+    '-p udp --sport 68 --dport 67 -s 0.0.0.0 -d 255.255.255.255 -j DROP', # ignore DHCPREQUEST message
+  ]
+end
+
 iptables_ng_rule '10-icmpv6' do
   ip_version 6
   rule [
+    '-p icmpv6 --icmpv6-type echo-request -j ACCEPT', # ping type 128
     '-p icmpv6 --icmpv6-type router-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 134
     '-p icmpv6 --icmpv6-type neighbour-solicitation -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 135
     '-p icmpv6 --icmpv6-type neighbour-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 136
   ]
 end
 
+# FIXME:
+raise "ssh_authorized_ips (#{node['sanity']['iptables']['ssh_authorized_ips'].inspect}) no longer exist" if node['sanity']['iptables']['ssh_authorized_ips']
+
 iptables_ng_rule '20-ssh' do
   ip_version 4
-  rule node['sanity']['iptables']['ssh_authorized_ips'].map { |ip| "-p tcp -m state --state NEW --dport 22 -s #{ip} -j ACCEPT" }
+  rule node['sanity']['iptables']['ssh_authorized_ips_v4'].map { |ip| "-p tcp -m state --state NEW --dport 22 -s #{ip} -j ACCEPT" }
+  not_if { node['sanity']['iptables']['ssh_authorized_ips_v4'].empty? }
+end
+
+iptables_ng_rule '20-ssh' do
+  action :delete
+  ip_version 4
+  only_if { node['sanity']['iptables']['ssh_authorized_ips_v4'].empty? }
+end
+
+iptables_ng_rule '20-ssh' do
+  ip_version 6
+  rule node['sanity']['iptables']['ssh_authorized_ips_v6'].map { |ip| "-p tcp -m state --state NEW --dport 22 -s #{ip} -j ACCEPT" }
+  not_if { node['sanity']['iptables']['ssh_authorized_ips_v6'].empty? }
+end
+
+iptables_ng_rule '20-ssh' do
+  action :delete
+  ip_version 6
+  only_if { node['sanity']['iptables']['ssh_authorized_ips_v6'].empty? }
 end
 
 iptables_ng_rule '30-mass-scan' do

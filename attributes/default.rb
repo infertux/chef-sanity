@@ -1,6 +1,7 @@
 default['sanity']['ssh']['authorized_keys'] = []
 
-default['sanity']['iptables']['ssh_authorized_ips'] = %w(0.0.0.0/0) # default to any source IP
+default['sanity']['iptables']['ssh_authorized_ips_v4'] = %w(0.0.0.0/0) # default to any source IP
+default['sanity']['iptables']['ssh_authorized_ips_v6'] = %w() # default to no IPs, i.e. DROP
 
 default['sanity']['aliases']['root'] = ''
 
