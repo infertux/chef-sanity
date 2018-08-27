@@ -10,7 +10,7 @@ iptables_ng_rule '10-lo' do
 end
 
 iptables_ng_rule '10-established' do
-  rule '-m state --state ESTABLISHED,RELATED -j ACCEPT'
+  rule '-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT'
 end
 
 iptables_ng_rule '10-icmpv4' do
@@ -43,7 +43,7 @@ raise "ssh_authorized_ips (#{node['sanity']['iptables']['ssh_authorized_ips'].in
 
 iptables_ng_rule '20-ssh' do
   ip_version 4
-  rule node['sanity']['iptables']['ssh_authorized_ips_v4'].map { |ip| "-p tcp -m state --state NEW --dport 22 -s #{ip} -j ACCEPT" }
+  rule node['sanity']['iptables']['ssh_authorized_ips_v4'].map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
   not_if { node['sanity']['iptables']['ssh_authorized_ips_v4'].empty? }
 end
 
@@ -55,7 +55,7 @@ end
 
 iptables_ng_rule '20-ssh' do
   ip_version 6
-  rule node['sanity']['iptables']['ssh_authorized_ips_v6'].map { |ip| "-p tcp -m state --state NEW --dport 22 -s #{ip} -j ACCEPT" }
+  rule node['sanity']['iptables']['ssh_authorized_ips_v6'].map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
   not_if { node['sanity']['iptables']['ssh_authorized_ips_v6'].empty? }
 end
 
