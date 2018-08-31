@@ -79,6 +79,8 @@ iptables_ng_rule '30-mass-scan' do
     '-s 77.72.82.135 -j DROP', # UK
     '-s 77.72.82.175 -j DROP', # UK
     '-s 77.72.82.96 -j DROP', # UK
+    '-s 121.135.240.177 -j DROP', # KR / HTTP script kiddie
+    '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
     '-s 129.13.252.47 -j DROP', # DE
     '-s 136.243.139.96 -j DROP', # DE / Hetzner
     '-s 159.65.205.242 -j DROP', # US / DigitalOcean
@@ -97,9 +99,10 @@ iptables_ng_rule '30-common-ports' do
     '-p tcp --dport 445 -j DROP',
     '-p tcp --dport 1433 -j DROP',
     '-p tcp --dport 5060:5061 -j DROP', # SIP
-
-    '-p udp --sport 138 --dport 138 -j DROP', # NetBIOS
     '-p udp --dport 5060 -j DROP', # SIP
+
+    '-p tcp -m multiport --dports bootps,bootpc,netbios-ns,netbios-dgm,netbios-ssn,microsoft-ds -j DROP', # NetBIOS
+    '-p udp -m multiport --dports bootps,bootpc,netbios-ns,netbios-dgm,netbios-ssn,microsoft-ds -j DROP', # NetBIOS
   ]
 end
 
