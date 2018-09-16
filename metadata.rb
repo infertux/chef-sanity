@@ -6,12 +6,12 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.3.0'
+version          '1.4.0'
 chef_version     '>= 14'
 
-supports 'debian', '>= 9.4'
+supports 'debian', '>= 9.5'
 
-depends 'cronapt', '~> 0.3'
+depends 'apt', '~> 7.1'
 depends 'fluentbit', '~> 1.1'
 depends 'htop', '~> 2.0'
 depends 'iptables-ng', '~> 3.0'

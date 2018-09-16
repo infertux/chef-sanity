@@ -5,15 +5,9 @@ default['sanity']['iptables']['ssh_authorized_ips_v6'] = %w() # default to no IP
 
 default['sanity']['aliases']['root'] = ''
 
-default['sanity']['apt_sources']['repositories'] = [
-  'deb https://deb.debian.org/debian          stretch           main',
-  'deb https://deb.debian.org/debian-security stretch/updates   main',
-  'deb https://deb.debian.org/debian          stretch-updates   main',
-]
-
-# To add extra repositories such as backports:
-# node['sanity']['apt_sources']['repositories'] << \
-#   'deb https://deb.debian.org/debian          stretch-backports main'
+# To add extra repositories such as backports or testing:
+default['sanity']['apt_sources']['backports'] = false
+default['sanity']['apt_sources']['testing'] = false
 
 default['sanity']['auto_reboot']['action'] = 'create' # or 'delete'
 # default['sanity']['auto_reboot']['weekday']['1.2.3.4'] = 1

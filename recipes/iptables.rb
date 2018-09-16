@@ -80,6 +80,7 @@ iptables_ng_rule '30-mass-scan' do
     '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
     '-s 129.13.252.47 -j DROP', # DE
     '-s 136.243.139.96 -j DROP', # DE / Hetzner
+    '-s 145.249.104.135 -j DROP', # NL / HTTP script kiddie
     '-s 159.65.205.242 -j DROP', # US / DigitalOcean
     '-s 178.159.37.99 -j DROP', # UA
     '-s 218.12.231.80 -j DROP', # CN
