@@ -14,6 +14,7 @@ include_recipe 'sanity::monit'
 include_recipe 'sanity::nginx'
 include_recipe 'sanity::vim'
 include_recipe 'sanity::apt_autoremove'
+include_recipe 'sanity::vrms'
 
 # include_recipe 'sanity::apt_update'
 # include_recipe 'sanity::ipv6_disable'

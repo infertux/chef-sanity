@@ -38,9 +38,6 @@ iptables_ng_rule '10-icmpv6' do
   ]
 end
 
-# FIXME:
-raise "ssh_authorized_ips (#{node['sanity']['iptables']['ssh_authorized_ips'].inspect}) no longer exist" if node['sanity']['iptables']['ssh_authorized_ips']
-
 iptables_ng_rule '20-ssh' do
   ip_version 4
   rule node['sanity']['iptables']['ssh_authorized_ips_v4'].map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
