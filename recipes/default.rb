@@ -1,9 +1,11 @@
 include_recipe 'apt::default' # noop on nodes that do not support apt
+include_recipe 'sanity::ipv6'
 include_recipe 'sanity::timezone'
 include_recipe 'sanity::resolver'
 include_recipe 'sanity::openssh'
 include_recipe 'sanity::ssh'
 include_recipe 'sanity::iptables'
+include_recipe 'sanity::check_connectivity'
 include_recipe 'sanity::mta'
 include_recipe 'sanity::aliases'
 include_recipe 'sanity::apt_sources'
@@ -17,6 +19,5 @@ include_recipe 'sanity::monit'
 include_recipe 'sanity::nginx'
 include_recipe 'sanity::vim'
 
-# include_recipe 'sanity::ipv6_disable'
 # include_recipe 'sanity::fluentbit'
 # include_recipe 'sanity::zeyple'

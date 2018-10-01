@@ -1,3 +1,5 @@
+default['sanity']['ipv6'] = true # set to false to disable IPv6
+
 default['sanity']['ssh']['authorized_keys'] = []
 
 default['sanity']['iptables']['ssh_authorized_ips_v4'] = %w(0.0.0.0/0) # default to any source IP
