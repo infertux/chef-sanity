@@ -1,12 +1,13 @@
-# Auto reboot weekly
-
 cron 'auto_reboot' do
-  action node['sanity']['auto_reboot']['action'].to_sym
-  hour 12
-  minute 30
-  weekday node['sanity'].dig('auto_reboot', 'weekday', node['ipaddress'])
-  # TODO: replace with databag?
+  action :delete # FIXME: remove
+end
+
+cron_d 'auto_reboot' do
+  action node['sanity']['auto_reboot'] ? :create : :delete
+  hour node['hostname'].hash % 24
+  minute node['hostname'].hash % 60
+  day node['sanity']['auto_reboot'] == 'monthly' ? node['hostname'].hash % 28 + 1 : '*'
+  weekday node['sanity']['auto_reboot'] == 'weekly' ? node['hostname'].hash % 7 + 1 : '*'
   user 'root'
   command '/sbin/reboot'
-  only_if { node['sanity'].dig('auto_reboot', 'weekday', node['ipaddress']) }
 end

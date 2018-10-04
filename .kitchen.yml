@@ -19,5 +19,6 @@ suites:
       - recipe[sanity::default]
     attributes:
       sanity:
+        ipv6: false
         ssh:
           authorized_keys: ["ssh-rsa bogguskey test@example.net"]

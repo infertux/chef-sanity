@@ -11,8 +11,7 @@ default['sanity']['aliases']['root'] = ''
 default['sanity']['apt_sources']['backports'] = false
 default['sanity']['apt_sources']['testing'] = false
 
-default['sanity']['auto_reboot']['action'] = 'create' # or 'delete'
-# default['sanity']['auto_reboot']['weekday']['1.2.3.4'] = 1
+default['sanity']['auto_reboot'] = 'monthly' # set to false to disable
 
 default['sanity']['mta'] = 'postfix' # or 'msmtp'
 

@@ -77,6 +77,7 @@ iptables_ng_rule '30-mass-scan' do
     '-s 77.72.82.175 -j DROP', # UK
     '-s 77.72.82.96 -j DROP', # UK
     '-s 89.36.185.5 -j DROP', # IR / HTTP script kiddie
+    '-s 104.200.67.226 -j DROP', # US / port scan
     '-s 115.205.66.205 -j DROP', # CN / HTTP script kiddie
     '-s 121.135.240.177 -j DROP', # KR / HTTP script kiddie
     '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
