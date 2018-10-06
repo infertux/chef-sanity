@@ -67,6 +67,8 @@ iptables_ng_rule '30-mass-scan' do
   rule [
     '-s 23.92.36.2 -j DROP', # US
     '-s 23.96.189.32 -j DROP', # US / Microsoft
+    '-s 47.75.150.232 -j DROP', # CN / HTTP script kiddie
+    '-s 47.91.158.122 -j DROP', # CN / HTTP script kiddie
     '-s 52.176.108.199 -j DROP', # US / Microsoft
     '-s 52.187.124.3 -j DROP', # US / Microsoft
     '-s 52.228.28.160 -j DROP', # US / Microsoft
@@ -77,7 +79,9 @@ iptables_ng_rule '30-mass-scan' do
     '-s 77.72.82.175 -j DROP', # UK
     '-s 77.72.82.96 -j DROP', # UK
     '-s 89.36.185.5 -j DROP', # IR / HTTP script kiddie
+    '-s 95.90.249.36 -j DROP',
     '-s 104.200.67.226 -j DROP', # US / port scan
+    '-s 106.12.26.234 -j DROP', # CN / HTTP script kiddie
     '-s 115.205.66.205 -j DROP', # CN / HTTP script kiddie
     '-s 121.135.240.177 -j DROP', # KR / HTTP script kiddie
     '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
@@ -85,7 +89,10 @@ iptables_ng_rule '30-mass-scan' do
     '-s 136.243.139.96 -j DROP', # DE / Hetzner
     '-s 145.249.104.135 -j DROP', # NL / HTTP script kiddie
     '-s 159.65.205.242 -j DROP', # US / DigitalOcean
+    '-s 176.9.137.25 -j DROP',
     '-s 178.159.37.99 -j DROP', # UA
+    '-s 195.56.150.75 -j DROP', # HU
+    '-s 201.24.225.137 -j DROP',
     '-s 218.12.231.80 -j DROP', # CN
   ]
 end
@@ -97,7 +104,8 @@ iptables_ng_rule '30-common-ports' do
     '-p tcp --dport 23 -j DROP',
     '-p tcp --dport 25 -j DROP',
     '-p tcp --dport 53 -j DROP',
-    '-p tcp --dport 445 -j DROP',
+    '-p udp --dport 53 -j DROP',
+    '-p udp --dport 500 -j DROP', # IKE
     '-p tcp --dport 1433 -j DROP',
     '-p tcp --dport 5060:5061 -j DROP', # SIP
     '-p udp --dport 5060 -j DROP', # SIP

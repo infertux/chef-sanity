@@ -9,15 +9,15 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.4.0'
 chef_version     '>= 14'
 
+supports 'centos', '>= 7'
 supports 'debian', '>= 9.5'
 
 depends 'apt', '~> 7.1'
-depends 'htop', '~> 2.0'
 depends 'iptables-ng', '~> 3.0'
 depends 'monit-ng', '~> 2.4'
-depends 'msmtp', '~> 2.0'
 depends 'openssh', '~> 2.6'
 depends 'postfix', '~> 5.3'
 depends 'resolver', '~> 2.1'
-depends 'tmux', '~> 1.5'
 depends 'vim', '~> 2.0'
+depends 'yum-epel', '~> 3.2'
+depends 'zeyple', '~> 1.2'

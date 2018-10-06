@@ -12,6 +12,7 @@ verifier:
 
 platforms:
   - name: debian/stretch64
+  - name: centos/7
 
 suites:
   - name: default

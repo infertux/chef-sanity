@@ -1,7 +1,7 @@
 # Set TZ to UTC
 
 case node['platform_family']
-when 'debian'
+when 'debian', 'rhel'
   execute 'set-timezone UTC' do
     command 'timedatectl set-timezone UTC'
     not_if "timedatectl status | grep 'Time zone: UTC'"
