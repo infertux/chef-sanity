@@ -13,5 +13,5 @@ when 'debian', 'rhel'
   end
 
 else
-  raise "Don't know how to handle timezone for platform #{node['platform_family']}"
+  raise NotImplementedError, "Don't know how to handle timezone for platform #{node['platform_family']}"
 end

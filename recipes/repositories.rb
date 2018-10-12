@@ -1,4 +1,6 @@
 case node['platform']
+when 'centos'
+  nil # NOOP
 when 'debian'
   apt_update do
     action :nothing
@@ -30,14 +32,14 @@ when 'debian'
     uri 'https://deb.debian.org/debian'
     distribution "#{codename}-backports"
     components %w(main)
-    action node['sanity']['apt_sources']['backports'] ? :add : :remove
+    action node['sanity']['repositories']['backports'] ? :add : :remove
   end
 
   apt_repository 'testing' do
     uri 'https://deb.debian.org/debian'
     distribution 'testing'
     components %w(main)
-    action node['sanity']['apt_sources']['testing'] ? :add : :remove
+    action node['sanity']['repositories']['testing'] ? :add : :remove
   end
 
   apt_repository 'security' do
@@ -54,5 +56,5 @@ when 'debian'
     content 'APT::Default-Release "stable";'
   end
 else
-  Chef::Log.warn "apt_sources recipe is a NOOP for #{node['platform']}"
+  raise NotImplementedError, "Don't know how to handle repositories for #{node['platform']}"
 end

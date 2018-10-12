@@ -15,3 +15,5 @@ execute 'newaliases' do
   group 'root'
   command 'newaliases'
 end
+
+# TODO: replace with postfix::aliases

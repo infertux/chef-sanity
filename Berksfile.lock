@@ -27,7 +27,7 @@ GRAPH
     apt (~> 7.1)
     iptables-ng (~> 3.0)
     monit-ng (~> 2.4)
-    openssh (~> 2.6)
+    openssh (~> 2.7)
     postfix (~> 5.3)
     resolver (~> 2.1)
     vim (~> 2.0)

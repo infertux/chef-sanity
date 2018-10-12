@@ -9,15 +9,7 @@ end
 
 include_recipe 'monit-ng::default'
 
-# This directory does not exist on CentOS.
-directory '/etc/monit/conf.d' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  recursive true
-end
-
-file '/etc/monit/conf.d/system.conf' do
+file "#{node['monit']['conf_dir']}/system.conf" do
   owner 'root'
   group 'root'
   mode '0444'

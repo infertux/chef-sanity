@@ -8,12 +8,10 @@ default['sanity']['iptables']['ssh_authorized_ips_v6'] = %w() # default to no IP
 default['sanity']['aliases']['root'] = ''
 
 # To add extra repositories such as backports or testing:
-default['sanity']['apt_sources']['backports'] = false
-default['sanity']['apt_sources']['testing'] = false
+default['sanity']['repositories']['backports'] = false
+default['sanity']['repositories']['testing'] = false
 
 default['sanity']['auto_reboot'] = 'monthly' # set to false to disable
-
-default['sanity']['mta'] = 'postfix' # or 'msmtp'
 
 default['sanity']['monit'] = {
   'duration' => '5 cycles',

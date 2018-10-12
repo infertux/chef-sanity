@@ -8,21 +8,21 @@ control 'auto_reboot-1' do
     # pre-condition for the next test. If this pre-condition fails then we
     # expect the next test to fail as well.
     describe sys_info do
-      its('hostname') { should eq 'default-debian-stretch64' }
+      its('hostname') { should eq 'default-debian-9' }
     end
 
     describe file('/etc/cron.d/auto_reboot') do
-      its('content') { should match /\n44 20 25 / }
+      its('content') { should match /\n1 1 10 / }
     end
   when 'centos'
     describe sys_info do
-      its('hostname') { should eq 'default-centos-7.vagrantup.com' }
+      its('hostname') { should eq 'localhost.localdomain' }
     end
 
     describe file('/etc/cron.d/auto_reboot') do
-      its('content') { should match /\n55 19 4 / }
+      its('content') { should match /\n13 1 18 / }
     end
   else
-    raise "Don't know how to handle #{os.name}"
+    raise NotImplementedError, "Don't know how to handle #{os.name}"
   end
 end

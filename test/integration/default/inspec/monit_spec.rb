@@ -5,4 +5,9 @@ control 'monit-1' do
   describe processes('monit') do
     it { should exist }
   end
+
+  describe command('monit status') do
+    its('stdout') { should match /^System '.+'$/ }
+    its('stdout') { should match /^Filesystem 'root'$/ }
+  end
 end

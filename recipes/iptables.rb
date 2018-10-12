@@ -67,6 +67,7 @@ iptables_ng_rule '30-mass-scan' do
   rule [
     '-s 23.92.36.2 -j DROP', # US
     '-s 23.96.189.32 -j DROP', # US / Microsoft
+    '-s 37.201.210.183 -j DROP', # DE
     '-s 47.75.150.232 -j DROP', # CN / HTTP script kiddie
     '-s 47.91.158.122 -j DROP', # CN / HTTP script kiddie
     '-s 52.176.108.199 -j DROP', # US / Microsoft
@@ -91,7 +92,9 @@ iptables_ng_rule '30-mass-scan' do
     '-s 159.65.205.242 -j DROP', # US / DigitalOcean
     '-s 176.9.137.25 -j DROP',
     '-s 178.159.37.99 -j DROP', # UA
+    '-s 182.61.171.57 -j DROP', # CN / HTTP script kiddie
     '-s 195.56.150.75 -j DROP', # HU
+    '-s 198.12.156.234 -j DROP', # US / GoDaddy.com
     '-s 201.24.225.137 -j DROP',
     '-s 218.12.231.80 -j DROP', # CN
   ]
