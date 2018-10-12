@@ -1,8 +1,8 @@
 node.default['monit']['config']['start_delay'] = 60 * 5
 
-unless node['sanity']['aliases']['root'].empty?
+unless node['sanity']['root_email'].empty?
   node.default['monit']['config']['alert'] = [{
-    name: node['sanity']['aliases']['root'],
+    name: node['sanity']['root_email'],
     but_not_on: ['instance'],
   }]
 end

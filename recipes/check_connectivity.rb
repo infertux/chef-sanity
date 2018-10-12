@@ -14,3 +14,8 @@ end
 execute 'curl zx2c4.com/ip' do
   command 'curl -s https://www.zx2c4.com/ip'
 end
+
+# execute 'curl brokendnssec.net' do
+#   command 'curl -v brokendnssec.net'
+#   returns 6
+# end

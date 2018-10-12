@@ -13,10 +13,14 @@ iptables_ng_rule '10-established' do
   rule '-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT'
 end
 
+# XXX: See http://shouldiblockicmp.com/
+# `iptables -p icmp -h` outputs all ICMPv4 types
 iptables_ng_rule '10-icmpv4' do
   ip_version 4
   rule [
-    '-p icmp --icmp-type echo-request -j ACCEPT' # ping
+    '-p icmp --icmp-type echo-request -j ACCEPT', # ping / type 8
+    '-p icmp --icmp-type fragmentation-needed -j ACCEPT', # MTU discovery / type 3
+    '-p icmp --icmp-type time-exceeded -j DROP', # traceroute / type 11
   ]
 end
 
@@ -28,10 +32,14 @@ iptables_ng_rule '10-dhcpv4' do
   ]
 end
 
+# XXX: See http://shouldiblockicmp.com/
+# `ip6tables -p icmpv6 -h` outputs all ICMPv6 types
 iptables_ng_rule '10-icmpv6' do
   ip_version 6
   rule [
-    '-p icmpv6 --icmpv6-type echo-request -j ACCEPT', # ping type 128
+    '-p icmpv6 --icmpv6-type echo-request -j ACCEPT', # ping / type 128
+    '-p icmpv6 --icmpv6-type packet-too-big -j ACCEPT', # MTU discovery / type 2
+    '-p icmpv6 --icmpv6-type time-exceeded -j DROP', # traceroute / type 3
     '-p icmpv6 --icmpv6-type router-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 134
     '-p icmpv6 --icmpv6-type neighbour-solicitation -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 135
     '-p icmpv6 --icmpv6-type neighbour-advertisement -j ACCEPT', # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol type 136

@@ -1,6 +1,7 @@
 ---
 driver:
   name: vagrant
+  provider: libvirt
 
 provisioner:
   name: chef_zero
@@ -11,14 +12,15 @@ verifier:
   name: inspec
 
 platforms:
-  - name: debian-9
-  - name: centos-7
+  - name: debian/stretch64
+  - name: centos/7
 
 suites:
   - name: default
     run_list:
       - recipe[sanity::default]
     attributes:
+      monit: { config: { start_delay: 0 } } # start Monit immediately to run tests
       sanity:
         ipv6: false
         ssh:
