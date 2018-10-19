@@ -46,28 +46,35 @@ iptables_ng_rule '10-icmpv6' do
   ]
 end
 
+# XXX: allow any IPv4 if nil
+ssh_authorized_ips_v4 = node['sanity']['iptables']['ssh_authorized_ips_v4']
+ssh_authorized_ips_v4 ||= %w(0.0.0.0/0)
+
 iptables_ng_rule '20-ssh' do
   ip_version 4
-  rule node['sanity']['iptables']['ssh_authorized_ips_v4'].map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
-  not_if { node['sanity']['iptables']['ssh_authorized_ips_v4'].empty? }
+  rule ssh_authorized_ips_v4.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
+  not_if { ssh_authorized_ips_v4.empty? }
 end
 
 iptables_ng_rule '20-ssh' do
   action :delete
   ip_version 4
-  only_if { node['sanity']['iptables']['ssh_authorized_ips_v4'].empty? }
+  only_if { ssh_authorized_ips_v4.empty? }
 end
+
+# XXX: block all IPv6 if nil
+ssh_authorized_ips_v6 = Array(node['sanity']['iptables']['ssh_authorized_ips_v6'])
 
 iptables_ng_rule '20-ssh' do
   ip_version 6
-  rule node['sanity']['iptables']['ssh_authorized_ips_v6'].map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
-  not_if { node['sanity']['iptables']['ssh_authorized_ips_v6'].empty? }
+  rule ssh_authorized_ips_v6.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
+  not_if { ssh_authorized_ips_v6.empty? }
 end
 
 iptables_ng_rule '20-ssh' do
   action :delete
   ip_version 6
-  only_if { node['sanity']['iptables']['ssh_authorized_ips_v6'].empty? }
+  only_if { ssh_authorized_ips_v6.empty? }
 end
 
 iptables_ng_rule '30-mass-scan' do

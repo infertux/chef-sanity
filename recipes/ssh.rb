@@ -16,7 +16,7 @@ directory '/root/.ssh' do
   mode '0700'
 end
 
-ssh_authorized_keys = node.fetch('sanity').fetch('ssh').fetch('authorized_keys')
+ssh_authorized_keys = Array(node.fetch('sanity').fetch('ssh').fetch('authorized_keys'))
 
 file 'root/.ssh/authorized_keys' do
   owner 'root'

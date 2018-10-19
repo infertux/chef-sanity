@@ -1,10 +1,10 @@
 default['sanity']['ipv6'] = true # set to false to disable IPv6
 default['sanity']['root_email'] = ''
 
-default['sanity']['ssh']['authorized_keys'] = []
+default['sanity']['ssh']['authorized_keys'] = nil # don't touch keys if nil/empty
 
-default['sanity']['iptables']['ssh_authorized_ips_v4'] = %w(0.0.0.0/0) # default to any source IP
-default['sanity']['iptables']['ssh_authorized_ips_v6'] = %w() # default to no IPs, i.e. DROP
+default['sanity']['iptables']['ssh_authorized_ips_v4'] = nil # nil means to ANY source IP
+default['sanity']['iptables']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
 
 # To add extra repositories such as backports or testing:
 default['sanity']['repositories']['backports'] = false
