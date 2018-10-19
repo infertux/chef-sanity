@@ -76,6 +76,7 @@ iptables_ng_rule '30-mass-scan' do
     '-s 23.92.36.2 -j DROP', # US
     '-s 23.96.189.32 -j DROP', # US / Microsoft
     '-s 37.201.210.183 -j DROP', # DE
+    '-s 39.105.27.78 -j DROP', # CN / HTTP script kiddie
     '-s 47.75.150.232 -j DROP', # CN / HTTP script kiddie
     '-s 47.91.158.122 -j DROP', # CN / HTTP script kiddie
     '-s 52.176.108.199 -j DROP', # US / Microsoft
@@ -92,6 +93,7 @@ iptables_ng_rule '30-mass-scan' do
     '-s 104.200.67.226 -j DROP', # US / port scan
     '-s 106.12.26.234 -j DROP', # CN / HTTP script kiddie
     '-s 115.205.66.205 -j DROP', # CN / HTTP script kiddie
+    '-s 120.79.18.73 -j DROP', # CN / HTTP script kiddie
     '-s 121.135.240.177 -j DROP', # KR / HTTP script kiddie
     '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
     '-s 129.13.252.47 -j DROP', # DE

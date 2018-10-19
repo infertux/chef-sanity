@@ -2,6 +2,12 @@ package 'msmtp-mta' do
   action :purge # FIXME: remove
 end
 
+%w(/etc/aliases.msmtp /etc/msmtprc).each do |f|
+  file f do
+    action :delete # FIXME: remove
+  end
+end
+
 node.default['postfix']['recipient_canonical_map_entries']['root'] = node['sanity']['root_email']
 
 node.default['postfix']['mail_type'] = 'master' # or 'client'
