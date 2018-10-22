@@ -13,7 +13,7 @@ supports 'centos', '>= 7'
 supports 'debian', '>= 9.5'
 
 depends 'apt', '~> 7.1'
-depends 'iptables-ng', '>= 3.0'
+depends 'iptables-ng', '~> 4.0'
 depends 'monit-ng', '~> 2.4'
 depends 'openssh', '~> 2.7'
 depends 'postfix', '~> 5.3'
