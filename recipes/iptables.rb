@@ -79,42 +79,7 @@ end
 
 iptables_ng_rule '30-mass-scan' do
   ip_version 4
-  rule [
-    '-s 23.92.36.2 -j DROP', # US
-    '-s 23.96.189.32 -j DROP', # US / Microsoft
-    '-s 37.201.210.183 -j DROP', # DE
-    '-s 39.105.27.78 -j DROP', # CN / HTTP script kiddie
-    '-s 47.75.150.232 -j DROP', # CN / HTTP script kiddie
-    '-s 47.91.158.122 -j DROP', # CN / HTTP script kiddie
-    '-s 52.176.108.199 -j DROP', # US / Microsoft
-    '-s 52.187.124.3 -j DROP', # US / Microsoft
-    '-s 52.228.28.160 -j DROP', # US / Microsoft
-    '-s 52.228.29.179 -j DROP', # US / Microsoft
-    '-s 52.228.30.50 -j DROP', # US / Microsoft
-    '-s 52.228.71.224 -j DROP', # US / Microsoft
-    '-s 77.72.82.135 -j DROP', # UK
-    '-s 77.72.82.175 -j DROP', # UK
-    '-s 77.72.82.96 -j DROP', # UK
-    '-s 89.36.185.5 -j DROP', # IR / HTTP script kiddie
-    '-s 95.90.249.36 -j DROP',
-    '-s 104.200.67.226 -j DROP', # US / port scan
-    '-s 106.12.26.234 -j DROP', # CN / HTTP script kiddie
-    '-s 115.205.66.205 -j DROP', # CN / HTTP script kiddie
-    '-s 120.79.18.73 -j DROP', # CN / HTTP script kiddie
-    '-s 121.135.240.177 -j DROP', # KR / HTTP script kiddie
-    '-s 123.207.158.82 -j DROP', # CN / HTTP script kiddie
-    '-s 129.13.252.47 -j DROP', # DE
-    '-s 136.243.139.96 -j DROP', # DE / Hetzner
-    '-s 145.249.104.135 -j DROP', # NL / HTTP script kiddie
-    '-s 159.65.205.242 -j DROP', # US / DigitalOcean
-    '-s 176.9.137.25 -j DROP',
-    '-s 178.159.37.99 -j DROP', # UA
-    '-s 182.61.171.57 -j DROP', # CN / HTTP script kiddie
-    '-s 195.56.150.75 -j DROP', # HU
-    '-s 198.12.156.234 -j DROP', # US / GoDaddy.com
-    '-s 201.24.225.137 -j DROP',
-    '-s 218.12.231.80 -j DROP', # CN
-  ]
+  action :delete # FIXME: remove
 end
 
 iptables_ng_rule '30-common-ports' do
@@ -135,8 +100,12 @@ iptables_ng_rule '30-common-ports' do
   ]
 end
 
+iptables_ng_rule '80-high-ttl' do
+  ip_version 4
+  rule '-m ttl --ttl-gt 200 -j DROP' # abnormally high TTL
+end
+
 iptables_ng_rule '90-log' do
-  chain 'INPUT'
   rule '-j LOG --log-level notice --log-prefix "iptables:filter:INPUT "'
 end
 

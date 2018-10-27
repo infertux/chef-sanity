@@ -11,9 +11,7 @@ execute 'ping wikipedia over IPv6' do
   only_if { node['sanity']['ipv6'] }
 end
 
-execute 'curl zx2c4.com/ip' do
-  command 'curl -s https://www.zx2c4.com/ip'
-end
+execute 'curl --head https://www.wikipedia.org/'
 
 # execute 'curl brokendnssec.net' do
 #   command 'curl -v brokendnssec.net'

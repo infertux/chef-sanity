@@ -49,11 +49,7 @@ when 'debian'
   end
 
   file '/etc/apt/apt.conf.d/99default-release' do
-    owner 'root'
-    group 'root'
-    mode '0644'
-    notifies :update, 'apt_update'
-    content 'APT::Default-Release "stable";'
+    action :delete # FIXME: remove
   end
 else
   raise NotImplementedError, "Don't know how to handle repositories for #{node['platform']}"
