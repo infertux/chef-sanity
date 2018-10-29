@@ -102,7 +102,7 @@ end
 
 iptables_ng_rule '80-high-ttl' do
   ip_version 4
-  rule '-m ttl --ttl-gt 200 -j DROP' # abnormally high TTL
+  rule '-m ttl --ttl-gt 64 -j DROP' # abnormally high TTL
 end
 
 iptables_ng_rule '90-log' do
