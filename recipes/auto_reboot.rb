@@ -1,7 +1,3 @@
-cron 'auto_reboot' do
-  action :delete # FIXME: remove
-end
-
 Chef::Resource::CronD.send(:include, Sanity::Helpers) # to get `drand`
 
 cron_d 'auto_reboot' do # ~FC009

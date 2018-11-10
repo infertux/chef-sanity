@@ -47,10 +47,6 @@ when 'debian'
     distribution "#{codename}/updates"
     components %w(main)
   end
-
-  file '/etc/apt/apt.conf.d/99default-release' do
-    action :delete # FIXME: remove
-  end
 else
   raise NotImplementedError, "Don't know how to handle repositories for #{node['platform']}"
 end

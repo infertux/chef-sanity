@@ -77,11 +77,6 @@ iptables_ng_rule '20-ssh' do
   only_if { ssh_authorized_ips_v6.empty? }
 end
 
-iptables_ng_rule '30-mass-scan' do
-  ip_version 4
-  action :delete # FIXME: remove
-end
-
 iptables_ng_rule '30-common-ports' do
   rule [
     '-p tcp --dport 21 -j DROP',
