@@ -1,7 +1,7 @@
 ---
 driver:
   name: vagrant
-  provider: libvirt
+  provider: <%= ENV['KITCHEN_PROVIDER'] || 'libvirt' %>
 
 provisioner:
   name: chef_zero
