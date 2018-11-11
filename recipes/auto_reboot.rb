@@ -7,5 +7,6 @@ cron_d 'auto_reboot' do # ~FC009
   day node['sanity']['auto_reboot'] == 'monthly' ? (drand 28) + 1 : '*'
   weekday node['sanity']['auto_reboot'] == 'weekly' ? (drand 7) + 1 : '*'
   user 'root'
-  command '/sbin/reboot'
+  # XXX: don't reboot if booted up for less than 24 hours
+  command '/usr/bin/uptime | grep -v day || /sbin/reboot'
 end
