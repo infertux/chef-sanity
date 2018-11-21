@@ -18,6 +18,6 @@ default['sanity']['monit'] = {
   'loadavg' => node['cpu']['total'] || '1.0',
   'memory' => '75%',
   'swap' => '5%',
-  'uptime' => '30 days',
+  'uptime' => '32 days',
   'filesystem' => { 'root' => '75%' },
 }
