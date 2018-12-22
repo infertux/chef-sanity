@@ -46,6 +46,13 @@ iptables_ng_rule '10-icmpv6' do
   ]
 end
 
+iptables_ng_rule '10-dhcpv6' do
+  ip_version 6
+  rule [
+    '-p udp --sport 547 --dport 546 -j ACCEPT',
+  ]
+end
+
 # XXX: allow any IPv4 if nil
 ssh_authorized_ips_v4 = node['sanity']['iptables']['ssh_authorized_ips_v4']
 ssh_authorized_ips_v4 ||= %w(0.0.0.0/0)
