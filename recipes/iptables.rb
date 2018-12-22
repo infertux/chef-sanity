@@ -1,4 +1,5 @@
 node.default['iptables-ng']['auto_prune_attribute_rules'] = true
+node.default['iptables-ng']['enabled_ip_versions'] = [4] unless node['sanity']['ipv6']
 node.default['iptables-ng']['rules']['filter']['INPUT']['default'] = 'DROP [0:0]'
 node.default['iptables-ng']['rules']['filter']['FORWARD']['default'] = 'DROP [0:0]'
 node.default['iptables-ng']['rules']['filter']['OUTPUT']['default'] = 'ACCEPT [0:0]'
@@ -35,6 +36,7 @@ end
 # XXX: See http://shouldiblockicmp.com/
 # `ip6tables -p icmpv6 -h` outputs all ICMPv6 types
 iptables_ng_rule '10-icmpv6' do
+  only_if { node['iptables-ng']['enabled_ip_versions'].include? 6 }
   ip_version 6
   rule [
     '-p icmpv6 --icmpv6-type echo-request -j ACCEPT', # ping / type 128
@@ -47,6 +49,7 @@ iptables_ng_rule '10-icmpv6' do
 end
 
 iptables_ng_rule '10-dhcpv6' do
+  only_if { node['iptables-ng']['enabled_ip_versions'].include? 6 }
   ip_version 6
   rule [
     '-p udp --sport 547 --dport 546 -j ACCEPT',
@@ -73,15 +76,15 @@ end
 ssh_authorized_ips_v6 = Array(node['sanity']['iptables']['ssh_authorized_ips_v6'])
 
 iptables_ng_rule '20-ssh' do
+  only_if { node['iptables-ng']['enabled_ip_versions'].include?(6) && !ssh_authorized_ips_v6.empty? }
   ip_version 6
   rule ssh_authorized_ips_v6.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
-  not_if { ssh_authorized_ips_v6.empty? }
 end
 
 iptables_ng_rule '20-ssh' do
+  only_if { ssh_authorized_ips_v6.empty? }
   action :delete
   ip_version 6
-  only_if { ssh_authorized_ips_v6.empty? }
 end
 
 iptables_ng_rule '30-common-ports' do
