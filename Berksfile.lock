@@ -37,5 +37,5 @@ GRAPH
   ubuntu (2.0.1)
     apt (>= 0.0.0)
   vim (2.0.2)
-  windows (5.2.3)
+  windows (5.3.0)
   yum-epel (3.3.0)
