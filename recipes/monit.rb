@@ -1,3 +1,4 @@
+node.default['monit']['config']['mail_servers'] = [ { hostname: 'localhost', port: 25 } ]
 node.default['monit']['config']['start_delay'] = 60 * 5
 
 unless node['sanity']['root_email'].empty?
