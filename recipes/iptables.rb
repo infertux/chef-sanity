@@ -97,6 +97,7 @@ iptables_ng_rule '30-common-ports' do
     '-p udp --dport 53 -j DROP',
     '-p udp --dport 500 -j DROP', # IKE
     '-p tcp --dport 1433 -j DROP',
+    '-p udp --dport 1900 -j DROP', # SSDP/UPnP
     '-p tcp --dport 5060:5061 -j DROP', # SIP
     '-p udp --dport 5060 -j DROP', # SIP
 
