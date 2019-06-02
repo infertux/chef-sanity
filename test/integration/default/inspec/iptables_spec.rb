@@ -6,15 +6,7 @@ control 'iptables-1' do
     its('stdout') { should include 'Chain INPUT (policy DROP)' }
   end
 
-  describe command('ip6tables -nL INPUT') do
-    its('stdout') { should include 'Chain INPUT (policy DROP)' }
-  end
-
   describe command('iptables -nL FORWARD') do
-    its('stdout') { should include 'Chain FORWARD (policy DROP)' }
-  end
-
-  describe command('ip6tables -nL FORWARD') do
     its('stdout') { should include 'Chain FORWARD (policy DROP)' }
   end
 
