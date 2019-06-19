@@ -17,6 +17,7 @@ node.default['postfix']['main']['smtpd_tls_auth_only'] = 'yes'
 node.default['postfix']['main']['smtpd_tls_security_level'] = 'may'
 node.default['postfix']['main']['smtpd_tls_protocols'] = '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
 node.default['postfix']['main']['smtpd_tls_mandatory_protocols'] = '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
+
 # XXX: If smtpd is going to be used, proper certificates should be generated and
 # set using the following attributes:
 # node.default['postfix']['main']['smtpd_tls_cert_file'] = '/etc/ssl/certs/postfix.cert'
@@ -35,3 +36,7 @@ end
 include_recipe 'postfix::default'
 
 include_recipe 'postfix::sasl_auth' if node['postfix']['sasl']
+
+node.default['postfix']['aliases']['root'] = node['sanity']['root_email']
+
+include_recipe 'postfix::aliases'
