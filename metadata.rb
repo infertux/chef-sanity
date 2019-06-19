@@ -6,10 +6,10 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.4.0'
+version          '2.0.0'
 chef_version     '>= 14'
 
-supports 'centos', '>= 7'
+supports 'centos', '>= 7.0'
 supports 'debian', '>= 9.5'
 
 depends 'apt', '~> 7.1'

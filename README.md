@@ -3,7 +3,18 @@
 [![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
 [![Build Status](https://travis-ci.org/infertux/chef-sanity.svg?branch=master)](https://travis-ci.org/infertux/chef-sanity)
 
-This cookbook is an opinionated yet configurable set of packages and settings to make machines saner.
+This cookbook is an opinionated but configurable set of packages and settings to make machines saner.
+
+Here are some highlights of what it does:
+
+- sets timezone to UTC and enables NTP
+- sets up a basic firewall with iptables to block incoming connections (IPv4 and IPv6)
+- hardens sshd config with public key authentication and strong ciphers
+- sets up a local MTA using Postfix to send emails to sysadmin
+- sets up Monit to alert sysadmin when CPU, memory, disk, etc. is overused
+- sets up unattended_upgrades (Debian only)
+- sets up a reliable DNS resolver
+- installs a few useful packages like tmux, htop, curl, etc.
 
 ## Recipes
 
@@ -12,4 +23,5 @@ This cookbook is an opinionated yet configurable set of packages and settings to
 You can include [extra recipes](https://github.com/infertux/chef-sanity/tree/master/recipes) as you see fit.
 
 ## License
+
 MIT
