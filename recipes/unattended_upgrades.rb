@@ -6,7 +6,6 @@ when 'debian'
   node.default['apt']['unattended_upgrades']['auto_fix_interrupted_dpkg'] = true
   node.default['apt']['unattended_upgrades']['mail'] ||= node['sanity']['root_email']
   node.default['apt']['unattended_upgrades']['sender'] ||= node['sanity']['root_email']
-  node.default['apt']['unattended_upgrades']['mail_only_on_error'] = false
   node.default['apt']['unattended_upgrades']['remove_unused_dependencies'] = true
   node.default['apt']['unattended_upgrades']['automatic_reboot'] = true
 
