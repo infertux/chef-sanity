@@ -1,4 +1,5 @@
-include_recipe 'apt::default' # noop on nodes that do not support apt
+apt_update
+
 include_recipe 'sanity::swap'
 include_recipe 'sanity::ipv6'
 include_recipe 'sanity::timezone'

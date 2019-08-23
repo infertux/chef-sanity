@@ -5,7 +5,7 @@ license          'MIT'
 description      'An opinionated yet configurable set of packages and settings to make machines saner'
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+
 version          '2.0.0'
 chef_version     '>= 14'
 
