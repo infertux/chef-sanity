@@ -1,4 +1,8 @@
-apt_update
+if platform_family?('debian')
+  package 'apt-transport-https'
+
+  apt_update
+end
 
 include_recipe 'sanity::swap'
 include_recipe 'sanity::ipv6'
