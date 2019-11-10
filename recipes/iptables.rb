@@ -106,6 +106,11 @@ iptables_ng_rule '30-common-ports' do
   ]
 end
 
+iptables_ng_rule '80-broadcast' do
+  ip_version 4
+  rule '-p udp -d 255.255.255.255 -j DROP' # UDP spam
+end
+
 iptables_ng_rule '80-high-ttl' do
   ip_version 4
   rule '-m ttl --ttl-gt 64 -j DROP' # abnormally high TTL
