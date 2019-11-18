@@ -5,7 +5,7 @@ apt_repository "#{codename}-backports" do
   distribution "#{codename}-backports"
   components %w(main)
   action :add
-  only_if { node['platform'] == 'debian' && node['platform_version'].to_i == 10 }
+  only_if { platform?('debian') && node['platform_version'].to_i == 10 }
 end
 
 node.default['monit']['config']['mail_servers'] = [ { hostname: 'localhost', port: 25 } ]
