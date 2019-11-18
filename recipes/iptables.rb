@@ -101,8 +101,8 @@ iptables_ng_rule '30-common-ports' do
     '-p tcp --dport 5060:5061 -j DROP', # SIP
     '-p udp --dport 5060 -j DROP', # SIP
 
-    '-p tcp -m multiport --dports bootps,bootpc,netbios-ns,netbios-dgm,netbios-ssn,microsoft-ds -j DROP', # NetBIOS
-    '-p udp -m multiport --dports bootps,bootpc,netbios-ns,netbios-dgm,netbios-ssn,microsoft-ds -j DROP', # NetBIOS
+    '-p tcp -m multiport --dports 67,68,137,138,139,445 -j DROP', # NetBIOS
+    '-p udp -m multiport --dports 67,68,137,138,139,445 -j DROP', # NetBIOS
   ]
 end
 
