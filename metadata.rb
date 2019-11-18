@@ -6,7 +6,7 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
-version          '2.0.1'
+version          '2.1.0'
 chef_version     '>= 14'
 
 supports 'centos', '>= 7.0'
