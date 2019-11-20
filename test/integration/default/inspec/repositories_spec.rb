@@ -8,3 +8,23 @@ control 'repositories-1' do
     end
   end
 end
+
+control 'repositories-2' do
+  title 'Backports are enabled on Buster to get Monit'
+  impact 0.5
+
+  if os.debian?
+    case os.release.to_i
+    when 9
+      describe file('/etc/apt/sources.list.d/stretch-backports.list') do
+        it { should_not exist }
+      end
+    when 10
+      describe file('/etc/apt/sources.list.d/buster-backports.list') do
+        it { should exist }
+      end
+    else
+      raise "Unknown release #{os.release.inspect}"
+    end
+  end
+end

@@ -1,13 +1,3 @@
-codename = node['lsb']['codename'] || raise('no codename')
-
-apt_repository "#{codename}-backports" do
-  uri 'https://deb.debian.org/debian'
-  distribution "#{codename}-backports"
-  components %w(main)
-  action :add
-  only_if { platform?('debian') && node['platform_version'].to_i == 10 }
-end
-
 node.default['monit']['config']['mail_servers'] = [ { hostname: 'localhost', port: 25 } ]
 node.default['monit']['config']['start_delay'] = 60 * 5
 

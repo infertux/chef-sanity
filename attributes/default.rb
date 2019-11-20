@@ -7,8 +7,9 @@ default['sanity']['iptables']['ssh_authorized_ips_v4'] = nil # nil means to ANY 
 default['sanity']['iptables']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
 
 # To add extra repositories such as backports or testing:
-default['sanity']['repositories']['backports'] = false
 default['sanity']['repositories']['testing'] = false
+default['sanity']['repositories']['backports'] = \
+  platform?('debian') && node['platform_version'].to_i == 10
 
 default['sanity']['auto_reboot'] = 'monthly' # set to false to disable
 
