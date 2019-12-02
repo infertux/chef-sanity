@@ -7,7 +7,7 @@ when 'debian'
   node.default['apt']['unattended_upgrades']['mail'] ||= node['sanity']['root_email']
   node.default['apt']['unattended_upgrades']['sender'] ||= node['sanity']['root_email']
   node.default['apt']['unattended_upgrades']['remove_unused_dependencies'] = true
-  node.default['apt']['unattended_upgrades']['automatic_reboot'] = true
+  node.default['apt']['unattended_upgrades']['automatic_reboot'] = node['sanity']['automatic_reboot']
 
   include_recipe 'apt::unattended-upgrades'
 else
