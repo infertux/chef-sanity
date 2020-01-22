@@ -16,8 +16,8 @@ when 'iptables'
     rule '-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT'
   end
 
-# XXX: See http://shouldiblockicmp.com/
-# `iptables -p icmp -h` outputs all ICMPv4 types
+  # XXX: See http://shouldiblockicmp.com/
+  # `iptables -p icmp -h` outputs all ICMPv4 types
   iptables_ng_rule '10-icmpv4' do
     ip_version 4
     rule [
@@ -35,8 +35,8 @@ when 'iptables'
     ]
   end
 
-# XXX: See http://shouldiblockicmp.com/
-# `ip6tables -p icmpv6 -h` outputs all ICMPv6 types
+  # XXX: See http://shouldiblockicmp.com/
+  # `ip6tables -p icmpv6 -h` outputs all ICMPv6 types
   iptables_ng_rule '10-icmpv6' do
     only_if { node['iptables-ng']['enabled_ip_versions'].include? 6 }
     ip_version 6
@@ -58,7 +58,7 @@ when 'iptables'
     ]
   end
 
-# XXX: allow any IPv4 if nil
+  # XXX: allow any IPv4 if nil
   ssh_authorized_ips_v4 = node['sanity']['iptables']['ssh_authorized_ips_v4']
   ssh_authorized_ips_v4 ||= %w(0.0.0.0/0)
 
@@ -74,7 +74,7 @@ when 'iptables'
     only_if { ssh_authorized_ips_v4.empty? }
   end
 
-# XXX: block all IPv6 if nil
+  # XXX: block all IPv6 if nil
   ssh_authorized_ips_v6 = Array(node['sanity']['iptables']['ssh_authorized_ips_v6'])
 
   iptables_ng_rule '20-ssh' do
