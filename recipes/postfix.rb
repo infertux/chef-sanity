@@ -1,11 +1,8 @@
 node.default['postfix']['recipient_canonical_map_entries']['root'] = node['sanity']['root_email']
 
 node.default['postfix']['mail_type'] = 'master' # or 'client'
+node.default['postfix']['main']['compatibility_level'] = '2'
 node.default['postfix']['main']['inet_interfaces'] = 'all'
-
-# http://www.postfix.org/postconf.5.html#smtpd_relay_restrictions
-# see also https://github.com/chef-cookbooks/postfix/issues/150
-node.default['postfix']['main']['smtpd_relay_restrictions'] = 'permit_mynetworks, permit_sasl_authenticated, defer_unauth_destination'
 
 # TLS shared options
 node.default['postfix']['main']['tls_preempt_cipherlist'] = 'yes'
