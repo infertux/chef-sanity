@@ -1,3 +1,5 @@
+package 'iputils-ping'
+
 execute 'ping 1.1.1.1 (no DNS)' do
   command 'ping -4 -c 2 -W 2 -q 1.1.1.1'
 end
