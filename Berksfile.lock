@@ -4,14 +4,14 @@ DEPENDENCIES
     metadata: true
 
 GRAPH
-  apt (7.2.0)
+  apt (7.3.0)
   build-essential (8.2.1)
     mingw (>= 1.1)
     seven_zip (>= 0.0.0)
-  dpkg_autostart (0.2.0)
-  iptables (6.0.1)
+  dpkg_autostart (0.3.1)
+  iptables (7.1.0)
   iptables-ng (4.0.0)
-  mingw (2.1.0)
+  mingw (2.1.1)
     seven_zip (>= 0.0.0)
   monit-ng (2.4.0)
     apt (>= 0.0.0)
@@ -36,5 +36,5 @@ GRAPH
     windows (>= 0.0.0)
   ubuntu (3.0.3)
   vim (2.1.0)
-  windows (6.0.1)
+  windows (7.0.0)
   yum-epel (3.3.0)
