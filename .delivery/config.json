@@ -9,7 +9,7 @@
       "enable_cookstyle": true
     }
   },
-  "skip_phases": [],
+  "skip_phases": ["unit"],
   "job_dispatch": {
     "version": "v2"
   },
