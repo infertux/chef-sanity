@@ -29,3 +29,5 @@ default['sanity']['repositories']['testing'] = false
 default['sanity']['root_email'] = '' # administrator's email
 
 default['sanity']['ssh']['authorized_keys'] = nil # don't touch keys if nil/empty
+
+default['sanity']['vrms']['whitelist'] = '@' # can be a regexp of whitelisted non-free packages
