@@ -10,7 +10,10 @@ end
 
 include_recipe 'monit-ng::default'
 
-filesystems = `df -x devtmpfs -x tmpfs -x overlay --output=target`.lines.map(&:strip).drop(1)
+cmd = Mixlib::ShellOut.new('df -x devtmpfs -x tmpfs -x overlay --output=target')
+cmd.run_command
+cmd.error! # raise an exception if it didn't exit with 0
+filesystems = cmd.stdout.lines.map(&:strip).drop(1)
 
 check_filesystems = filesystems.map do |filesystem|
   name = filesystem[1..-1] # cannot start with a slash
