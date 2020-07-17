@@ -17,7 +17,7 @@ default['sanity']['monit'] = {
   'memory' => '75%',
   'swap' => '5%',
   'uptime' => '32 days',
-  'filesystem' => { 'root' => '75%' },
+  'filesystem' => { '/' => '75%' },
 }
 
 # XXX: Enable backports for Debian 10 to get Monit.

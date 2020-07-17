@@ -10,6 +10,17 @@ end
 
 include_recipe 'monit-ng::default'
 
+filesystems = `df -x devtmpfs -x tmpfs -x overlay --output=target`.lines.map(&:strip).drop(1)
+
+check_filesystems = filesystems.map do |filesystem|
+  name = filesystem[1..-1] # cannot start with a slash
+  name = 'root' if name.empty?
+  space_usage = node['sanity']['monit']['filesystem'][filesystem]
+  space_usage ||= node['sanity']['monit']['filesystem']['/']
+
+  "check filesystem #{name} with path #{filesystem}\nif space usage > #{space_usage} then alert"
+end.join("\n")
+
 file "#{node['monit']['conf_dir']}/system.conf" do
   owner 'root'
   group 'root'
@@ -23,7 +34,6 @@ file "#{node['monit']['conf_dir']}/system.conf" do
       if swap usage > #{node['sanity']['monit']['swap']} for #{node['sanity']['monit']['duration']} then alert
       if uptime > #{node['sanity']['monit']['uptime']} then alert
 
-    check filesystem root with path /
-      if space usage > #{node['sanity']['monit']['filesystem']['root']} then alert
+    #{check_filesystems}
   MONIT
 end
