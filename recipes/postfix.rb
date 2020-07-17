@@ -4,6 +4,9 @@ node.default['postfix']['mail_type'] = 'master' # or 'client'
 node.default['postfix']['main']['compatibility_level'] = '2'
 node.default['postfix']['main']['inet_interfaces'] = 'all'
 
+# catch-all destination for unknown local(8) recipients
+node.default['postfix']['main']['luser_relay'] = node['sanity']['root_email']
+
 # TLS shared options
 node.default['postfix']['main']['tls_preempt_cipherlist'] = 'yes'
 node.default['postfix']['main']['tls_medium_cipherlist'] = 'AES128+EECDH:AES128+EDH'
