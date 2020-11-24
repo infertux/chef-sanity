@@ -1,4 +1,4 @@
-ChefStyle/UnnecessaryPlatformCaseStatement:
+Chef/Style/UnnecessaryPlatformCaseStatement:
   Enabled: false
 
 Style/TrailingCommaInArguments:

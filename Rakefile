@@ -8,16 +8,10 @@ namespace :style do
     task.options << '--extra-details'
     task.options << '--display-style-guide'
   end
-
-  desc 'Run Chef style checks'
-  require 'foodcritic'
-  FoodCritic::Rake::LintTask.new(:chef) do |task|
-    task.options[:fail_tags] = ['any']
-  end
 end
 
 desc 'Run all style checks'
-task 'style:all' => ['style:ruby', 'style:chef']
+task 'style:all' => ['style:ruby']
 
 if ENV['TRAVIS']
   task default: %w(style:all)
