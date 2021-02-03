@@ -1,6 +1,6 @@
 Chef::Resource::CronD.include Sanity::Helpers # to get `drand`
 
-cron_d 'automatic_reboot' do # rubocop:disable ChefModernize/FoodcriticComments # ~FC009
+cron_d 'automatic_reboot' do
   action node['sanity']['automatic_reboot'] ? :create : :delete
   hour drand 24
   minute drand 60
