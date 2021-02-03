@@ -7,7 +7,7 @@ source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
 version          '2.1.0'
-chef_version     '>= 14'
+chef_version     '>= 14.6'
 
 supports 'centos', '>= 7.0'
 supports 'debian', '>= 9.9'
