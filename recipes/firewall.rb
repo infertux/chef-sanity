@@ -109,8 +109,12 @@ when 'iptables'
   end
 
   iptables_ng_rule '80-broadcast' do
+    action :delete # FIXME: delete eventually
     ip_version 4
-    rule '-p udp -d 255.255.255.255 -j DROP' # UDP spam
+  end
+
+  iptables_ng_rule '80-spam' do
+    rule '-p udp -j DROP' # UDP spam
   end
 
   iptables_ng_rule '80-high-ttl' do
@@ -118,13 +122,14 @@ when 'iptables'
     rule '-m ttl --ttl-gt 64 -j DROP' # abnormally high TTL
   end
 
+  # see `dmesg --help | grep notice` for more information about log level
   iptables_ng_rule '90-log' do
     rule '-j LOG --log-level notice --log-prefix "iptables:filter:INPUT "'
   end
 
   iptables_ng_rule '90-log' do
     chain 'FORWARD'
-    rule '-j LOG --log-prefix "iptables:filter:FORWARD "'
+    rule '-j LOG --log-level notice --log-prefix "iptables:filter:FORWARD "'
   end
 when 'nftables'
   raise NotImplementedError, 'nftables'
