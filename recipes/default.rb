@@ -6,6 +6,7 @@ end
 
 include_recipe 'sanity::swap'
 include_recipe 'sanity::ipv6'
+include_recipe 'sanity::network'
 include_recipe 'sanity::ntp'
 include_recipe 'sanity::timezone'
 include_recipe 'sanity::resolver'
