@@ -12,12 +12,7 @@ end
 
 desc 'Run all style checks'
 task 'style:all' => ['style:ruby']
+require 'kitchen/rake_tasks'
+Kitchen::RakeTasks.new
 
-if ENV['TRAVIS']
-  task default: %w(style:all)
-else
-  require 'kitchen/rake_tasks'
-  Kitchen::RakeTasks.new
-
-  task default: %w(style:all kitchen:all)
-end
+task default: %w(kitchen:all style:all)

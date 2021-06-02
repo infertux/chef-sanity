@@ -1,0 +1,29 @@
+image: ruby:3.0
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+
+services:
+  - docker:dind
+
+before_script:
+  - apt update -y
+  - apt upgrade -y
+  - ruby -v
+  - apt install -y g++ # needed by unf_ext Gem
+  - bundle config set --local without development
+  - bundle install -j $(nproc)
+
+kitchen:
+  script:
+    - update-ca-certificates # needed by apt
+    - apt-key list
+    - apt-key net-update
+    - apt-key list
+    - apt install -y rsync # needed by kitchen
+    - kitchen list
+    - kitchen test
+
+cookstyle:
+  script:
+    - cookstyle

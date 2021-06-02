@@ -1,12 +1,14 @@
 ---
 driver:
-  name: vagrant
-  provider: <%= ENV['KITCHEN_PROVIDER'] || 'libvirt' %>
+  name: dokken
+  privileged: true
+  chef_version: 14
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
-  product_name: chef
-  product_version: 14
+  name: dokken
   deprecations_as_errors: true
   multiple_converge: 2
   # enforce_idempotency: true # TODO
@@ -15,9 +17,13 @@ verifier:
   name: inspec
 
 platforms:
-  - name: debian/buster64
-  - name: debian/stretch64
-  - name: centos/7
+  - name: debian-10
+    driver:
+      image: debian:10
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+        - RUN /usr/bin/apt-get install -y lsb-release systemd procps
 
 suites:
   - name: default
@@ -26,5 +32,6 @@ suites:
     attributes:
       monit: { config: { start_delay: 0 } } # start Monit immediately to run tests
       sanity:
+        firewall: iptables
         ipv6: false
         ssh: { authorized_keys: ["ssh-rsa bogguskey test@example.net"] }

@@ -1,3 +1,9 @@
+directory '/etc/network' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
 file '/etc/network/interfaces' do
   owner 'root'
   group 'root'
