@@ -9,8 +9,7 @@ package unwanted_packages do
 end
 
 # Install useful packages
-include_recipe 'sanity::htop'
 include_recipe 'sanity::tmux'
-include_recipe 'sanity::vim'
+include_recipe 'vim::default'
 
-package %w(curl sudo)
+package %w(curl sudo htop)

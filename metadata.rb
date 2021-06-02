@@ -9,7 +9,6 @@ issues_url       'https://github.com/infertux/chef-sanity/issues'
 version          '2.1.0'
 chef_version     '>= 14.6'
 
-supports 'centos', '>= 7.0'
 supports 'debian', '>= 9.9'
 
 depends 'apt', '~> 7.3'
@@ -19,4 +18,3 @@ depends 'openssh', '~> 2.8'
 depends 'postfix', '~> 6.0'
 depends 'resolver', '~> 2.1'
 depends 'vim', '~> 2.1'
-depends 'yum-epel', '~> 3.3'
