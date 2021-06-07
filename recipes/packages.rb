@@ -12,4 +12,9 @@ end
 include_recipe 'sanity::tmux'
 include_recipe 'vim::default'
 
-package %w(curl sudo htop)
+package %w(
+  cron
+  curl
+  htop
+  sudo
+)

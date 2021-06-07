@@ -34,4 +34,5 @@ suites:
       sanity:
         firewall: iptables
         ipv6: false
+        repositories: { protocol: http } # certificate issue when using HTTPS with Docker image
         ssh: { authorized_keys: ["ssh-rsa bogguskey test@example.net"] }

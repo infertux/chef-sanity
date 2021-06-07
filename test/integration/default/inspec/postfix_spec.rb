@@ -19,7 +19,7 @@ control 'postfix-2' do
   impact 0.5
 
   describe command('postconf -h mynetworks') do
-    its('stdout') { should include '127.0.0.0/8' }
+    its('stdout') { should match /127\.0\.0\.[01]/ }
   end
 
   describe command('postconf -h smtp_use_tls') do

@@ -8,6 +8,6 @@ control 'monit-1' do
 
   describe command('monit status') do
     its('stdout') { should match /^System '.+'$/ }
-    its('stdout') { should match /^Filesystem 'root'$/ }
+    its('stdout') { should match /^Filesystem '.+'$/ }
   end
 end

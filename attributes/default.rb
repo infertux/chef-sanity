@@ -45,6 +45,7 @@ default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp pac
 default['sanity']['repositories']['backports'] = \
   platform?('debian') && node['platform_version'].to_i == 10
 default['sanity']['repositories']['testing'] = false
+default['sanity']['repositories']['protocol'] = 'https' # http|https
 
 # Use Cloudflare & OpenDNS by default
 default['sanity']['resolver']['dns'] = %w(1.1.1.1 208.67.222.222)

@@ -16,10 +16,6 @@ before_script:
 
 kitchen:
   script:
-    - update-ca-certificates # needed by apt
-    - apt-key list
-    - apt-key net-update
-    - apt-key list
     - apt install -y rsync # needed by kitchen
     - kitchen list
     - kitchen test

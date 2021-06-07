@@ -15,35 +15,36 @@ when 'debian'
   end
 
   codename = node['lsb']['codename'] || raise('no codename')
+  protocol = node['sanity']['repositories']['protocol']
 
   apt_repository codename do
-    uri 'https://deb.debian.org/debian'
+    uri "#{protocol}://deb.debian.org/debian"
     distribution codename
     components %w(main)
   end
 
   apt_repository "#{codename}-updates" do
-    uri 'https://deb.debian.org/debian'
+    uri "#{protocol}://deb.debian.org/debian"
     distribution "#{codename}-updates"
     components %w(main)
   end
 
   apt_repository "#{codename}-backports" do
-    uri 'https://deb.debian.org/debian'
+    uri "#{protocol}://deb.debian.org/debian"
     distribution "#{codename}-backports"
     components %w(main)
     action node['sanity']['repositories']['backports'] ? :add : :remove
   end
 
   apt_repository 'testing' do
-    uri 'https://deb.debian.org/debian'
+    uri "#{protocol}://deb.debian.org/debian"
     distribution 'testing'
     components %w(main)
     action node['sanity']['repositories']['testing'] ? :add : :remove
   end
 
   apt_repository 'security' do
-    uri 'https://deb.debian.org/debian-security'
+    uri "#{protocol}://deb.debian.org/debian-security"
     distribution "#{codename}/updates"
     components %w(main)
   end
