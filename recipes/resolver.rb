@@ -1,9 +1,5 @@
-# Cloudflare & OpenDNS
-ips = %w(1.1.1.1 208.67.222.222)
-ips |= %w(2606:4700:4700::1111 2620:119:35::35) if node['sanity']['ipv6']
-
 resolver_systemd_resolved_config '/etc/systemd/resolved.conf' do
-  dns ips
+  dns node['sanity']['resolver']['dns']
   dnssec true
   dns_over_tls 'opportunistic'
 end
