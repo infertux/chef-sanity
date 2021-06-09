@@ -1,7 +1,7 @@
 # Sanity Cookbook
 
 [![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
-[![Build Status](https://travis-ci.org/infertux/chef-sanity.svg?branch=master)](https://travis-ci.org/infertux/chef-sanity)
+[![Build Status](https://gitlab.com/infertux/chef-sanity/badges/master/pipeline.svg)](https://gitlab.com/infertux/chef-sanity/-/pipelines)
 
 This cookbook is an opinionated but configurable set of packages and settings to make machines saner.
 

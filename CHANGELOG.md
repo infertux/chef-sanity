@@ -1,10 +1,29 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...master))
 
   * TBD
 
+## v3.0.0, 2021-06-?? ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...3.0.0))
+
+  * cc6b956 Fix the build for new ruby Docker image
+  * f62fe38 Extract DNS servers as attributes
+  * 7ce7c73 Switch from Vagrant to kitchen-dokken
+  * 102b594 Use systemd resolved for DNS
+  * ba5784e Drop support for discontinued CentOS
+  * a92a0d7 Set up network interfaces automatically
+  * a1ea577 Don't log unhandled UDP traffic
+  * 62c6685 Update dependencies
+  * 8b6f949 Use new Chef resource to set timezone to UTC
+  * e9d43b6 Update dependencies
+  * a6be455 Make sure ntp package is uninstalled
+  * a9f0248 Use ShellOut to comply with http://www.foodcritic.io/#FC048
+  * da74ae0 Update Gems
+  * ba11518 Check free space on all regular filesystems
+  * 17dfb8a Forward all unknown local recipients to root
+  * 925f21f Update CHANGELOG
+
 ## v2.1.0, 2020-06-23 ([changes](https://github.com/infertux/chef-sanity/compare/2.0.1...2.1.0))
 
-  * 6b2788b Allow to whitelist non-free packages
+  * ffd9a59 Allow to whitelist non-free packages
   * a7be684 Bump rack from 2.2.2 to 2.2.3
   * 5370c31 Update dependencies
   * 0ff3153 Bump activesupport from 5.2.4.1 to 5.2.4.3
