@@ -12,6 +12,7 @@ end
 
 desc 'Run all style checks'
 task 'style:all' => ['style:ruby']
+
 require 'kitchen/rake_tasks'
 Kitchen::RakeTasks.new
 

@@ -7,6 +7,8 @@ default['sanity']['ipv6'] = true # set to false to disable IPv6
 default['sanity']['firewall'] = \
   platform?('debian') && node['platform_version'].to_i == 10 ? 'nftables' : 'iptables'
 
+default['sanity']['network']['interfaces']['manage'] = true
+
 default['sanity']['network']['interfaces'] = {
   'lo' => <<~LO,
     # The loopback network interface

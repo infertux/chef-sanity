@@ -12,7 +12,6 @@ group :style do
 end
 
 group :test do
-  gem 'kitchen-inspec'
   gem 'kitchen-dokken'
-  gem 'test-kitchen', '~> 2.1.0'
+  gem 'kitchen-inspec'
 end
