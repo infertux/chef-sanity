@@ -16,5 +16,6 @@ package %w(
   cron
   curl
   htop
+  rsync
   sudo
 )
