@@ -1,8 +1,8 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/2.2.0...2.?))
 
   * TBD
 
-## v3.0.0, 2021-06-?? ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...3.0.0))
+## v2.2.0, 2021-09-?? ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
 
   * cc6b956 Fix the build for new ruby Docker image
   * f62fe38 Extract DNS servers as attributes
