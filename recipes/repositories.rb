@@ -45,7 +45,8 @@ when 'debian'
 
   apt_repository 'security' do
     uri "#{protocol}://deb.debian.org/debian-security"
-    distribution "#{codename}/updates"
+    # XXX: https://www.debian.org/releases/stable/amd64/release-notes/ch-information.en.html#security-archive
+    distribution(node['platform_version'].to_i >= 11 ? "#{codename}-security" : "#{codename}/updates")
     components %w(main)
   end
 else
