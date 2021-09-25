@@ -1,29 +1,36 @@
 ---
 driver:
-  name: dokken
-  privileged: true
-  chef_version: 14
-
-transport:
-  name: dokken
+  name: vagrant
+  provider: libvirt
 
 provisioner:
-  name: dokken
+  name: chef_zero
+  product_name: cinc
+  product_version: 16
+  #channel: stable # FIXME: required?
+  require_chef_omnibus: true
+  chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
+  chef_omnibus_root: /opt/cinc
+
   deprecations_as_errors: true
   multiple_converge: 2
-  # enforce_idempotency: true # TODO
+  # enforce_idempotency: true # TODO: but blocked by Monit cookbook
 
 verifier:
-  name: inspec
+  name: inspec # XXX: cinc-auditor actually
+  inspec_tests:
+    - git: https://github.com/dev-sec/ssl-baseline
 
 platforms:
-  - name: debian-10
+  - name: debian/bullseye64
     driver:
-      image: debian:10
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install -y lsb-release systemd procps
+      box_check_update: true
+  - name: debian/buster64
+    driver:
+      box_check_update: true
+  - name: debian/stretch64
+    driver:
+      box_check_update: true
 
 suites:
   - name: default
@@ -33,6 +40,5 @@ suites:
       monit: { config: { start_delay: 0 } } # start Monit immediately to run tests
       sanity:
         firewall: iptables
-        ipv6: false
-        repositories: { protocol: http } # certificate issue when using HTTPS with Docker image
-        ssh: { authorized_keys: ["ssh-rsa bogguskey test@example.net"] }
+        ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
+        ipv6: false # XXX: no IPv6 connectivity available with vagrant-libvirt yet: https://github.com/vagrant-libvirt/vagrant-libvirt/issues/914

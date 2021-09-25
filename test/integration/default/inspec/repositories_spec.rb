@@ -23,6 +23,10 @@ control 'repositories-2' do
       describe file('/etc/apt/sources.list.d/buster-backports.list') do
         it { should exist }
       end
+    when 11
+      describe file('/etc/apt/sources.list.d/bullseye-backports.list') do
+        it { should_not exist }
+      end
     else
       raise "Unknown release #{os.release.inspect}"
     end
