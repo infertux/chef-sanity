@@ -20,6 +20,17 @@ package %w(
   sudo
 )
 
-execute 'looking for leftover configuration files' do
-  command "find /etc -name '*.dpkg-*' -o -name '*.ucf-*' -o -name '*.merge-error'"
+bash 'looking for leftover configuration files' do
+  user 'root'
+  group 'root'
+  code <<~BASH
+    #!/bin/bash
+
+    set -euo pipefail
+
+    files=$(find /etc -name '*.dpkg-*' -o -name '*.ucf-*' -o -name '*.merge-error')
+    echo "$files"
+
+    #{'[ -z "$files" ]' if node['sanity']['packages']['fail_on_leftover_configuration_files']}
+  BASH
 end
