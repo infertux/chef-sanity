@@ -19,3 +19,7 @@ package %w(
   rsync
   sudo
 )
+
+execute 'looking for leftover configuration files' do
+  command "find /etc -name '*.dpkg-*' -o -name '*.ucf-*' -o -name '*.merge-error'"
+end

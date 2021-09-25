@@ -57,4 +57,8 @@ default['sanity']['root_email'] = '' # administrator's email
 
 default['sanity']['ssh']['authorized_keys'] = nil # don't touch keys if nil/empty
 
+default['sanity']['swap']['swappiness'] = 10
+default['sanity']['swap']['swapfile']['path'] = '/swapfile'
+default['sanity']['swap']['swapfile']['size'] = 0 # in GiB, set to 0 to disable
+
 default['sanity']['vrms']['whitelist'] = '@' # can be a regexp of whitelisted non-free packages
