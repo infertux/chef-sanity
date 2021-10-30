@@ -10,10 +10,10 @@ end
 group :test do
   gem 'chef-bin',         source: 'https://packagecloud.io/cinc-project/stable'
   gem 'cinc-auditor-bin', source: 'https://packagecloud.io/cinc-project/stable' # inspec fork from cinc-project
-  gem 'test-kitchen'
   gem 'kitchen-dokken'
   gem 'kitchen-inspec'
   gem 'kitchen-vagrant'
+  gem 'test-kitchen'
 
   # XXX: use patched mixlib-install Gem from cinc-project otherwise license-acceptance doesn't know about "product_name: cinc" in .kitchen.yml
   # https://gitlab.com/cinc-project/upstream/mixlib-install/-/blob/stable/cinc/lib/mixlib/install/product_matrix.rb

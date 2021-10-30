@@ -123,13 +123,14 @@ when 'iptables'
   end
 
   # see `dmesg --help | grep notice` for more information about log level
+  # we limit logging to 1/second so attackers can't fill up the disk too quickly
   iptables_ng_rule '90-log' do
-    rule '-j LOG --log-level notice --log-prefix "iptables:filter:INPUT "'
+    rule '-m limit --limit 1/second --limit-burst 5 -j LOG --log-level notice --log-prefix "iptables:filter:INPUT "'
   end
 
   iptables_ng_rule '90-log' do
     chain 'FORWARD'
-    rule '-j LOG --log-level notice --log-prefix "iptables:filter:FORWARD "'
+    rule '-m limit --limit 1/second --limit-burst 5 -j LOG --log-level notice --log-prefix "iptables:filter:FORWARD "'
   end
 when 'nftables'
   raise NotImplementedError, 'nftables'
