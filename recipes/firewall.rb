@@ -64,7 +64,7 @@ when 'iptables'
 
   iptables_ng_rule '20-ssh' do
     ip_version 4
-    rule ssh_authorized_ips_v4.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
+    rule ssh_authorized_ips_v4.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport #{node['openssh']['server']['port'] || 22} -s #{ip} -j ACCEPT" }
     not_if { ssh_authorized_ips_v4.empty? }
   end
 
@@ -80,7 +80,7 @@ when 'iptables'
   iptables_ng_rule '20-ssh' do
     only_if { node['iptables-ng']['enabled_ip_versions'].include?(6) && !ssh_authorized_ips_v6.empty? }
     ip_version 6
-    rule ssh_authorized_ips_v6.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport 22 -s #{ip} -j ACCEPT" }
+    rule ssh_authorized_ips_v6.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport #{node['openssh']['server']['port'] || 22} -s #{ip} -j ACCEPT" }
   end
 
   iptables_ng_rule '20-ssh' do
