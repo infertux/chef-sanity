@@ -1,6 +1,6 @@
 resolver_systemd_resolved_config '/etc/systemd/resolved.conf' do
   dns node['sanity']['resolver']['dns']
-  dnssec true
+  dnssec node['sanity']['resolver']['dnssec']
   dns_over_tls 'opportunistic'
 end
 
@@ -12,5 +12,5 @@ end
 
 link '/etc/resolv.conf' do
   to '/run/systemd/resolve/stub-resolv.conf'
-  ignore_failure !ENV['TEST_KITCHEN'].nil?
+  not_if { !ENV['DOCKER'].nil? }
 end

@@ -10,15 +10,20 @@ end
 
 # Install useful packages
 include_recipe 'sanity::tmux'
-include_recipe 'vim::default'
 
 package %w(
+  apt-forktracer
   cron
   curl
   htop
   rsync
   sudo
+  vim
 )
+
+execute 'looking for non-Debian packages' do
+  command 'apt-forktracer | sort'
+end
 
 bash 'looking for leftover configuration files' do
   user 'root'

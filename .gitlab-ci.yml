@@ -1,25 +1,29 @@
-image: ruby:3.0
-
-variables:
-  DOCKER_HOST: tcp://docker:2375
+image: ruby:3.1
 
 services:
   - docker:dind
 
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  KITCHEN_LOCAL_YAML: ".kitchen.dokken.yml"
+
 before_script:
-  - apt update -y
-  - apt upgrade -y
+  - apt-get update -y
+  - apt-get upgrade -y
   - ruby -v
-  - apt install -y g++ # needed by unf_ext Gem
+  - apt-get install -y g++ # needed by unf_ext Gem
   - bundle config set --local without development
   - bundle install -j $(nproc)
-
-kitchen:
-  script:
-    - apt install -y rsync # needed by kitchen
-    - kitchen list
-    - kitchen test
 
 cookstyle:
   script:
     - cookstyle
+
+# XXX: cannot run on gitlab.com CI runners, we need to install our own instance
+# to support libvirt or podman
+# https://docs.gitlab.com/runner/executors/custom_examples/libvirt.html
+# https://github.com/test-kitchen/kitchen-dokken/blob/main/documentation/PODMAN.md
+# kitchen:
+#   script:
+#     - kitchen list
+#     - kitchen test

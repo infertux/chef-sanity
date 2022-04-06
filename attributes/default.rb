@@ -2,10 +2,15 @@
 
 default['sanity']['automatic_reboot'] = 'monthly' # set to false to disable
 
+ipaddress = IPAddr.new(node['ipaddress'])
+default['sanity']['ipv4_reachable'] = !ipaddress.private? && !ipaddress.link_local? # override to false if you don't have a reachable public IPv4
+Chef::Log.info "Primary IPv4 address #{ipaddress} auto-detected as #{'NOT ' unless node['sanity']['ipv4_reachable']}reachable"
+
 default['sanity']['ipv6'] = true # set to false to disable IPv6
 
-default['sanity']['firewall'] = \
-  platform?('debian') && node['platform_version'].to_i == 10 ? 'nftables' : 'iptables'
+default['sanity']['firewall']['type'] = 'nftables'
+default['sanity']['firewall']['ssh_authorized_ips_v4'] = nil # nil means to ANY source IP
+default['sanity']['firewall']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
 
 default['sanity']['network']['interfaces']['manage'] = true
 
@@ -26,9 +31,6 @@ default['sanity']['network']['interfaces'][node['network']['default_interface']]
   # This is an autoconfigured IPv6 interface
   iface #{node['network']['default_interface']} inet6 auto
 IPv6
-
-default['sanity']['iptables']['ssh_authorized_ips_v4'] = nil # nil means to ANY source IP
-default['sanity']['iptables']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
 
 default['sanity']['monit'] = {
   'duration' => '5 cycles',
@@ -54,6 +56,7 @@ default['sanity']['repositories']['protocol'] = 'https' # http|https
 # Use Cloudflare & OpenDNS by default
 default['sanity']['resolver']['dns'] = %w(1.1.1.1 208.67.222.222)
 default['sanity']['resolver']['dns'] |= %w(2606:4700:4700::1111 2620:119:35::35) if node['sanity']['ipv6']
+default['sanity']['resolver']['dnssec'] = true
 
 default['sanity']['root_email'] = '' # administrator's email
 

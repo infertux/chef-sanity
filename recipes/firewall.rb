@@ -1,5 +1,68 @@
-case node['sanity']['firewall']
+# XXX: allow any IPv4 if nil
+ssh_authorized_ips_v4 = node['sanity']['firewall']['ssh_authorized_ips_v4']
+ssh_authorized_ips_v4 ||= %w(0.0.0.0/0)
+
+# XXX: block all IPv6 if nil
+ssh_authorized_ips_v6 = Array(node['sanity']['firewall']['ssh_authorized_ips_v6'])
+
+case node['sanity']['firewall']['type']
+when 'nftables'
+  package %w(iptables iptables-persistent libiptc0) do
+    action :purge
+  end
+
+  # %w(iptables iptables.d).each do |dir|
+  #   directory "/etc/#{dir}" do
+  #     action :delete
+  #     recursive true
+  #   end
+  # end
+
+  package 'nftables'
+
+  service 'nftables' do
+    action %i(enable)
+  end
+
+  execute 'nft-check' do
+    action :nothing
+    command 'nft --check -f /etc/nftables.conf'
+    notifies :restart, 'service[nftables]', :immediately
+  end
+
+  directory '/etc/nftables.d' do
+    owner 'root'
+    group 'root'
+    mode '0550'
+  end
+
+  template '/etc/nftables.conf' do
+    source 'firewall/nftables.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0555'
+    notifies :run, 'execute[nft-check]'
+    variables(
+      ssh_authorized_ips_v4: ssh_authorized_ips_v4,
+      ssh_authorized_ips_v6: ssh_authorized_ips_v6,
+    )
+  end
+
 when 'iptables'
+  package 'nftables' do
+    action :purge
+  end
+
+  package %w(iptables iptables-persistent)
+
+  %w(iptables ip6tables).each do |program|
+    # https://wiki.debian.org/iptables
+    execute "update-alternatives to point to #{program}-legacy" do
+      not_if "test $(readlink /etc/alternatives/#{program}) = /usr/sbin/#{program}-legacy"
+      command "update-alternatives --set #{program} /usr/sbin/#{program}-legacy"
+    end
+  end
+
   node.default['iptables-ng']['auto_prune_attribute_rules'] = true
   node.default['iptables-ng']['enabled_ip_versions'] = [4] unless node['sanity']['ipv6']
   node.default['iptables-ng']['rules']['filter']['INPUT']['default'] = 'DROP [0:0]'
@@ -30,7 +93,7 @@ when 'iptables'
   iptables_ng_rule '10-dhcpv4' do
     ip_version 4
     rule [
-      '-p udp --sport 67 --dport 68 -d 255.255.255.255 -j ACCEPT', # allow DHCPOFFER message
+      '-p udp --sport 67 --dport 68 -d 255.255.255.255 -j ACCEPT', # accept DHCPOFFER message
       '-p udp --sport 68 --dport 67 -s 0.0.0.0 -d 255.255.255.255 -j DROP', # ignore DHCPREQUEST message
     ]
   end
@@ -58,29 +121,34 @@ when 'iptables'
     ]
   end
 
-  # XXX: allow any IPv4 if nil
-  ssh_authorized_ips_v4 = node['sanity']['iptables']['ssh_authorized_ips_v4']
-  ssh_authorized_ips_v4 ||= %w(0.0.0.0/0)
-
   iptables_ng_rule '20-ssh' do
-    ip_version 4
-    rule ssh_authorized_ips_v4.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport #{node['openssh']['server']['port'] || 22} -s #{ip} -j ACCEPT" }
     not_if { ssh_authorized_ips_v4.empty? }
+    ip_version 4
+    rule(
+      Array(node['ssh-hardening']['ssh']['ports'] || 22).map do |port|
+        ssh_authorized_ips_v4.map do |ip|
+          "-p tcp -m conntrack --ctstate NEW --dport #{port} -s #{ip} -j ACCEPT"
+        end
+      end.flatten,
+    )
   end
 
   iptables_ng_rule '20-ssh' do
+    only_if { ssh_authorized_ips_v4.empty? }
     action :delete
     ip_version 4
-    only_if { ssh_authorized_ips_v4.empty? }
   end
-
-  # XXX: block all IPv6 if nil
-  ssh_authorized_ips_v6 = Array(node['sanity']['iptables']['ssh_authorized_ips_v6'])
 
   iptables_ng_rule '20-ssh' do
     only_if { node['iptables-ng']['enabled_ip_versions'].include?(6) && !ssh_authorized_ips_v6.empty? }
     ip_version 6
-    rule ssh_authorized_ips_v6.map { |ip| "-p tcp -m conntrack --ctstate NEW --dport #{node['openssh']['server']['port'] || 22} -s #{ip} -j ACCEPT" }
+    rule(
+      Array(node['ssh-hardening']['ssh']['ports'] || 22).map do |port|
+        ssh_authorized_ips_v6.map do |ip|
+          "-p tcp -m conntrack --ctstate NEW --dport #{port} -s #{ip} -j ACCEPT"
+        end
+      end.flatten,
+    )
   end
 
   iptables_ng_rule '20-ssh' do
@@ -108,11 +176,6 @@ when 'iptables'
     ]
   end
 
-  iptables_ng_rule '80-broadcast' do
-    action :delete # FIXME: delete eventually
-    ip_version 4
-  end
-
   iptables_ng_rule '80-spam' do
     rule '-p udp -j DROP' # UDP spam
   end
@@ -132,8 +195,6 @@ when 'iptables'
     chain 'FORWARD'
     rule '-m limit --limit 1/second --limit-burst 5 -j LOG --log-level notice --log-prefix "iptables:filter:FORWARD "'
   end
-when 'nftables'
-  raise NotImplementedError, 'nftables'
 else
-  raise NotImplementedError, "Unknown firewall #{node['sanity']['firewall'].inspect}"
+  raise NotImplementedError, "Unknown firewall #{node['sanity']['firewall']['type'].inspect}"
 end

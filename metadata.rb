@@ -6,19 +6,15 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
-version          '2.2.0'
-chef_version     '>= 14.6'
+version          '3.0.0'
+chef_version     '>= 16'
 
-supports 'debian', '>= 9.9'
+supports 'debian', '>= 10.0'
 
 depends 'apt', '~> 7.4'
 depends 'iptables-ng', '~> 4.0'
 depends 'monit-ng', '~> 2.4'
-depends 'openssh', '~> 2.10'
+depends 'os-hardening', '~> 4.0'
 depends 'postfix', '~> 6.0'
 depends 'resolver', '~> 3.0'
-depends 'vim', '~> 2.1'
-
-# Indirect dependency restrictions for Chef version < 15:
-depends 'iptables', '< 8'
-depends 'seven_zip', '< 4'
+depends 'ssh-hardening', '~> 2.9'

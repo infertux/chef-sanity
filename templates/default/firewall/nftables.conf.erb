@@ -1,0 +1,87 @@
+#!/usr/sbin/nft -f
+
+# vim: ts=2 sw=2 et
+
+flush ruleset
+
+table inet filter {
+  chain input {
+    type filter hook input priority 0
+    policy drop
+
+    iif lo accept comment "accept any localhost traffic"
+
+    #ct state vmap { established : accept, related : accept, invalid : drop }
+
+    ct state invalid counter drop comment "early drop of invalid packets"
+
+    ct state { established, related } counter accept comment "accept tracked connections originated from us"
+
+    # ICMPv4
+    meta l4proto icmp icmp type echo-request counter accept comment "ping / type 8"
+
+    # DHCPv4
+    meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 67 udp dport 68 counter accept comment "accept DHCPOFFER messages"
+    meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 68 udp dport 67 counter drop comment "ignore DHCPREQUEST messages as we're not a DHCP server"
+
+    # ICMPv6
+    meta l4proto ipv6-icmp icmpv6 type echo-request counter accept comment "ping / type 128"
+    meta l4proto ipv6-icmp icmpv6 type packet-too-big counter accept comment "MTU discovery / type 2"
+    meta l4proto ipv6-icmp icmpv6 type time-exceeded counter drop comment "traceroute / type 3"
+
+    # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
+    meta l4proto ipv6-icmp icmpv6 type { nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } counter accept comment "IPv6 neighbor discovery / types 134, 135, 136"
+
+    # DHCPv6
+    meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
+
+    # jump to chain according to layer 3 protocol using a verdict map
+    #meta protocol vmap { ip : jump inbound_ipv4, ip6 : jump inbound_ipv6 }
+
+    <% unless @ssh_authorized_ips_v4.empty? %>
+    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport 22 ct state new log prefix "New SSH connection: " flags all accept
+    <% end %>
+    <% unless @ssh_authorized_ips_v6.empty? %>
+    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport 22 ct state new log prefix "New SSH connection: " flags all accept
+    <% end %>
+
+    tcp dport {
+      21, 22, 23, 25, 53, 1433,
+      5060, # SIP
+      5061  # SIP
+      } counter drop
+
+    udp dport {
+      53,
+      500,  # IKE
+      1900, # SSDP/UPnP
+      5060  # SIP
+    } counter drop
+
+    # https://wiki.nftables.org/wiki-nftables/index.php/Matching_packet_headers#Matching_UDP.2FTCP_headers_in_the_same_rule
+    meta l4proto { tcp, udp } @th,16,16 { 67,68,137,138,139,445 } counter drop comment "NetBIOS"
+
+    # pkttype host limit rate 5/second counter reject with icmpx type admin-prohibited
+
+    # log any other traffic
+    log prefix "nftables:filter:input " level notice flags all
+    counter
+  }
+
+  chain forward {
+    type filter hook forward priority 0
+    policy drop
+
+    # log any other traffic
+    log prefix "nftables:filter:forward " level notice flags all
+    counter
+  }
+
+  chain output {
+    type filter hook output priority 0
+    policy accept
+    # counter
+  }
+}
+
+include "/etc/nftables.d/*.nft"

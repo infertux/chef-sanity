@@ -2,6 +2,10 @@ control 'iptables-1' do
   title 'default policies are set properly'
   impact 1.0
 
+  only_if('iptables is installed') do
+    command('iptables').exist?
+  end
+
   describe command('iptables -nL INPUT') do
     its('stdout') { should include 'Chain INPUT (policy DROP)' }
   end

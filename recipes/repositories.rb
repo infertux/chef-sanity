@@ -1,6 +1,4 @@
 case node['platform']
-when 'centos'
-  nil # NOOP
 when 'debian'
   apt_update do
     action :nothing

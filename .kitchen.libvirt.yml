@@ -1,0 +1,55 @@
+---
+driver:
+  name: vagrant
+  provider: libvirt
+
+provisioner:
+  name: chef_zero
+  product_name: cinc
+  product_version: 16
+  #channel: stable # FIXME: required?
+  require_chef_omnibus: true
+  chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
+  chef_omnibus_root: /opt/cinc
+
+  deprecations_as_errors: true
+  multiple_converge: 2
+  # enforce_idempotency: true # TODO: but blocked by Monit cookbook
+
+verifier:
+  name: inspec # XXX: cinc-auditor actually
+  inspec_tests:
+    - git: https://github.com/dev-sec/linux-baseline
+    - git: https://github.com/dev-sec/linux-patch-baseline
+    - git: https://github.com/dev-sec/ssh-baseline
+    - git: https://github.com/dev-sec/ssl-baseline
+
+platforms:
+  - name: debian/bullseye64
+    driver:
+      box_check_update: true
+    verifier:
+      input_files:
+        - test/integration/default/inspec/input_files/control-waivers-bullseye64.yml
+  - name: debian/buster64
+    driver:
+      box_check_update: true
+    verifier:
+      input_files:
+        - test/integration/default/inspec/input_files/control-waivers-buster64.yml
+
+suites:
+  - name: default
+    run_list:
+      - recipe[sanity::default]
+    attributes:
+      monit: { config: { start_delay: 0 } } # start Monit immediately to run tests
+      ssh-hardening: { ssh: { server: {
+        # allow ecdh-sha2-nistp521 (UNSECURE) so inspec can log in to run control specs
+        # allow curve25519-sha256@libssh.org so we can log in with `kitchen login`
+        kex: "ecdh-sha2-nistp521,curve25519-sha256@libssh.org"
+      } } }
+      sanity:
+        firewall: { type: iptables }
+        ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
+        ipv6: false # XXX: no IPv6 connectivity available with vagrant-libvirt yet: https://github.com/vagrant-libvirt/vagrant-libvirt/issues/914

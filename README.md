@@ -8,7 +8,7 @@ This cookbook is an opinionated but configurable set of packages and settings to
 Here are some highlights of what it does:
 
 - sets timezone to UTC and enables NTP
-- sets up a basic firewall with iptables to block incoming connections (IPv4 and IPv6)
+- sets up a basic firewall with nftables or iptables to block incoming connections (IPv4 and IPv6)
 - hardens sshd config with public key authentication and strong ciphers
 - sets up a local MTA using Postfix to send emails to sysadmin
 - sets up Monit to alert sysadmin when CPU, memory, disk, etc. is overused

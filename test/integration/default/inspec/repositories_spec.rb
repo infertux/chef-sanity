@@ -15,10 +15,6 @@ control 'repositories-2' do
 
   if os.debian?
     case os.release.to_i
-    when 9
-      describe file('/etc/apt/sources.list.d/stretch-backports.list') do
-        it { should_not exist }
-      end
     when 10
       describe file('/etc/apt/sources.list.d/buster-backports.list') do
         it { should exist }

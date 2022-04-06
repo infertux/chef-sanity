@@ -1,41 +1,33 @@
 DEPENDENCIES
+  monit-ng
+    git: https://github.com/creativemarket/monit-ng.git
+    revision: fe054cfc53ac6a7e12e225a9af7f5eb7ac2e6e27
+  os-hardening
+    git: https://github.com/dev-sec/chef-os-hardening.git
+    revision: 2a17eba875e749758c4dd6bae374d6d52898e4f3
   sanity
     path: .
     metadata: true
+  ssh-hardening
+    git: https://github.com/dev-sec/chef-ssh-hardening.git
+    revision: b8e9e404d784578d41090e92c5531a796a62ed73
 
 GRAPH
   apt (7.4.2)
-  build-essential (8.2.1)
-    mingw (>= 1.1)
-    seven_zip (>= 0.0.0)
   dpkg_autostart (0.4.4)
-  iptables (7.1.0)
   iptables-ng (4.0.0)
-  mingw (2.1.4)
-    seven_zip (>= 0.0.0)
-  monit-ng (2.4.0)
+  monit-ng (2.4.3)
     apt (>= 0.0.0)
-    build-essential (>= 0.0.0)
     dpkg_autostart (>= 0.0.0)
-    ubuntu (>= 0.0.0)
-    yum-epel (>= 0.0.0)
-  openssh (2.10.3)
-    iptables (>= 7.0)
+  os-hardening (4.0.0)
   postfix (6.0.7)
   resolver (3.0.4)
-  sanity (2.2.0)
+  sanity (3.0.0)
     apt (~> 7.4)
-    iptables (< 8)
     iptables-ng (~> 4.0)
     monit-ng (~> 2.4)
-    openssh (~> 2.10)
+    os-hardening (~> 4.0)
     postfix (~> 6.0)
     resolver (~> 3.0)
-    seven_zip (< 4)
-    vim (~> 2.1)
-  seven_zip (3.2.0)
-    windows (>= 0.0.0)
-  ubuntu (3.0.3)
-  vim (2.1.4)
-  windows (7.0.2)
-  yum-epel (4.4.1)
+    ssh-hardening (~> 2.9)
+  ssh-hardening (2.9.0)

@@ -4,6 +4,13 @@
 
 ## v2.2.0, 2021-09-?? ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
 
+  BREAKING CHANGES:
+  - dropped support for Debian 9
+  - replaced EULA Chef with Free Software CINC
+  - renamed node['sanity']['firewall'] to node['sanity']['firewall']['type']
+  - renamed node['sanity']['iptables']['ssh_authorized_ips_v4'] to node['sanity']['firewall']['ssh_authorized_ips_v4']
+  - renamed node['sanity']['iptables']['ssh_authorized_ips_v6'] to node['sanity']['firewall']['ssh_authorized_ips_v6']
+
   * cc6b956 Fix the build for new ruby Docker image
   * f62fe38 Extract DNS servers as attributes
   * 7ce7c73 Switch from Vagrant to kitchen-dokken
