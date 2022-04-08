@@ -19,7 +19,7 @@ execute 'curl --head https://www.wikipedia.org/' do
   retries 3 # XXX: retry if needed since DNS resolution fails from time to time
 end
 
-execute 'curl brokendnssec.net' do
-  command 'curl -v brokendnssec.net'
-  returns 6
+execute 'check that DNSSEC is working' do
+  command 'resolvectl query brokendnssec.net'
+  returns 1
 end
