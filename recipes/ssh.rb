@@ -18,7 +18,7 @@ node.override['ssh-hardening']['ssh']['server']['listen_to'] = \
   if node['sanity']['ipv4_reachable']
     node['ipaddress']
   else
-    node['sanity']['ipv6'] ? '::' : '0.0.0.0'
+    node['sanity']['ipv6'] ? ['0.0.0.0', '::'] : ['0.0.0.0']
   end
 
 node.default['ssh-hardening']['network']['ipv6']['enable'] = node['sanity']['ipv6']
