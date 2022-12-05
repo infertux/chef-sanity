@@ -8,8 +8,7 @@ node.default['postfix']['main']['inet_interfaces'] = 'all'
 node.default['postfix']['main']['luser_relay'] = node['sanity']['root_email']
 
 # TLS shared options
-node.default['postfix']['main']['tls_preempt_cipherlist'] = 'yes'
-node.default['postfix']['main']['tls_medium_cipherlist'] = 'AES128+EECDH:AES128+EDH'
+node.default['postfix']['main']['tls_preempt_cipherlist'] = 'no'
 
 # TLS client options
 node.default['postfix']['main']['smtp_use_tls'] = 'yes'
@@ -17,10 +16,12 @@ node.default['postfix']['main']['smtp_tls_security_level'] = 'secure'
 node.default['postfix']['main']['smtp_tls_note_starttls_offer'] = 'yes'
 
 # TLS server options (smtpd_*)
+# generated 2022-12-05, Mozilla Guideline v5.6, Postfix 3.5.13, OpenSSL 1.1.1n, modern configuration
+# https://ssl-config.mozilla.org/#server=postfix&version=3.5.13&config=modern&openssl=1.1.1n&guideline=5.6
 node.default['postfix']['main']['smtpd_tls_auth_only'] = 'yes'
 node.default['postfix']['main']['smtpd_tls_security_level'] = 'may'
-node.default['postfix']['main']['smtpd_tls_protocols'] = '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
-node.default['postfix']['main']['smtpd_tls_mandatory_protocols'] = '!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
+node.default['postfix']['main']['smtpd_tls_protocols'] = '!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2'
+node.default['postfix']['main']['smtpd_tls_mandatory_protocols'] = '!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2'
 
 # XXX: If smtpd is going to be used, proper certificates should be generated and
 # set using the following attributes:
