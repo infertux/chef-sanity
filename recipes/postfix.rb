@@ -38,6 +38,16 @@ if node['postfix']['sasl']
   # node.default['postfix']['main']['smtp_sasl_password_maps'] = 'hash:/etc/postfix/sasl_passwd'
 end
 
+# add missing entry for retry service in master.cf
+node.default['postfix']['master']['retry'] = {
+  active: true,
+  order: 900, # should be last, see https://github.com/sous-chefs/postfix/blob/main/attributes/default.rb
+  type: 'unix',
+  chroot: true,
+  command: 'error',
+  args: [],
+}
+
 include_recipe 'postfix::default'
 
 include_recipe 'postfix::sasl_auth' if node['postfix']['sasl']
