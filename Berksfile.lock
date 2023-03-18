@@ -13,14 +13,14 @@ DEPENDENCIES
     revision: 6252d9e04e4004bcccf96d0feb339a20b2134891
 
 GRAPH
-  apt (7.5.5)
+  apt (7.5.7)
   dpkg_autostart (0.4.7)
   iptables-ng (4.1.0)
   monit-ng (2.4.3)
     apt (>= 0.0.0)
     dpkg_autostart (>= 0.0.0)
   os-hardening (4.0.0)
-  postfix (6.0.12)
+  postfix (6.0.13)
   resolver (3.0.4)
   sanity (3.0.0)
     apt (~> 7.4)
