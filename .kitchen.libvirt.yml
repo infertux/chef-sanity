@@ -7,7 +7,6 @@ provisioner:
   name: chef_zero
   product_name: cinc
   product_version: 16
-  #channel: stable # FIXME: required?
   require_chef_omnibus: true
   chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
   chef_omnibus_root: /opt/cinc
