@@ -17,6 +17,10 @@ verify-patches:
 
 # ssh-baseline:
 
+ssh-08:
+  justification: "chacha20-poly1305@openssh.com isn't old enough to be enabled quite yet"
+  run: false
+
 ssh-09:
   justification: "sntrup4591761x25519-sha512@tinyssh.org isn't old enough to be enabled quite yet"
   run: false
@@ -27,6 +31,10 @@ ssh-10:
 
 ssh-22:
   justification: "same as ssh-10 regarding hmac-ripemd160"
+  run: false
+
+sshd-01:
+  justification: "same as ssh-08 regarding chacha20-poly1305"
   run: false
 
 sshd-02:

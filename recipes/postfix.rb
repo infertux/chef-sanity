@@ -8,6 +8,7 @@ node.default['postfix']['main']['inet_interfaces'] = 'all'
 node.default['postfix']['main']['luser_relay'] = node['sanity']['root_email']
 
 # TLS shared options
+# https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
 node.default['postfix']['main']['tls_preempt_cipherlist'] = 'no'
 
 # TLS client options

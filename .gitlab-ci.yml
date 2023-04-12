@@ -1,4 +1,4 @@
-image: ruby:3.1
+image: ruby:latest
 
 services:
   - docker:dind
@@ -23,7 +23,7 @@ cookstyle:
 # to support libvirt or podman
 # https://docs.gitlab.com/runner/executors/custom_examples/libvirt.html
 # https://github.com/test-kitchen/kitchen-dokken/blob/main/documentation/PODMAN.md
-# kitchen:
-#   script:
-#     - kitchen list
-#     - kitchen test
+kitchen:
+  script:
+    - kitchen list
+    - kitchen test

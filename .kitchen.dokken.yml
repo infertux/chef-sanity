@@ -2,8 +2,8 @@
 # https://github.com/test-kitchen/kitchen-dokken/blob/main/documentation/PODMAN.md
 driver:
   name: dokken
-  privileged: true  # allows systemd services to start
-  chef_version: 16
+  privileged: true # allows systemd services to start
+  chef_version: 17
 
 provisioner:
   name: dokken
@@ -20,9 +20,6 @@ verifier:
     - git: https://github.com/dev-sec/linux-baseline
     - git: https://github.com/dev-sec/linux-patch-baseline
     - git: https://github.com/dev-sec/ssh-baseline
-    - git: https://github.com/dev-sec/ssl-baseline
-  input_files:
-    - test/integration/control-waivers.yml
 
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
@@ -34,6 +31,10 @@ platforms:
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get upgrade -y
+        - RUN /usr/bin/apt-get purge exim4* -y
+    verifier:
+      input_files:
+        - test/integration/default/inspec/input_files/control-waivers-bullseye64.yml
   - name: debian-10
     driver:
       image: dokken/debian-10
@@ -41,7 +42,10 @@ platforms:
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get upgrade -y
-
+        - RUN /usr/bin/apt-get purge exim4* -y
+    verifier:
+      input_files:
+        - test/integration/default/inspec/input_files/control-waivers-buster64.yml
 
 suites:
   - name: default
@@ -49,5 +53,12 @@ suites:
       - recipe[sanity::default]
     attributes:
       monit: { config: { start_delay: 0 } } # start Monit immediately to run tests
+      ssh-hardening: { ssh: { server: {
+        # allow ecdh-sha2-nistp521 (UNSECURE) so inspec can log in to run control specs
+        # allow curve25519-sha256@libssh.org so we can log in with `kitchen login`
+        kex: "ecdh-sha2-nistp521,curve25519-sha256@libssh.org"
+      } } }
       sanity:
+        firewall: { type: iptables }
         ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
+        ipv6: false # XXX: no IPv6 connectivity available with dokken

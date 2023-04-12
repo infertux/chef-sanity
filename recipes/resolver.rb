@@ -10,7 +10,12 @@ service 'systemd-resolved' do
   action :enable
 end
 
+# https://stackoverflow.com/questions/60549775/device-or-resource-busy-when-i-try-move-etc-resolv-conf-in-ubuntu18-04-how
+execute 'umount -v /etc/resolv.conf' do
+  only_if { ENV.fetch('HOSTNAME', nil) == 'dokken' }
+  ignore_failure true # will fail if already unmounted
+end
+
 link '/etc/resolv.conf' do
   to '/run/systemd/resolve/stub-resolv.conf'
-  not_if { !ENV['DOCKER'].nil? }
 end

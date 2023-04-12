@@ -6,7 +6,7 @@ driver:
 provisioner:
   name: chef_zero
   product_name: cinc
-  product_version: 16
+  product_version: 17
   require_chef_omnibus: true
   chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
   chef_omnibus_root: /opt/cinc
@@ -21,7 +21,6 @@ verifier:
     - git: https://github.com/dev-sec/linux-baseline
     - git: https://github.com/dev-sec/linux-patch-baseline
     - git: https://github.com/dev-sec/ssh-baseline
-    - git: https://github.com/dev-sec/ssl-baseline
 
 platforms:
   - name: debian/bullseye64

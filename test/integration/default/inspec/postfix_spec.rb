@@ -39,11 +39,11 @@ control 'postfix-2' do
   end
 
   describe command('postconf -h smtpd_tls_mandatory_protocols') do
-    its('stdout') { should cmp "!SSLv2,!SSLv3,!TLSv1,!TLSv1.1\n" }
+    its('stdout') { should cmp "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2\n" }
   end
 
   describe command('postconf -h smtpd_tls_protocols') do
-    its('stdout') { should cmp "!SSLv2,!SSLv3,!TLSv1,!TLSv1.1\n" }
+    its('stdout') { should cmp "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2\n" }
   end
 
   describe command('postconf -h smtpd_tls_mandatory_ciphers') do
@@ -51,11 +51,8 @@ control 'postfix-2' do
   end
 
   describe command('postconf -h tls_preempt_cipherlist') do
-    its('stdout') { should cmp "yes\n" }
-  end
-
-  describe command('postconf -h tls_medium_cipherlist') do
-    its('stdout') { should cmp "AES128+EECDH:AES128+EDH\n" }
+    # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
+    its('stdout') { should cmp "no\n" }
   end
 end
 
