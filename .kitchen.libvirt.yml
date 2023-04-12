@@ -10,10 +10,8 @@ provisioner:
   require_chef_omnibus: true
   chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
   chef_omnibus_root: /opt/cinc
-
   deprecations_as_errors: true
   multiple_converge: 2
-  # enforce_idempotency: true # TODO: but blocked by Monit cookbook
 
 verifier:
   name: inspec # XXX: cinc-auditor actually

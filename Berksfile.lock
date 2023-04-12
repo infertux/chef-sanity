@@ -4,30 +4,30 @@ DEPENDENCIES
     revision: fe054cfc53ac6a7e12e225a9af7f5eb7ac2e6e27
   os-hardening
     git: https://github.com/dev-sec/chef-os-hardening.git
-    revision: 2a17eba875e749758c4dd6bae374d6d52898e4f3
+    revision: f2ea69e5fd8ec992efdee0f1fbef35f2e17f2029
   sanity
     path: .
     metadata: true
   ssh-hardening
     git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: 6252d9e04e4004bcccf96d0feb339a20b2134891
+    revision: 29f9871328f6618bebee0c604ebdd5e708e72d84
 
 GRAPH
-  apt (7.5.7)
-  dpkg_autostart (0.4.7)
+  apt (7.5.11)
+  dpkg_autostart (0.4.8)
   iptables-ng (4.1.0)
   monit-ng (2.4.3)
     apt (>= 0.0.0)
     dpkg_autostart (>= 0.0.0)
   os-hardening (4.0.0)
-  postfix (6.0.13)
-  resolver (3.0.4)
+  postfix (6.0.18)
+  resolver (4.1.0)
   sanity (3.0.0)
-    apt (~> 7.4)
-    iptables-ng (~> 4.0)
+    apt (~> 7.5)
+    iptables-ng (~> 4.1)
     monit-ng (~> 2.4)
     os-hardening (~> 4.0)
     postfix (~> 6.0)
-    resolver (~> 3.0)
+    resolver (~> 4.1)
     ssh-hardening (~> 2.9)
   ssh-hardening (2.9.0)

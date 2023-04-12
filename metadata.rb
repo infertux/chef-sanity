@@ -11,10 +11,10 @@ chef_version     '>= 17'
 
 supports 'debian', '>= 10.0'
 
-depends 'apt', '~> 7.4'
-depends 'iptables-ng', '~> 4.0'
+depends 'apt', '~> 7.5'
+depends 'iptables-ng', '~> 4.1'
 depends 'monit-ng', '~> 2.4'
 depends 'os-hardening', '~> 4.0'
 depends 'postfix', '~> 6.0'
-depends 'resolver', '~> 3.0'
+depends 'resolver', '~> 4.1'
 depends 'ssh-hardening', '~> 2.9'

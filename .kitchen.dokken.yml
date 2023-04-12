@@ -9,7 +9,6 @@ provisioner:
   name: dokken
   deprecations_as_errors: true
   multiple_converge: 2
-  # enforce_idempotency: true # TODO: but blocked by Monit cookbook
 
 transport:
   name: dokken

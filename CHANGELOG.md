@@ -1,8 +1,12 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/2.2.0...2.?))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...master))
 
   * TBD
 
-## v2.2.0, 2021-09-?? ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
+## v3.0.0, 2023-04-12 ([changes](https://github.com/infertux/chef-sanity/compare/2.2.0...3.0.0))
+
+  * TBD
+
+## v2.2.0, 2022-03-07 ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
 
   BREAKING CHANGES:
   - dropped support for Debian 9
