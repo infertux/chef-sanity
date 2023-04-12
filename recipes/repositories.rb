@@ -47,6 +47,8 @@ when 'debian'
     distribution(node['platform_version'].to_i >= 11 ? "#{codename}-security" : "#{codename}/updates")
     components %w(main)
   end
+when 'ubuntu'
+  # NOOP
 else
   raise NotImplementedError, "Don't know how to handle repositories for #{node['platform']}"
 end

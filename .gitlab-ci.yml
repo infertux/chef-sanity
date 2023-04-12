@@ -14,6 +14,7 @@ variables:
 before_script:
   - apt-get update -y
   - apt-get upgrade -y
+  - apt-get install -y rsync # needed by test-kitchen
   - ruby -v
   - bundle config set --local without development
   - bundle install -j $(nproc)
@@ -22,9 +23,11 @@ style:
   script: bundle exec rake style:all
 
 kitchen-debian-11:
-  before_script: apt-get install -y rsync # needed by test-kitchen
   script: bundle exec rake kitchen:default-debian-11
 
 kitchen-debian-10:
-  before_script: apt-get install -y rsync # needed by test-kitchen
   script: bundle exec rake kitchen:default-debian-10
+
+kitchen-ubuntu-2204:
+  script: bundle exec rake kitchen:default-ubuntu-2204
+  allow_failure: true

@@ -1,0 +1,54 @@
+---
+# linux-baseline:
+
+os-14:
+  justification: "https://unix.stackexchange.com/questions/581928/is-it-safe-to-add-noexec-mount-option-in-dev"
+  run: false
+
+# linux-patch-baseline:
+
+patches:
+  justification: "unattended_upgrades doesn't run right away in test environment"
+  run: false
+
+verify-patches:
+  justification: "unattended_upgrades doesn't run right away in test environment"
+  run: false
+
+# ssh-baseline:
+
+ssh-08:
+  justification: "chacha20-poly1305@openssh.com isn't old enough to be enabled quite yet"
+  run: false
+
+ssh-09:
+  justification: "sntrup4591761x25519-sha512@tinyssh.org isn't old enough to be enabled quite yet"
+  run: false
+
+ssh-10:
+  justification: "hmac-ripemd160 is weak and should not be enabled: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/ONTAP_upgrade_pre-update_check%3A_Openssh_7.2_upgrade_Warning%3A_%22hmac-ripemd160%22_and_precheck_%22hmac-ripemd160-etm%22_are_considered_weak"
+  run: false
+
+ssh-22:
+  justification: "same as ssh-10 regarding hmac-ripemd160"
+  run: false
+
+sshd-01:
+  justification: "same as ssh-08 regarding chacha20-poly1305"
+  run: false
+
+sshd-02:
+  justification: "we need the weak ecdh-sha2-nistp521 kex for inspec which is overridden in .kitchen.yml - the actual recipe ssh.rb will set the recommended kex"
+  run: false
+
+sshd-03:
+  justification: "same as ssh-10 regarding hmac-ripemd160"
+  run: false
+
+sshd-16:
+  justification: "SSHD Configuration UsePrivilegeSeparation is expected to eq \"sandbox\""
+  run: false
+
+sshd-21:
+  justification: "https://github.com/dev-sec/chef-ssh-hardening/pull/229"
+  run: false
