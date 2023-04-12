@@ -1,5 +1,7 @@
 # Sanity Cookbook
 
+[![Funding](https://img.shields.io/liberapay/patrons/infertux.svg?logo=liberapay)](https://liberapay.com/infertux/donate)
+[![Sponsors](https://img.shields.io/liberapay/patrons/infertux)](https://liberapay.com/infertux)
 [![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
 [![Build Status](https://gitlab.com/infertux/chef-sanity/badges/master/pipeline.svg)](https://gitlab.com/infertux/chef-sanity/-/pipelines)
 

@@ -19,3 +19,8 @@ end
 link '/etc/resolv.conf' do
   to '/run/systemd/resolve/stub-resolv.conf'
 end
+
+execute 'check that DNS is working' do
+  command 'resolvectl query deb.debian.org'
+  retries 3 # XXX: retry if needed since DNS resolution fails from time to time
+end
