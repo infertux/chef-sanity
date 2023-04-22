@@ -1,12 +1,34 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.1.0...master))
 
   * TBD
+
+## v3.1.0, 2023-04-22 ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...3.1.0))
+
+  * 4549de8 - Move connectivity checks to an InSpec Profile
+  * bac767d - Don't install Chef/Cinc tools via Gemfile
 
 ## v3.0.0, 2023-04-12 ([changes](https://github.com/infertux/chef-sanity/compare/2.2.0...3.0.0))
 
-  * TBD
-
-## v2.2.0, 2022-03-07 ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
+  * 35a16e3 - Add preliminary support for Ubuntu LTS
+  * 3d299c5 - Fix GitLab CI integration
+  * 69d3573 - Update dependencies
+  * 3507b17 - Fix Kitchen CI test suite
+  * fcf3c4e - Don't remove nfs-common and rpcbind as they are useful in some cases
+  * 00eb0af - Update dependencies
+  * e6134f6 - Update dependencies
+  * d08a99a - Add missing entry for Postfix retry service
+  * e5ec977 - Modernize Postfix SSL/TLS config
+  * a4cde65 - Fix UTC timezone for Debian 11
+  * 09e9d12 - Increase SMART temperature warnings to avoid false positive spam
+  * 91e6c6b - Update dependencies
+  * 5c970d9 - Increase SMART temperature warnings to avoid false positive spam
+  * 2e48b66 - Fix systemctl path for Debian 11
+  * a6e1cb0 - Enable automatic SMART checks
+  * a4c3988 - Update dependencies
+  * 2db3496 - Use `systemctl reboot` instead of `reboot`
+  * 260b286 - Listen on IPv4 as well when IPv6 is enabled
+  * 48cebf6 - Use a more reliable method to check for DNSSEC
+  * b66877c - Refactor cookbook for new major version 3
 
   BREAKING CHANGES:
   - dropped support for Debian 9
@@ -14,6 +36,8 @@
   - renamed node['sanity']['firewall'] to node['sanity']['firewall']['type']
   - renamed node['sanity']['iptables']['ssh_authorized_ips_v4'] to node['sanity']['firewall']['ssh_authorized_ips_v4']
   - renamed node['sanity']['iptables']['ssh_authorized_ips_v6'] to node['sanity']['firewall']['ssh_authorized_ips_v6']
+
+## v2.2.0, 2022-03-07 ([changes](https://github.com/infertux/chef-sanity/compare/2.1.0...2.2.0))
 
   * cc6b956 Fix the build for new ruby Docker image
   * f62fe38 Extract DNS servers as attributes
