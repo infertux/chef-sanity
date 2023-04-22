@@ -24,10 +24,19 @@ style:
 
 kitchen-debian-11:
   script: bundle exec rake kitchen:default-debian-11
+  parallel:
+    matrix:
+      - CHEF_VERSION: [17, 18, latest]
 
 kitchen-debian-10:
   script: bundle exec rake kitchen:default-debian-10
+  parallel:
+    matrix:
+      - CHEF_VERSION: [17]
 
 kitchen-ubuntu-2204:
   script: bundle exec rake kitchen:default-ubuntu-2204
   allow_failure: true
+  parallel:
+    matrix:
+      - CHEF_VERSION: [17, 18, latest]
