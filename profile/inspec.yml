@@ -1,0 +1,9 @@
+name: sanity
+title: Sanity profile
+maintainer: Cédric Félizard
+copyright_email: cedric@felizard.fr
+license: MIT
+summary: Verify that machines are configured properly
+version: 1.0.0
+supports:
+  - platform-family: debian

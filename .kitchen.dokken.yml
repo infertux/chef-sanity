@@ -34,6 +34,8 @@ platforms:
         - RUN /usr/bin/apt-get upgrade -y
         - RUN /usr/bin/apt-get purge exim4* -y
     verifier:
+      inspec_tests:
+        - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-debian-11.yml
   - name: debian-10
@@ -45,6 +47,8 @@ platforms:
         - RUN /usr/bin/apt-get upgrade -y
         - RUN /usr/bin/apt-get purge exim4* -y
     verifier:
+      inspec_tests:
+        - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-debian-10.yml
   - name: ubuntu-22.04
@@ -55,6 +59,8 @@ platforms:
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get upgrade -y
     verifier:
+      inspec_tests:
+        - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-ubuntu-2204.yml
 
