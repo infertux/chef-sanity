@@ -10,10 +10,4 @@ namespace :style do
   end
 end
 
-desc 'Run all style checks'
-task 'style:all' => ['style:ruby']
-
-require 'kitchen/rake_tasks'
-Kitchen::RakeTasks.new
-
-task default: %w(kitchen:all style:all)
+task default: %w(style:ruby)

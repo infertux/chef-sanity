@@ -1,12 +1,14 @@
 ---
-# https://github.com/test-kitchen/kitchen-dokken/blob/main/documentation/PODMAN.md
 driver:
   name: dokken
   privileged: true # allows systemd services to start
+  chef_image: cincproject/cinc
   chef_version: 17
 
 provisioner:
   name: dokken
+  product_name: cinc
+  chef_binary: /opt/cinc/bin/cinc-client
   deprecations_as_errors: true
   multiple_converge: 2
 
@@ -14,7 +16,7 @@ transport:
   name: dokken
 
 verifier:
-  name: inspec # XXX: cinc-auditor actually
+  name: inspec
   inspec_tests:
     - git: https://github.com/dev-sec/linux-baseline
     - git: https://github.com/dev-sec/linux-patch-baseline
