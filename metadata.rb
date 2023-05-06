@@ -6,7 +6,7 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
-version          '3.1.0'
+version          '3.1.1'
 chef_version     '>= 17'
 
 supports 'debian', '>= 10.0'

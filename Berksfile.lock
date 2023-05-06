@@ -10,18 +10,18 @@ DEPENDENCIES
     metadata: true
   ssh-hardening
     git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: 29f9871328f6618bebee0c604ebdd5e708e72d84
+    revision: e9183a20c5706d35888143a16f9b015c5ee3717a
 
 GRAPH
-  apt (7.5.11)
-  dpkg_autostart (0.4.8)
+  apt (7.5.12)
+  dpkg_autostart (0.4.9)
   iptables-ng (4.1.0)
   monit-ng (2.4.3)
     apt (>= 0.0.0)
     dpkg_autostart (>= 0.0.0)
   os-hardening (4.0.0)
   postfix (6.0.20)
-  resolver (4.1.0)
+  resolver (4.1.2)
   sanity (3.1.0)
     apt (~> 7.5)
     iptables-ng (~> 4.1)
