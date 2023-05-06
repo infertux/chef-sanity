@@ -1,9 +1,17 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.1.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.1.1...master))
 
   * TBD
 
+## v3.1.1, 2023-05-06 ([changes](https://github.com/infertux/chef-sanity/compare/3.1.0...3.1.1))
+
+  * 85b1a6f - Bump SMART warnings to max temperature to avoid false alerts
+  * 29dcb7d - Update dependencies
+
 ## v3.1.0, 2023-04-22 ([changes](https://github.com/infertux/chef-sanity/compare/3.0.0...3.1.0))
 
+  * 94372d7 - Test against multiple Chef versions
+  * 401fe68 - Add missing Gems for GitLab CI
+  * efeaf00 - Update documentation for release 3.1.0
   * 4549de8 - Move connectivity checks to an InSpec Profile
   * bac767d - Don't install Chef/Cinc tools via Gemfile
 
