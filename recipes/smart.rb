@@ -14,7 +14,7 @@ file '/etc/smartd.conf' do
     "-m #{node['sanity']['root_email']}", # send warning emails to this address
     '-M exec /usr/share/smartmontools/smartd-runner', # use helper script shipped with https://packages.debian.org/bullseye/amd64/smartmontools/filelist
     '-S on', # enables Attribute Autosave when smartd starts up
-    '-W 5,50,55', # log changes of 5+ degrees, or when temp over 50, and warns when over 55 (typical manufacturer max temp is 60)
+    '-W 5,55,60', # log changes of 5+ degrees, or when temp over 55, and warns when over 60 (typical manufacturer max temp is 60 for HDDs and 70 for (NVME) SSDs)
     '-d removable', # continue if the device does not appear to be present when smartd is started
     '-n standby,q', # don't spin up disk when in sleep or standby mode
     '-o on', # enables SMART Automatic Offline Testing when smartd starts up
