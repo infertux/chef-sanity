@@ -1,6 +1,12 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.1.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.2.0...master))
 
   * TBD
+
+## v3.2.0, 2023-05-26 ([changes](https://github.com/infertux/chef-sanity/compare/3.1.1...3.2.0))
+
+ * Drop support for Chef 17 and Debian 10
+ * 45a48e0 - Update dependencies
+ * 5f14ba9 - Log coredumps with systemd and fail run if any are found
 
 ## v3.1.1, 2023-05-06 ([changes](https://github.com/infertux/chef-sanity/compare/3.1.0...3.1.1))
 
