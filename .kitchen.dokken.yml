@@ -3,7 +3,7 @@ driver:
   name: dokken
   privileged: true # allows systemd services to start
   chef_image: cincproject/cinc
-  chef_version: <%= ENV.fetch('CHEF_VERSION', 17) %>
+  chef_version: <%= ENV.fetch('CHEF_VERSION', 18) %>
 
 provisioner:
   name: dokken
@@ -38,9 +38,9 @@ platforms:
         - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-debian-11.yml
-  - name: debian-10
+  - name: debian-12
     driver:
-      image: dokken/debian-10
+      image: dokken/debian-12
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
@@ -50,7 +50,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-10.yml
+        - test/integration/default/inspec/input_files/control-waivers-debian-12.yml
   - name: ubuntu-22.04
     driver:
       image: dokken/ubuntu-22.04
