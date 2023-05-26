@@ -17,6 +17,7 @@ package %w(
   htop
   rsync
   sudo
+  systemd-coredump
   vim
 )
 
@@ -37,4 +38,9 @@ bash 'looking for leftover configuration files' do
 
     #{'[ -z "$files" ]' if node['sanity']['packages']['fail_on_leftover_configuration_files']}
   BASH
+end
+
+execute 'looking for coredumps' do
+  # XXX: fail the Chef run if coredumps are found
+  command "coredumpctl list 2>&1 | grep -q 'No coredumps found.'"
 end
