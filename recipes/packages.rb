@@ -42,5 +42,5 @@ end
 
 execute 'looking for coredumps' do
   # XXX: fail the Chef run if coredumps are found
-  command "coredumpctl list 2>&1 | grep -q 'No coredumps found.'"
+  command 'test -z "$(ls -A /var/lib/systemd/coredump)"'
 end
