@@ -1,10 +1,14 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.2.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.2.1...master))
 
   * TBD
 
+## v3.2.1, 2023-06-22 ([changes](https://github.com/infertux/chef-sanity/compare/3.2.0...3.2.1))
+
+  * bac6693 - Fix coredump detection
+
 ## v3.2.0, 2023-05-26 ([changes](https://github.com/infertux/chef-sanity/compare/3.1.1...3.2.0))
 
- * Drop support for Chef 17 and Debian 10
+ * 8dd8eb4 - Drop support for Chef 17 and Debian 10
  * 45a48e0 - Update dependencies
  * 5f14ba9 - Log coredumps with systemd and fail run if any are found
 
