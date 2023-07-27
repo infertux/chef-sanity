@@ -1,6 +1,14 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.2.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.3.0...master))
 
   * TBD
+
+## v3.3.0, 2023-07-27 ([changes](https://github.com/infertux/chef-sanity/compare/3.2.1...3.3.0))
+
+  * f65bd46 - Harden sshd config and disable RSA host key
+  * ce11ca3 - Set up GitHub workflow to run Test Kitchen
+  * 67e4ff1 - Update dependencies
+  * 35cae39 - Fix Rubocop violations
+  * 551d602 - Add support for nftables
 
 ## v3.2.1, 2023-06-22 ([changes](https://github.com/infertux/chef-sanity/compare/3.2.0...3.2.1))
 
