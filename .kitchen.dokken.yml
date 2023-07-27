@@ -76,5 +76,6 @@ suites:
         kex: "ecdh-sha2-nistp521,curve25519-sha256@libssh.org"
       } } }
       sanity:
+        firewall: { type: <%= ENV.fetch('FIREWALL_TYPE', 'nftables') %> }
         ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
         ipv6: false # XXX: no IPv6 connectivity available with dokken

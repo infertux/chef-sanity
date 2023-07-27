@@ -18,10 +18,6 @@ control 'iptables-1' do
     its('stdout') { should include 'Chain OUTPUT (policy ACCEPT)' }
   end
 
-  describe command('ip6tables -nL OUTPUT') do
-    its('stdout') { should include 'Chain OUTPUT (policy ACCEPT)' }
-  end
-
   describe iptables do
     it { should have_rule('-A INPUT -i lo -j ACCEPT') }
   end

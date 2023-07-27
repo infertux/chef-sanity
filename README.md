@@ -2,7 +2,7 @@
 
 [![Funding](https://img.shields.io/liberapay/patrons/infertux.svg?logo=liberapay)](https://liberapay.com/infertux/donate)
 [![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
-[![Build Status](https://gitlab.com/infertux/chef-sanity/badges/master/pipeline.svg)](https://gitlab.com/infertux/chef-sanity/-/pipelines)
+[![Build Status](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)](https://github.com/infertux/chef-sanity/actions)
 
 This cookbook helps you standardize configuration on various machines.
 It applies a common set of packages and settings to any machine (VM, cloud, bare metal, etc.) so you have a solid base to build on.

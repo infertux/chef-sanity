@@ -2,6 +2,10 @@ control 'connectivity-01' do
   impact 1.0
   title 'IPv4 connectivity (no DNS resolution)'
 
+  only_if('GitHub Actions blocks ICMP') do
+    ENV['GITHUB_ACTIONS'].nil?
+  end
+
   describe command('ping -4 -c 2 -W 2 -q 1.1.1.1') do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /2 packets transmitted, 2 received, 0% packet loss/ }
@@ -11,6 +15,10 @@ end
 control 'connectivity-02' do
   impact 1.0
   title 'IPv4 connectivity and DNS resolution'
+
+  only_if('GitHub Actions blocks ICMP') do
+    ENV['GITHUB_ACTIONS'].nil?
+  end
 
   describe command('ping -4 -c 2 -W 2 -q wikipedia.org') do
     its('exit_status') { should eq 0 }

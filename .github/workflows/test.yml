@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  kitchen:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [ "default-debian-11", "default-ubuntu-2204" ]
+        firewall-type: [ "nftables", "iptables" ]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby # latest stable release
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Run Test Kitchen suite ${{ matrix.suite }}
+      run: env FIREWALL_TYPE=${{ matrix.firewall-type }} bundle exec rake kitchen:${{ matrix.suite }}
+  style:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby # latest stable release
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Run style checks
+      run: bundle exec rake style:ruby
