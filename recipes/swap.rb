@@ -5,7 +5,7 @@ end
 swapfile = node['sanity']['swap']['swapfile']['path']
 
 bash 'swapfile' do
-  only_if { node['sanity']['swap']['swapfile']['size'] > 0 }
+  only_if { (node['sanity']['swap']['swapfile']['size']).positive? }
   creates swapfile
   user 'root'
   group 'root'

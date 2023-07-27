@@ -27,10 +27,10 @@ default['sanity']['network']['interfaces'] = {
   DEFAULT
 }
 
-default['sanity']['network']['interfaces'][node['network']['default_interface']] << <<~IPv6 if node['sanity']['ipv6']
+default['sanity']['network']['interfaces'][node['network']['default_interface']] << <<~IPV6 if node['sanity']['ipv6']
   # This is an autoconfigured IPv6 interface
   iface #{node['network']['default_interface']} inet6 auto
-IPv6
+IPV6
 
 default['sanity']['monit'] = {
   'duration' => '5 cycles',

@@ -1,6 +1,7 @@
 require 'digest'
 
 class Sanity
+  # Generic helpers
   module Helpers
     # Returns a deterministic random number inferred from the hostname
     def drand(modulus)
