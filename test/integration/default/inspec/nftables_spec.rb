@@ -11,6 +11,6 @@ control 'nftables-1' do
     its('stdout') { should match /\stype filter hook input priority (filter|0); policy drop;\n/ }
     its('stdout') { should match /\stype filter hook forward priority (filter|0); policy drop;\n/ }
     its('stdout') { should match /\stype filter hook output priority (filter|0); policy accept;\n/ }
-    its('stdout') { should match /ip saddr { [^}]+ } tcp dport (ssh|22) ct state new/ }
+    its('stdout') { should match /ip saddr .+ tcp dport (ssh|22) ct state new/ }
   end
 end

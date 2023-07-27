@@ -11,12 +11,12 @@ when 'nftables'
     action :purge
   end
 
-  # %w(iptables iptables.d).each do |dir|
-  #   directory "/etc/#{dir}" do
-  #     action :delete
-  #     recursive true
-  #   end
-  # end
+  %w(iptables iptables.d).each do |dir|
+    directory "/etc/#{dir}" do
+      action :delete
+      recursive true
+    end
+  end
 
   package 'nftables'
 
@@ -33,20 +33,22 @@ when 'nftables'
   directory '/etc/nftables.d' do
     owner 'root'
     group 'root'
-    mode '0550'
+    mode '0500'
   end
 
   template '/etc/nftables.conf' do
     source 'firewall/nftables.conf.erb'
     owner 'root'
     group 'root'
-    mode '0555'
+    mode '0500'
     notifies :run, 'execute[nft-check]'
     variables(
       ssh_authorized_ips_v4: ssh_authorized_ips_v4,
       ssh_authorized_ips_v6: ssh_authorized_ips_v6,
     )
   end
+
+  sanity_firewall # initialize the default ruleset
 
 when 'iptables'
   package 'nftables' do
