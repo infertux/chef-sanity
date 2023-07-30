@@ -40,6 +40,8 @@ table inet filter {
     meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport 22 ct state new log prefix "New SSH connection: " flags all counter accept
     <% end %>
 
+    jump input-custom
+
     tcp dport {
       21, 22, 23, 25, 53, 1433,
       5060, # SIP
@@ -62,6 +64,11 @@ table inet filter {
     # log any other traffic
     log prefix "nftables:filter:input " level notice flags all
     counter
+  }
+
+  chain input-custom {
+    # add custom rules here like this:
+    # sanity_nft "add rule inet filter input-custom tcp dport 8080 counter accept"
   }
 
   chain forward {
