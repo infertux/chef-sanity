@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.4.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.4.1...master))
 
   * TBD
+
+## v3.4.1, 2023-08-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.4.0...3.4.1))
+
+  * 35ca276 - Accept proper sshd port in nftables firewall
 
 ## v3.4.0, 2023-08-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.3.0...3.4.0))
 
