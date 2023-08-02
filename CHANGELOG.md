@@ -1,6 +1,11 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.3.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.4.0...master))
 
   * TBD
+
+## v3.4.0, 2023-08-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.3.0...3.4.0))
+
+  * 3cc8a75 - Add basic rate limiting to nftables
+  * 935ff10 - Add custom nftables chain to easily add extra rules
 
 ## v3.3.0, 2023-07-27 ([changes](https://github.com/infertux/chef-sanity/compare/3.2.1...3.3.0))
 
@@ -80,7 +85,6 @@
   * da74ae0 Update Gems
   * ba11518 Check free space on all regular filesystems
   * 17dfb8a Forward all unknown local recipients to root
-  * 925f21f Update CHANGELOG
 
 ## v2.1.0, 2020-06-23 ([changes](https://github.com/infertux/chef-sanity/compare/2.0.1...2.1.0))
 
