@@ -6,10 +6,10 @@ description      'An opinionated yet configurable set of packages and settings t
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
-version          '3.4.1'
+version          '3.5.0'
 chef_version     '>= 18'
 
-supports 'debian', '>= 10.0'
+supports 'debian', '>= 11.0'
 supports 'ubuntu', '>= 22.04'
 
 depends 'apt', '~> 7.5'

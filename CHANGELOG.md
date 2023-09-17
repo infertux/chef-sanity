@@ -1,6 +1,13 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.4.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.5.0...master))
 
   * TBD
+
+## v3.5.0, 2023-09-17 ([changes](https://github.com/infertux/chef-sanity/compare/3.4.1...3.5.0))
+
+  * 35f1249 - Make sure systemd-resolved is installed on Debian 12
+  * 584f6c3 - Don't set swappiness in containers
+  * 266a0a9 - Update dependencies
+  * 86a185b - Fix bad build badge in README
 
 ## v3.4.1, 2023-08-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.4.0...3.4.1))
 
