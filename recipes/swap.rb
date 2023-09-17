@@ -1,4 +1,5 @@
 sysctl 'vm.swappiness' do
+  not_if 'grep -a container= /proc/1/environ'
   value node['sanity']['swap']['swappiness']
 end
 
