@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [ "default-debian-11", "default-ubuntu-2204" ]
+        suite: [ "default-debian-11", "default-debian-12", "default-ubuntu-2204" ]
         firewall-type: [ "nftables", "iptables" ]
     steps:
     - uses: actions/checkout@v3

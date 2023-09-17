@@ -4,6 +4,10 @@ when 'debian'
     action :nothing
   end
 
+  file '/etc/apt/sources.list.d/debian.sources' do
+    action :delete
+  end
+
   file '/etc/apt/sources.list' do
     owner 'root'
     group 'root'
@@ -43,8 +47,7 @@ when 'debian'
 
   apt_repository 'security' do
     uri "#{protocol}://deb.debian.org/debian-security"
-    # XXX: https://www.debian.org/releases/stable/amd64/release-notes/ch-information.en.html#security-archive
-    distribution(node['platform_version'].to_i >= 11 ? "#{codename}-security" : "#{codename}/updates")
+    distribution "#{codename}-security"
     components %w(main)
   end
 when 'ubuntu'

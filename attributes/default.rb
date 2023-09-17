@@ -46,10 +46,8 @@ default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp pac
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
-# XXX: Enable backports for Debian 10 to get Monit.
 # All backports are deactivated by default (i.e. the packages are pinned to 100 by using ButAutomaticUpgrades: yes in the Release files.
-default['sanity']['repositories']['backports'] = \
-  platform?('debian') && node['platform_version'].to_i == 10
+default['sanity']['repositories']['backports'] = false
 default['sanity']['repositories']['testing'] = false
 default['sanity']['repositories']['protocol'] = 'https' # http|https
 
