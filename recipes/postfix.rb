@@ -39,6 +39,11 @@ if node['postfix']['sasl']
   # node.default['postfix']['main']['smtp_sasl_password_maps'] = 'hash:/etc/postfix/sasl_passwd'
 end
 
+package %w(postfix-pcre) # needed for "pcre:/etc/postfix/virtual" below
+node.default['postfix']['use_virtual_aliases'] = true
+node.default['postfix']['virtual_aliases'] = { '/.*/' => 'root' } # send ALL emails to root
+node.default['postfix']['virtual_alias_db_type'] = 'pcre'
+
 # add missing entry for retry service in master.cf
 node.default['postfix']['master']['retry'] = {
   active: true,
