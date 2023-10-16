@@ -8,6 +8,8 @@ Chef::Log.info "Primary IPv4 address #{ipaddress} auto-detected as #{'NOT ' unle
 
 default['sanity']['ipv6'] = true # set to false to disable IPv6
 
+default['sanity']['email2telegram'] = {} # set token and chat_id to forward outgoing emails to Telegram
+
 default['sanity']['firewall']['type'] = 'nftables'
 default['sanity']['firewall']['ssh_authorized_ips_v4'] = nil # nil means to ANY source IP
 default['sanity']['firewall']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
