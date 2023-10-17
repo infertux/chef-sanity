@@ -66,3 +66,25 @@ control 'postfix-3' do
     its('stderr') { should cmp '' }
   end
 end
+
+control 'postfix-4' do
+  title 'Postfix is forwarding mails to root'
+  impact 1
+
+  command('date | /usr/sbin/sendmail root')
+  command('date | /usr/sbin/sendmail nobody')
+  command('date | /usr/sbin/sendmail catchall')
+
+  describe command('mailq') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should cmp "Mail queue is empty\n" }
+    its('stderr') { should cmp '' }
+  end
+
+  describe file('/var/spool/mail/') do
+    it { should be_a_directory }
+    it 'should be an empty directory' do
+      Dir.glob('/var/spool/mail/*').should eq []
+    end
+  end
+end

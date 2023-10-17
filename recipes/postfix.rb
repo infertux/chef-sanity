@@ -1,11 +1,6 @@
-node.default['postfix']['recipient_canonical_map_entries']['root'] = node['sanity']['root_email']
-
 node.default['postfix']['mail_type'] = 'master' # or 'client'
 node.default['postfix']['main']['compatibility_level'] = '2'
 node.default['postfix']['main']['inet_interfaces'] = 'all'
-
-# catch-all destination for unknown local(8) recipients
-node.default['postfix']['main']['luser_relay'] = node['sanity']['root_email']
 
 # TLS shared options
 # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
@@ -41,7 +36,7 @@ end
 
 package %w(postfix-pcre) # needed for "pcre:/etc/postfix/virtual" below
 node.default['postfix']['use_virtual_aliases'] = true
-node.default['postfix']['virtual_aliases'] = { '/.*/' => 'root' } # send ALL emails to root
+node.default['postfix']['virtual_aliases'] = { '/.*/' => node['sanity']['root_email'] } # send ALL emails to root_email
 node.default['postfix']['virtual_alias_db_type'] = 'pcre'
 
 # add missing entry for retry service in master.cf
@@ -57,7 +52,5 @@ node.default['postfix']['master']['retry'] = {
 include_recipe 'postfix::default'
 
 include_recipe 'postfix::sasl_auth' if node['postfix']['sasl']
-
-node.default['postfix']['aliases']['root'] = node['sanity']['root_email']
 
 include_recipe 'postfix::aliases'

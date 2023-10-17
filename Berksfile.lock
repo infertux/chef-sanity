@@ -22,7 +22,7 @@ GRAPH
   os-hardening (4.1.2)
   postfix (6.0.26)
   resolver (4.1.5)
-  sanity (3.5.0)
+  sanity (3.6.0)
     apt (~> 7.5)
     iptables-ng (~> 4.1)
     monit-ng (~> 2.4)
