@@ -1,6 +1,13 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.5.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.6.0...master))
 
   * TBD
+
+## v3.6.0, 2023-10-17 ([changes](https://github.com/infertux/chef-sanity/compare/3.5.0...3.6.0))
+
+  * eb808ce - Simplify Postfix email forwarding using virtual aliases
+  * 0921d3b - Add support for Postfix to Telegram forwarding
+  * a59cf1f - Make sure to forward all emails to root
+  * 427bb03 - Update dependencies
 
 ## v3.5.0, 2023-09-17 ([changes](https://github.com/infertux/chef-sanity/compare/3.4.1...3.5.0))
 
