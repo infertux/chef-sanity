@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.6.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.6.1...master))
 
   * TBD
+
+## v3.6.1, 2023-10-19 ([changes](https://github.com/infertux/chef-sanity/compare/3.6.0...3.6.1))
+
+  * 1ec62a5 - Don't truncate Telegram messages on special characters
 
 ## v3.6.0, 2023-10-17 ([changes](https://github.com/infertux/chef-sanity/compare/3.5.0...3.6.0))
 
