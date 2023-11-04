@@ -74,6 +74,7 @@ control 'postfix-4' do
   command('date | /usr/sbin/sendmail root')
   command('date | /usr/sbin/sendmail nobody')
   command('date | /usr/sbin/sendmail catchall')
+  command('sleep 1')
 
   describe command('mailq') do
     its('exit_status') { should eq 0 }
