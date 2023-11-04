@@ -33,14 +33,12 @@ kitchen-debian-11:
 
 kitchen-debian-12:
   script: bundle exec rake kitchen:default-debian-12
-  allow_failure: true
   parallel:
     matrix:
       - CHEF_VERSION: [18, latest]
 
 kitchen-ubuntu-2204:
   script: bundle exec rake kitchen:default-ubuntu-2204
-  allow_failure: true
   parallel:
     matrix:
       - CHEF_VERSION: [18, latest]
