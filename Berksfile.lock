@@ -13,7 +13,7 @@ DEPENDENCIES
     revision: 852f6360868d6adde05eaf8bcca4a162ad3cf46c
 
 GRAPH
-  apt (7.5.16)
+  apt (7.5.17)
   dpkg_autostart (0.4.12)
   iptables-ng (4.1.0)
   monit-ng (2.4.3)
@@ -22,11 +22,11 @@ GRAPH
   os-hardening (4.1.2)
   postfix (6.0.26)
   resolver (4.1.5)
-  sanity (3.6.0)
+  sanity (3.6.1)
     apt (~> 7.5)
     iptables-ng (~> 4.1)
     monit-ng (~> 2.4)
-    os-hardening (~> 4.0)
+    os-hardening (~> 4.1)
     postfix (~> 6.0)
     resolver (~> 4.1)
     ssh-hardening (~> 2.9)
