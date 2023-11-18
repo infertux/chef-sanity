@@ -1,6 +1,13 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.6.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.7.0...master))
 
   * TBD
+
+## v3.7.0, 2023-11-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.6.1...3.7.0))
+
+  * 1f35fea - Add some more kernel hardening settings
+  * e7886bc - Don't allow failures on GitLab CI
+  * a49f1dc - Update dependencies
+  * 9384e49 - Prevent flaky build on GitLab
 
 ## v3.6.1, 2023-10-19 ([changes](https://github.com/infertux/chef-sanity/compare/3.6.0...3.6.1))
 
