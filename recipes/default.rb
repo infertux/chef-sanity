@@ -20,6 +20,5 @@ include_recipe 'sanity::unattended_upgrades'
 include_recipe 'sanity::automatic_reboot'
 include_recipe 'sanity::monit'
 include_recipe 'sanity::smart'
-include_recipe 'sanity::nginx'
 include_recipe 'sanity::vrms'
 include_recipe 'sanity::os_hardening' # XXX: it should be last, as per https://github.com/dev-sec/chef-os-hardening#usage
