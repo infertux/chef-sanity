@@ -1,6 +1,7 @@
 # Inspired by https://gitlab.archlinux.org/archlinux/infrastructure/-/blob/master/roles/hardening/tasks/main.yml
 
 sysctl 'kernel.kexec_load_disabled' do # https://sysctl-explorer.net/kernel/kexec_load_disabled/
+  only_if { File.writable?('/proc/sys/kernel/kexec_load_disabled') } # unavailable on older kernels
   comment 'Disable kexec load'
   value 1
 end
@@ -21,7 +22,7 @@ sysctl 'kernel.yama.ptrace_scope' do
 end
 
 sysctl 'net.core.bpf_jit_harden' do # https://sysctl-explorer.net/net/core/bpf_jit_harden/
-  ignore_failure true # BPF JIT is unavailable when running inside non-host network namespace
+  only_if { File.writable?('/proc/sys/net/core/bpf_jit_harden') } # BPF JIT is unavailable when running inside non-host network namespace
   comment 'Enable BPF JIT hardening for all users'
   value 2
 end
