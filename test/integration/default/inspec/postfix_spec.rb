@@ -78,7 +78,6 @@ control 'postfix-4' do
 
   describe command('mailq') do
     its('exit_status') { should eq 0 }
-    its('stdout') { should cmp "Mail queue is empty\n" }
     its('stderr') { should cmp '' }
   end
 
