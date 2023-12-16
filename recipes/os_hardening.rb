@@ -7,16 +7,19 @@ sysctl 'kernel.kexec_load_disabled' do # https://sysctl-explorer.net/kernel/kexe
 end
 
 sysctl 'kernel.kptr_restrict' do # https://sysctl-explorer.net/kernel/kptr_restrict/
+  only_if { File.writable?('/proc/sys/kernel/kptr_restrict') }
   comment 'Set restricted access to kernel pointers in proc fs'
   value 2
 end
 
 sysctl 'kernel.unprivileged_userns_clone' do
+  only_if { File.writable?('/proc/sys/kernel/unprivileged_userns_clone') }
   comment 'Disable unprivileged userns'
   value 0
 end
 
 sysctl 'kernel.yama.ptrace_scope' do
+  only_if { File.writable?('/proc/sys/kernel/yama/ptrace_scope') }
   comment 'Set ptrace scope, restrict ptrace to CAP_SYS_PTRACE'
   value 2
 end
