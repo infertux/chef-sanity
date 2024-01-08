@@ -1,6 +1,17 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.7.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.8.0...master))
 
   * TBD
+
+## v3.8.0, 2024-01-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.7.0...3.8.0))
+
+  * 267f1bc - Pin Ruby to 3.2 on GitHub Actions
+  * 13e422e - Update dependencies
+  * 95512b0 - Prefer IPv6 DNS over IPv4
+  * 6bdfec2 - Limit GitLab CI to Chef 18
+  * d306738 - Guard all kernel settings to support containers
+  * 27c66ce - Remove flaky test
+  * b4e589f - Don't disable kexec when unavailable
+  * 71e16d3 - Remove obsolete Nginx attributes
 
 ## v3.7.0, 2023-11-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.6.1...3.7.0))
 
