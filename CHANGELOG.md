@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.8.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.8.1...master))
 
   * TBD
+
+## v3.8.1, 2024-02-12 ([changes](https://github.com/infertux/chef-sanity/compare/3.8.0...3.8.1))
+
+  * bf77882 - Don't process dummy "manage" network interface
 
 ## v3.8.0, 2024-01-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.7.0...3.8.0))
 
