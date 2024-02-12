@@ -13,6 +13,6 @@ file '/etc/network/interfaces' do
     # This file describes the network interfaces available on your system
     # and how to activate them. For more information, see interfaces(5).
 
-    #{node['sanity']['network']['interfaces'].map { |_, config| config }.join("\n")}
+    #{node['sanity']['network']['interfaces'].except('manage').map { |_, config| config }.join("\n")}
   CONF
 end
