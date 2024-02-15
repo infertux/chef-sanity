@@ -8,7 +8,7 @@ node.default['postfix']['main']['tls_preempt_cipherlist'] = 'no'
 
 # TLS client options
 node.default['postfix']['main']['smtp_use_tls'] = 'yes'
-node.default['postfix']['main']['smtp_tls_security_level'] = 'secure'
+node.default['postfix']['main']['smtp_tls_security_level'] = 'verify'
 node.default['postfix']['main']['smtp_tls_note_starttls_offer'] = 'yes'
 
 # TLS server options (smtpd_*)
