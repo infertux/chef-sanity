@@ -1,6 +1,14 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.8.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.9.0...master))
 
   * TBD
+
+## v3.9.0, 2024-02-15 ([changes](https://github.com/infertux/chef-sanity/compare/3.8.1...3.9.0))
+
+  * 343cd2e - Only catch emails sent to us to prevent infinite loop in some cases
+  * d688a47 - Relax overly secure Postfix security level
+  * cc33369 - Fix deprecation warning about Node.js 16
+  * 099392d - Update k8s-ruby to support Ruby 3.3
+  * ccd26e5 - Revert "Pin Ruby to 3.2 on GitHub Actions"
 
 ## v3.8.1, 2024-02-12 ([changes](https://github.com/infertux/chef-sanity/compare/3.8.0...3.8.1))
 
