@@ -22,8 +22,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        # ruby-version: ruby # latest stable release
-        ruby-version: 3.2 # TODO: remove once this is fixed: "k8s-ruby-0.15.1 requires ruby version <= 3.2.2"
+        ruby-version: ruby # latest stable release
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run Test Kitchen suite ${{ matrix.suite }}
       run: env FIREWALL_TYPE=${{ matrix.firewall-type }} bundle exec rake kitchen:${{ matrix.suite }}
@@ -34,8 +33,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        # ruby-version: ruby # latest stable release
-        ruby-version: 3.2 # TODO: remove once this is fixed: "k8s-ruby-0.15.1 requires ruby version <= 3.2.2"
+        ruby-version: ruby # latest stable release
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run style checks
       run: bundle exec rake style:ruby
