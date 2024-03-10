@@ -1,6 +1,11 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.9.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.9.1...master))
 
   * TBD
+
+## v3.9.1, 2024-03-10 ([changes](https://github.com/infertux/chef-sanity/compare/3.9.0...3.9.1))
+
+  * 909436b - Update dependencies
+  * 92dcafb - Trim overly long emails
 
 ## v3.9.0, 2024-02-15 ([changes](https://github.com/infertux/chef-sanity/compare/3.8.1...3.9.0))
 
