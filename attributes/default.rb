@@ -46,6 +46,25 @@ default['sanity']['monit'] = {
 
 default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp package instead of systemd
 
+# Install useful packages
+default['sanity']['packages']['install'] = \
+  %w(
+    apt-forktracer
+    cron
+    curl
+    htop
+    rsync
+    sudo
+    systemd-coredump
+    vim
+  )
+
+# Remove unwanted packages often installed by default
+default['sanity']['packages']['purge'] =
+  value_for_platform_family(
+    %w(debian) => %w(bind9 sysstat),
+  )
+
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
 # All backports are deactivated by default (i.e. the packages are pinned to 100 by using ButAutomaticUpgrades: yes in the Release files.

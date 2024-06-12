@@ -1,28 +1,14 @@
-# Remove unwanted packages often installed by default
-unwanted_packages = value_for_platform_family(
-  %w(debian) => %w(bind9 sysstat),
-)
-
-package unwanted_packages do
+package node['sanity']['packages']['purge'] do
   action :purge
 end
 
-# Install useful packages
-include_recipe 'sanity::tmux'
+package node['sanity']['packages']['install']
 
-package %w(
-  apt-forktracer
-  cron
-  curl
-  htop
-  rsync
-  sudo
-  systemd-coredump
-  vim
-)
+include_recipe 'sanity::tmux'
 
 execute 'looking for non-Debian packages' do
   command 'apt-forktracer | sort'
+  only_if 'which apt-forktracer'
 end
 
 bash 'looking for leftover configuration files' do
