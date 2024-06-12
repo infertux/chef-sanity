@@ -1,6 +1,13 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.9.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.10.0...master))
 
   * TBD
+
+## v3.10.0, 2024-06-12 ([changes](https://github.com/infertux/chef-sanity/compare/3.9.1...3.10.0))
+
+  * 49abbee - Allow package lists to be configured as attributes
+  * 74a40e9 - Add GitHub funding file
+  * fec2e18 - Update dependencies
+  * c3d7c0e - Update dependencies
 
 ## v3.9.1, 2024-03-10 ([changes](https://github.com/infertux/chef-sanity/compare/3.9.0...3.9.1))
 
