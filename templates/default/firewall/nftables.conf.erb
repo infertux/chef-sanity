@@ -52,7 +52,8 @@ table inet filter {
       53,
       500,  # IKE
       1900, # SSDP/UPnP
-      5060  # SIP
+      5060, # SIP
+      5355  # https://en.wikipedia.org/wiki/Link-Local_Multicast_Name_Resolution
     } counter drop
 
     # https://wiki.nftables.org/wiki-nftables/index.php/Matching_packet_headers#Matching_UDP.2FTCP_headers_in_the_same_rule
