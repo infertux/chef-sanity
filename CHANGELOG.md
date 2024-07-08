@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.10.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.10.1...master))
 
   * TBD
+
+## v3.10.1, 2024-07-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.10.0...3.10.1))
+
+  * c866537 - Drop deprecated LLMNR protocol in favor of mDNS
 
 ## v3.10.0, 2024-06-12 ([changes](https://github.com/infertux/chef-sanity/compare/3.9.1...3.10.0))
 
