@@ -67,6 +67,8 @@ default['sanity']['packages']['purge'] =
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
+default['sanity']['smartmontools']['enable'] = true # set to false for machines without HDD/SSD storage
+
 # All backports are deactivated by default (i.e. the packages are pinned to 100 by using ButAutomaticUpgrades: yes in the Release files.
 default['sanity']['repositories']['backports'] = false
 default['sanity']['repositories']['testing'] = false

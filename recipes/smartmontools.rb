@@ -1,10 +1,16 @@
-package 'smartmontools'
+enable = node['sanity']['smartmontools']['enable']
+
+package 'smartmontools' do
+  action enable ? :install : :purge
+end
 
 service 'smartmontools' do
+  only_if { enable }
   action %i(enable start)
 end
 
 file '/etc/smartd.conf' do
+  only_if { enable }
   owner 'root'
   group 'root'
   mode '0444'
