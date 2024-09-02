@@ -1,6 +1,11 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.10.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.11.0...master))
 
   * TBD
+
+## v3.11.0, 2024-09-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.10.1...3.11.0))
+
+  * 731493b - Update dependencies
+  * e8376fe - Allow disabling smartmontools
 
 ## v3.10.1, 2024-07-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.10.0...3.10.1))
 
