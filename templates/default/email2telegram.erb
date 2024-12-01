@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-message="$(cat)"
+message="$(cat | sed '1,/^$/d')" # delete headers (before first blank line)
 token="<%= @token %>"
 chat_id="<%= @chat_id %>"
 url="https://api.telegram.org/bot${token}/sendMessage"
