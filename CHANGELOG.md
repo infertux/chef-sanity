@@ -1,6 +1,14 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.11.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.12.0...master))
 
   * TBD
+
+## v3.12.0, 2024-12-07 ([changes](https://github.com/infertux/chef-sanity/compare/3.11.0...3.12.0))
+
+  * afbdbee - Update dependencies
+  * 8137901 - Notify when systemd services fail
+  * 7a370f9 - Don't include email headers in Telegram message
+  * 173f811 - Update dependencies
+  * 6bc0ffd - Update dependencies
 
 ## v3.11.0, 2024-09-02 ([changes](https://github.com/infertux/chef-sanity/compare/3.10.1...3.11.0))
 
