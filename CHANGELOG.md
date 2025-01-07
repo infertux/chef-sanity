@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.12.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.12.1...master))
 
   * TBD
+
+## v3.12.1, 2025-01-07 ([changes](https://github.com/infertux/chef-sanity/compare/3.12.0...3.12.1))
+
+  * a3a624b - Don't purge iptables package when using nftables
 
 ## v3.12.0, 2024-12-07 ([changes](https://github.com/infertux/chef-sanity/compare/3.11.0...3.12.0))
 
