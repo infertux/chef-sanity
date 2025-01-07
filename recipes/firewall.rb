@@ -7,7 +7,7 @@ ssh_authorized_ips_v6 = Array(node['sanity']['firewall']['ssh_authorized_ips_v6'
 
 case node['sanity']['firewall']['type']
 when 'nftables'
-  package %w(iptables iptables-persistent libiptc0) do
+  package %w(iptables-persistent libiptc0) do
     action :purge
   end
 
