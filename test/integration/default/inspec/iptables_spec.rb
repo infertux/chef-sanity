@@ -2,8 +2,8 @@ control 'iptables-1' do
   title 'default policies are set properly'
   impact 1.0
 
-  only_if('iptables is installed') do
-    command('iptables').exist?
+  only_if('iptables is installed and nftables is not') do
+    command('iptables').exist? && !command('nft').exist?
   end
 
   describe command('iptables -nL INPUT') do
