@@ -10,7 +10,7 @@ DEPENDENCIES
     metadata: true
   ssh-hardening
     git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: 6fcb74d221c9fa9ef71d6da9451fb1feab3883b4
+    revision: 9fa1f8dae773efe5eef83ee6896d5e75f14ac671
 
 GRAPH
   apt (7.5.23)
@@ -20,7 +20,7 @@ GRAPH
     apt (>= 0.0.0)
     dpkg_autostart (>= 0.0.0)
   os-hardening (4.2.0)
-  postfix (6.0.29)
+  postfix (6.2.2)
   resolver (4.2.2)
   sanity (3.12.1)
     apt (~> 7.5)
