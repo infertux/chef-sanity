@@ -76,9 +76,16 @@ table inet filter {
     type filter hook forward priority 0
     policy drop
 
+    jump forward-custom
+
     # log any other traffic
     log prefix "nftables:filter:forward " level notice flags all
     counter
+  }
+
+  chain forward-custom {
+    # add custom rules here like this:
+    # sanity_nft "add rule inet filter forward-custom tcp dport 8080 counter accept"
   }
 
   chain output {
