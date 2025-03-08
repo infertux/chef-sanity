@@ -1,6 +1,13 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.12.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.0...master))
 
   * TBD
+
+## v3.13.0, 2025-03-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.12.1...3.13.0))
+
+  * 6a1439c - Allow custom forward rules with nftables
+  * 4ead418 - Don't run iptables tests when firewall is nftables
+  * 51edfe7 - Pin CI to Ruby 3.3 until berkshelf is compatible with 3.4
+  * fa30442 - Update dependencies
 
 ## v3.12.1, 2025-01-07 ([changes](https://github.com/infertux/chef-sanity/compare/3.12.0...3.12.1))
 
