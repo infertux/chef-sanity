@@ -1,6 +1,16 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.1...master))
 
   * TBD
+
+## v3.13.1, 2025-07-13 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.0...3.13.1))
+
+  * 88866c1 - Loosen up SSH rate limit
+  * 6e603d4 - Don't fail when non-free packages are found
+  * b22c5d7 - Fix Rubocop violations
+  * bc04f7c - Don't add Signed-By attribute for APT repositories
+  * 89ad1dc - Update dependencies
+  * e4ca551 - Update dependencies
+  * f180ce4 - Update dependencies
 
 ## v3.13.0, 2025-03-08 ([changes](https://github.com/infertux/chef-sanity/compare/3.12.1...3.13.0))
 
