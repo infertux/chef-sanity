@@ -23,18 +23,21 @@ when 'debian'
     uri "#{protocol}://deb.debian.org/debian"
     distribution codename
     components %w(main)
+    signed_by false
   end
 
   apt_repository "#{codename}-updates" do
     uri "#{protocol}://deb.debian.org/debian"
     distribution "#{codename}-updates"
     components %w(main)
+    signed_by false
   end
 
   apt_repository "#{codename}-backports" do
     uri "#{protocol}://deb.debian.org/debian"
     distribution "#{codename}-backports"
     components %w(main)
+    signed_by false
     action node['sanity']['repositories']['backports'] ? :add : :remove
   end
 
@@ -42,6 +45,7 @@ when 'debian'
     uri "#{protocol}://deb.debian.org/debian"
     distribution 'testing'
     components %w(main)
+    signed_by false
     action node['sanity']['repositories']['testing'] ? :add : :remove
   end
 
@@ -49,6 +53,7 @@ when 'debian'
     uri "#{protocol}://deb.debian.org/debian-security"
     distribution "#{codename}-security"
     components %w(main)
+    signed_by false
   end
 when 'ubuntu'
   # NOOP
