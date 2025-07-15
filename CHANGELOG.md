@@ -1,6 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.1...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...master))
 
   * TBD
+
+## v3.13.2, 2025-07-15 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.1...3.13.2))
+
+  * 8f31641 - Remove SSH rate limit altogether
 
 ## v3.13.1, 2025-07-13 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.0...3.13.1))
 
