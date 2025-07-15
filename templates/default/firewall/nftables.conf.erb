@@ -34,10 +34,10 @@ table inet filter {
     meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
 
     <% unless @ssh_authorized_ips_v4.empty? %>
-    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new limit rate 10/minute log prefix "New SSH connection: " flags all counter accept
+    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "New SSH connection: " flags all counter accept
     <% end %>
     <% unless @ssh_authorized_ips_v6.empty? %>
-    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new limit rate 10/minute log prefix "New SSH connection: " flags all counter accept
+    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "New SSH connection: " flags all counter accept
     <% end %>
 
     jump input-custom
