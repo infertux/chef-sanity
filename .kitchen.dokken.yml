@@ -25,9 +25,9 @@ verifier:
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
-  - name: debian-11
+  - name: debian-13
     driver:
-      image: dokken/debian-11
+      image: dokken/debian-13
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
@@ -37,7 +37,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-11.yml
+        - test/integration/default/inspec/input_files/control-waivers-debian-13.yml
   - name: debian-12
     driver:
       image: dokken/debian-12

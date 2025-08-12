@@ -9,7 +9,7 @@ issues_url       'https://github.com/infertux/chef-sanity/issues'
 version          '3.13.2'
 chef_version     '>= 18'
 
-supports 'debian', '>= 11.0'
+supports 'debian', '>= 12.0'
 supports 'ubuntu', '>= 22.04'
 
 depends 'apt', '~> 7.5'
