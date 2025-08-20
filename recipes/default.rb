@@ -4,6 +4,7 @@ if platform_family?('debian')
   apt_update
 end
 
+include_recipe 'sanity::profile'
 include_recipe 'sanity::swap'
 include_recipe 'sanity::ipv6'
 include_recipe 'sanity::network'
