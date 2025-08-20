@@ -50,9 +50,9 @@ default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp pac
 default['sanity']['packages']['install'] = \
   %w(
     apt-forktracer
+    btop
     cron
     curl
-    htop
     rsync
     sudo
     systemd-coredump
