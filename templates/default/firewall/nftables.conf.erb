@@ -60,10 +60,9 @@ table inet filter {
     meta l4proto { tcp, udp } @th,16,16 { 67,68,137,138,139,445 } counter drop comment "NetBIOS"
 
     # rate limit remaining packets addressed to local host
-    pkttype host limit rate over 5/second log prefix "Rate limiting packet: " flags all counter reject with icmpx type admin-prohibited
+    pkttype host limit rate over 10/second log prefix "Rate limiting packet: " flags all counter reject with icmpx type admin-prohibited
 
-    # log any other traffic
-    log prefix "nftables:filter:input " level notice flags all
+    # discard any other traffic
     counter
   }
 
@@ -79,7 +78,7 @@ table inet filter {
     jump forward-custom
 
     # log any other traffic
-    log prefix "nftables:filter:forward " level notice flags all
+    log prefix "Dropping forward traffic: " level notice flags all
     counter
   }
 
