@@ -5,6 +5,10 @@ package 'ntp' do
   not_if { node['sanity']['ntp'] == 'ntp' }
 end
 
+package 'systemd-timesyncd' do
+  only_if { node['sanity']['ntp'] == 'systemd-timesyncd' }
+end
+
 execute 'set-ntp true' do
   command 'timedatectl set-ntp true'
   only_if { node['sanity']['ntp'] == 'systemd-timesyncd' }
