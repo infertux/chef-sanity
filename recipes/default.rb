@@ -23,4 +23,7 @@ include_recipe 'sanity::monit'
 include_recipe 'sanity::smartmontools'
 include_recipe 'sanity::systemd'
 include_recipe 'sanity::vrms'
+
+node.default['os-hardening']['auditd']['space_left'] = '30%'
+node.default['os-hardening']['auditd']['space_left_action'] = 'rotate'
 include_recipe 'sanity::os_hardening' # XXX: it should be last, as per https://github.com/dev-sec/chef-os-hardening#usage
