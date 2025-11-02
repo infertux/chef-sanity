@@ -4,6 +4,8 @@
 [![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
 [![Build Status](https://github.com/infertux/chef-sanity/actions/workflows/test.yml/badge.svg)](https://github.com/infertux/chef-sanity/actions)
 
+***chef-sanity brings back your sanity as a sysadmin.***
+
 This cookbook helps you standardize configuration on various machines.
 It applies a common set of packages and settings to any machine (VM, cloud, bare metal, etc.) so you have a solid base to build on.
 
@@ -14,10 +16,10 @@ Here are some highlights of what it does:
 - sets up a reliable DNS resolver
 - sets up automatic package updates
 - hardens sshd config with public key authentication and strong ciphers
-- sets up a local MTA using Postfix to send emails to sysadmin
+- sets up a local Mail Transfer Agent using Postfix to send emails to sysadmin
 - sets up Monit to alert sysadmin when CPU, memory, disk, etc. is overused
 - sets up SMART to monitor hard drive failures
-- installs a few useful packages like tmux, htop, curl, etc.
+- installs a few useful packages like tmux, btop, curl, etc.
 - hardens various OS settings for better security
 
 ## Recipes
