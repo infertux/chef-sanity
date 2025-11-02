@@ -13,7 +13,7 @@ DEPENDENCIES
     revision: 583202a04ecb2ac4af3d185c7d04904d7858e35f
 
 GRAPH
-  apt (7.6.1)
+  apt (7.7.0)
   dpkg_autostart (0.4.15)
   iptables-ng (4.1.0)
   monit-ng (2.4.3)

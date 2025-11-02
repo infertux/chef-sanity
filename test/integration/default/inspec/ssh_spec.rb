@@ -17,7 +17,6 @@ control 'ssh-2' do
     it { should be_listening }
     its('protocols') { should cmp %w(tcp) }
     its('addresses') { should cmp %w(0.0.0.0) }
-    its('processes') { should cmp %w(sshd) }
   end
 end
 

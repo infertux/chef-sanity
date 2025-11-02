@@ -10,7 +10,7 @@ version          '3.13.2'
 chef_version     '>= 18'
 
 supports 'debian', '>= 12.0'
-supports 'ubuntu', '>= 22.04'
+supports 'ubuntu', '>= 24.04'
 
 depends 'apt', '~> 7.5'
 depends 'iptables-ng', '~> 4.1'
