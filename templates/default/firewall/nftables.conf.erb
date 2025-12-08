@@ -28,16 +28,17 @@ table inet filter {
     ct state { established, related } counter accept comment "accept tracked connections originated from us"
 
     # ICMPv4
-    meta l4proto icmp icmp type echo-request limit rate 10/second counter accept comment "ping / type 8"
+    meta l4proto icmp icmp type echo-request  limit rate 10/second counter accept comment "IPv4 ping / type 8"
+    meta l4proto icmp icmp type time-exceeded limit rate 10/second counter accept comment "IPv4 traceroute / type 11"
 
     # DHCPv4
     meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 67 udp dport 68 counter accept comment "accept DHCPOFFER messages"
-    meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 68 udp dport 67 counter drop comment "ignore DHCPREQUEST messages as we're not a DHCP server"
+    meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 68 udp dport 67 counter drop   comment "ignore DHCPREQUEST messages as we are not a DHCP server"
 
     # ICMPv6
-    meta l4proto ipv6-icmp icmpv6 type echo-request limit rate 10/second counter accept comment "ping / type 128"
-    meta l4proto ipv6-icmp icmpv6 type packet-too-big counter accept comment "MTU discovery / type 2"
-    meta l4proto ipv6-icmp icmpv6 type time-exceeded counter drop comment "traceroute / type 3"
+    meta l4proto ipv6-icmp icmpv6 type echo-request   limit rate 10/second counter accept comment "IPv6 ping / type 128"
+    meta l4proto ipv6-icmp icmpv6 type packet-too-big limit rate 10/second counter accept comment "IPv6 MTU discovery / type 2"
+    meta l4proto ipv6-icmp icmpv6 type time-exceeded  limit rate 10/second counter accept comment "IPv6 traceroute / type 3"
 
     # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
     meta l4proto ipv6-icmp icmpv6 type { nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } counter accept comment "IPv6 neighbor discovery / types 134, 135, 136"
