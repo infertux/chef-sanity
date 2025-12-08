@@ -27,21 +27,27 @@ table inet filter {
 
     ct state { established, related } counter accept comment "accept tracked connections originated from us"
 
-    # ICMPv4
-    meta l4proto icmp icmp type echo-request  limit rate 10/second counter accept comment "IPv4 ping / type 8"
-    meta l4proto icmp icmp type time-exceeded limit rate 10/second counter accept comment "IPv4 traceroute / type 11"
+    # ICMPv4: allow only the selected safe types
+    meta l4proto icmp icmp type {
+        echo-request, # ping
+        destination-unreachable,
+        time-exceeded # traceroute
+    } counter accept
+
+    # ICMPv6: allow only the selected safe types
+    meta l4proto ipv6-icmp icmpv6 type {
+        echo-request, # ping
+        destination-unreachable,
+        time-exceeded, # traceroute
+        packet-too-big # MTU discovery
+    } counter accept
+
+    # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
+    meta l4proto ipv6-icmp icmpv6 type { nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } counter accept comment "IPv6 neighbor discovery / types 134, 135, 136"
 
     # DHCPv4
     meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 67 udp dport 68 counter accept comment "accept DHCPOFFER messages"
     meta nfproto ipv4 ip daddr 255.255.255.255 udp sport 68 udp dport 67 counter drop   comment "ignore DHCPREQUEST messages as we are not a DHCP server"
-
-    # ICMPv6
-    meta l4proto ipv6-icmp icmpv6 type echo-request   limit rate 10/second counter accept comment "IPv6 ping / type 128"
-    meta l4proto ipv6-icmp icmpv6 type packet-too-big limit rate 10/second counter accept comment "IPv6 MTU discovery / type 2"
-    meta l4proto ipv6-icmp icmpv6 type time-exceeded  limit rate 10/second counter accept comment "IPv6 traceroute / type 3"
-
-    # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
-    meta l4proto ipv6-icmp icmpv6 type { nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } counter accept comment "IPv6 neighbor discovery / types 134, 135, 136"
 
     # DHCPv6
     meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
@@ -83,7 +89,8 @@ table inet filter {
     ip  saddr                           @blackhole_ipv4 counter log prefix "IPv4 rate limit: " flags all drop
     ip6 saddr and ffff:ffff:ffff:ffff:: @blackhole_ipv6 counter log prefix "IPv6 rate limit: " flags all drop
 
-    # discard any other traffic
+    # log any other traffic
+    log prefix "Dropping input traffic: " flags all
     counter
   }
 
