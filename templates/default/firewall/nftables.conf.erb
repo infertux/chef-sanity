@@ -52,6 +52,18 @@ table inet filter {
     # DHCPv6
     meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
 
+    # drop connections for 1 minute from a source IP (or /64 IPv6 range) that exceeds the limit of 10/second
+    ct state new meta l4proto { tcp, udp } \
+            meter flood_ipv4 size 128000 { ip saddr timeout 10s limit rate over 10/second burst 50 packets } \
+            add @blackhole_ipv4 { ip saddr timeout 1m }
+    ct state new meta l4proto { tcp, udp } \
+            meter flood_ipv6 size 128000 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 10s limit rate over 10/second burst 50 packets } \
+            add @blackhole_ipv6 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 1m }
+
+    ip  saddr                           @blackhole_ipv4 counter log prefix "nftables: IPv4 rate limit: " flags all drop
+    ip6 saddr and ffff:ffff:ffff:ffff:: @blackhole_ipv6 counter log prefix "nftables: IPv6 rate limit: " flags all drop
+
+    # SSH
     <% unless @ssh_authorized_ips_v4.empty? %>
     meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
     <% end %>
@@ -77,17 +89,6 @@ table inet filter {
 
     # https://wiki.nftables.org/wiki-nftables/index.php/Matching_packet_headers#Matching_UDP.2FTCP_headers_in_the_same_rule
     meta l4proto { tcp, udp } @th,16,16 { 67,68,137,138,139,445 } counter drop comment "NetBIOS"
-
-    # drop connections for 1 minute from a source IP (or /64 IPv6 range) that exceeds the limit of 10/second
-    ct state new meta l4proto { tcp, udp } \
-            meter flood_ipv4 size 128000 { ip saddr timeout 10s limit rate over 10/second burst 50 packets } \
-            add @blackhole_ipv4 { ip saddr timeout 1m }
-    ct state new meta l4proto { tcp, udp } \
-            meter flood_ipv6 size 128000 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 10s limit rate over 10/second burst 50 packets } \
-            add @blackhole_ipv6 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 1m }
-
-    ip  saddr                           @blackhole_ipv4 counter log prefix "nftables: IPv4 rate limit: " flags all drop
-    ip6 saddr and ffff:ffff:ffff:ffff:: @blackhole_ipv6 counter log prefix "nftables: IPv6 rate limit: " flags all drop
 
     # log any other traffic
     log prefix "nftables: Dropping input traffic: " flags all
