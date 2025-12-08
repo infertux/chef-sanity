@@ -53,10 +53,10 @@ table inet filter {
     meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
 
     <% unless @ssh_authorized_ips_v4.empty? %>
-    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "New SSH connection: " flags all counter accept
+    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
     <% end %>
     <% unless @ssh_authorized_ips_v6.empty? %>
-    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "New SSH connection: " flags all counter accept
+    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
     <% end %>
 
     jump input-custom
@@ -86,11 +86,11 @@ table inet filter {
             meter flood_ipv6 size 128000 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 10s limit rate over 10/second burst 50 packets } \
             add @blackhole_ipv6 { ip6 saddr and ffff:ffff:ffff:ffff:: timeout 1m }
 
-    ip  saddr                           @blackhole_ipv4 counter log prefix "IPv4 rate limit: " flags all drop
-    ip6 saddr and ffff:ffff:ffff:ffff:: @blackhole_ipv6 counter log prefix "IPv6 rate limit: " flags all drop
+    ip  saddr                           @blackhole_ipv4 counter log prefix "nftables: IPv4 rate limit: " flags all drop
+    ip6 saddr and ffff:ffff:ffff:ffff:: @blackhole_ipv6 counter log prefix "nftables: IPv6 rate limit: " flags all drop
 
     # log any other traffic
-    log prefix "Dropping input traffic: " flags all
+    log prefix "nftables: Dropping input traffic: " flags all
     counter
   }
 
@@ -106,7 +106,7 @@ table inet filter {
     jump forward-custom
 
     # log any other traffic
-    log prefix "Dropping forward traffic: " level notice flags all
+    log prefix "nftables: Dropping forward traffic: " level notice flags all
     counter
   }
 
