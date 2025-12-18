@@ -7,13 +7,6 @@ variables:
   CHEF_LICENSE: "accept-no-persist" # https://docs.chef.io/chef_license_accept/
   DOCKER_HOST: "tcp://docker:2375"
 
-  # XXX: gitlab.com CI runner kernel doesn't have nftables loaded
-  FIREWALL_TYPE: iptables
-
-  # XXX: cannot run libvirt on gitlab.com CI runners
-  # https://docs.gitlab.com/runner/executors/custom_examples/libvirt.html
-  KITCHEN_LOCAL_YAML: ".kitchen.dokken.yml"
-
 before_script:
   - apt-get update -y
   - apt-get upgrade -y
