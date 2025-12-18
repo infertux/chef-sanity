@@ -3,7 +3,7 @@
 default['sanity']['automatic_reboot'] = 'monthly' # set to false to disable
 
 ipaddress = IPAddr.new(node['ipaddress'])
-default['sanity']['ipv4_reachable'] = !ipaddress.private? && !ipaddress.link_local? # override to false if you don't have a reachable public IPv4
+default['sanity']['ipv4_reachable'] = !ipaddress.private? && !ipaddress.link_local? && !ipaddress.loopback? # override to false if you don't have a reachable public IPv4
 Chef::Log.info "Primary IPv4 address #{ipaddress} auto-detected as #{'NOT ' unless node['sanity']['ipv4_reachable']}reachable"
 
 default['sanity']['ipv6'] = true # set to false to disable IPv6
