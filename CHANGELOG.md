@@ -1,6 +1,30 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...master))
 
   * TBD
+
+## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
+
+  * 5b13f30 - Drop support for legacy iptables
+  * 9476d92 - Mark loopback IP addresses as not reachable
+  * 2e05f9b - Move rate limiting to more appropriate location
+  * 2217bed - Prefix all log entries with nftables for easy grep'ing
+  * c269fa4 - Refactor ICMP traffic handling
+  * 89fc043 - Allow traceroute requests
+  * c8d4eb8 - Use per-IP rate limit to prevent blocking legitimate users
+  * 26138e6 - Fix GitLab CI
+  * e04a243 - Tweak GitHub workflow
+  * 2a2de6f - Fix test suite for Debian 13
+  * 965d8ce - Update dependencies
+  * d1443de - Rotate auditd logs when free disk space is less than 30%
+  * 3aad5bf - Make sure package systemd-timesyncd is installed when required
+  * d3cc786 - Always set net.ipv6.conf.all.disable_ipv6 value
+  * 12a38b9 - Tweak firewall logging
+  * f4fa5ca - Schedule GitHub Actions monthly
+  * 93e0cab - Define some helpful aliases for the sysadmin
+  * e766802 - Replace htop with btop
+  * 1d90d25 - Update dependencies
+  * 5abf045 - Add support for Debian 13 and drop Debian 11
+  * 3007af7 - Use more generic env variable to detect test environment
 
 ## v3.13.2, 2025-07-15 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.1...3.13.2))
 
