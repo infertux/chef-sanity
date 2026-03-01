@@ -16,24 +16,6 @@ default['sanity']['firewall']['ssh_authorized_ips_v6'] = nil # nil means to NO I
 
 default['sanity']['network']['interfaces']['manage'] = true
 
-default['sanity']['network']['interfaces'] = {
-  'lo' => <<~LO,
-    # The loopback network interface
-    auto lo
-    iface lo inet loopback
-  LO
-  node['network']['default_interface'] => <<~DEFAULT,
-    # The primary network interface
-    allow-hotplug #{node['network']['default_interface']}
-    iface #{node['network']['default_interface']} inet dhcp
-  DEFAULT
-}
-
-default['sanity']['network']['interfaces'][node['network']['default_interface']] << <<~IPV6 if node['sanity']['ipv6']
-  # This is an autoconfigured IPv6 interface
-  iface #{node['network']['default_interface']} inet6 auto
-IPV6
-
 default['sanity']['monit'] = {
   'duration' => '5 cycles',
   'cpu' => '75%',
