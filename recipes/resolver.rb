@@ -1,6 +1,4 @@
-package 'systemd-resolved' do
-  only_if { platform?('debian') && node['platform_version'].to_i >= 12 }
-end
+package 'systemd-resolved'
 
 resolver_systemd_resolved_config '/etc/systemd/resolved.conf' do
   dns node['sanity']['resolver']['dns']

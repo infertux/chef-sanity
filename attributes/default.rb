@@ -29,7 +29,7 @@ default['sanity']['monit'] = {
 default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp package instead of systemd
 
 # Install useful packages
-default['sanity']['packages']['install'] = \
+default['sanity']['packages']['install'] =
   %w(
     apt-forktracer
     btop

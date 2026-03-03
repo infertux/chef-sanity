@@ -14,7 +14,7 @@ file '/root/.ssh/authorized_keys' do
   not_if { ssh_authorized_keys.empty? }
 end
 
-node.override['ssh-hardening']['ssh']['server']['listen_to'] = \
+node.override['ssh-hardening']['ssh']['server']['listen_to'] =
   if node['sanity']['ipv4_reachable']
     node['ipaddress']
   else

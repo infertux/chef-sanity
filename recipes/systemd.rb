@@ -3,7 +3,7 @@
 directory '/etc/systemd/system/failure-handler@.service.d'
 
 link '/etc/systemd/system/failure-handler@.service.d/10-all.conf' do
-  to '/dev/null' # prevent recursion error "Failed to add dependency on failure-handler@failure-handler@[...], ignoring: Invalid argument"
+  to File::NULL # prevent recursion error "Failed to add dependency on failure-handler@failure-handler@[...], ignoring: Invalid argument"
 end
 
 systemd_unit 'failure-handler@.service' do

@@ -2,13 +2,16 @@ AllCops:
   NewCops: enable
 
 Metrics/BlockLength:
-  Enabled: false
+  Exclude:
+    - 'test/**/*'
 
 Layout/LineLength:
   Enabled: false
 
 Lint/AmbiguousRegexpLiteral:
-  Enabled: false
+  Exclude:
+    - 'profile/**/*'
+    - 'test/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -17,6 +20,9 @@ Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     "%i": "()"
     "%w": "()"
+
+Style/RedundantConstantBase:
+  Enabled: false
 
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
