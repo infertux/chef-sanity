@@ -19,7 +19,7 @@ include_recipe 'sanity::postfix'
 include_recipe 'sanity::email2telegram'
 include_recipe 'sanity::unattended_upgrades'
 include_recipe 'sanity::automatic_reboot'
-include_recipe 'sanity::monit'
+include_recipe 'sanity::monit' unless platform?('ubuntu')
 include_recipe 'sanity::smartmontools'
 include_recipe 'sanity::systemd'
 include_recipe 'sanity::vrms'

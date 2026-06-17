@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: ["default-debian-13", "default-debian-12", "default-ubuntu-2404"]
+        suite: ["default-debian-13", "default-debian-12", "default-ubuntu-2604"]
     steps:
       - uses: actions/checkout@v6
       - name: Set up Ruby

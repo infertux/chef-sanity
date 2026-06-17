@@ -10,7 +10,7 @@ DEPENDENCIES
     metadata: true
   ssh-hardening
     git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: bc16bea0f63918f1ef3f64bebd62e752ff6114dc
+    revision: c33d3cfa281eb3fe7e7947029aad5621593720b2
 
 GRAPH
   apt (7.7.0)

@@ -52,18 +52,19 @@ platforms:
         - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-debian-12.yml
-  - name: ubuntu-24.04
+  - name: ubuntu-26.04
     driver:
-      image: dokken/ubuntu-24.04
-      pid_one_command: /bin/systemd
+      image: dokken/ubuntu-26.04
+      pid_one_command: /lib/systemd/systemd
       intermediate_instructions:
+        - RUN touch /etc/sysctl.conf # FIXME: https://github.com/chef/chef/issues/15263
         - RUN /usr/bin/apt-get update
         - RUN /usr/bin/apt-get upgrade -y
     verifier:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-ubuntu-2404.yml
+        - test/integration/default/inspec/input_files/control-waivers-ubuntu-2604.yml
 
 suites:
   - name: default
