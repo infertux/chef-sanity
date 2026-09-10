@@ -4,13 +4,13 @@ DEPENDENCIES
     revision: fe054cfc53ac6a7e12e225a9af7f5eb7ac2e6e27
   os-hardening
     git: https://github.com/dev-sec/chef-os-hardening.git
-    revision: a2f62b2c5df5daa8a3be6548a4369f971b234b3c
+    revision: 202ccdd4551fd0eb2ae10d6ede2b52eae092aa15
   sanity
     path: .
     metadata: true
   ssh-hardening
     git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: c33d3cfa281eb3fe7e7947029aad5621593720b2
+    revision: a3bff54dffc816b77d2c71c79265799dd83f8aae
 
 GRAPH
   apt (7.7.0)
