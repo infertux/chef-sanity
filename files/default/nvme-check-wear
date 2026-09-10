@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Exits non-zero and prints a warning if any NVMe drive's percentage_used SMART attribute is >= THRESHOLD.
+
+set -euo pipefail
+
+THRESHOLD="${1:-80}"
+STATUS=0
+
+for dev in /dev/nvme*; do
+  [ -e "$dev" ] || continue
+
+  # Keep only controller nodes (nvme0, nvme1, ... nvme10, ...),
+  # skip namespace/partition nodes (nvme0n1, nvme0n1p1, ...)
+  suffix=${dev#/dev/nvme}
+  case "$suffix" in
+    ''|*[!0-9]*) continue ;;
+  esac
+
+  used=$(smartctl -A "$dev" 2>/dev/null | awk -F: '/Percentage Used/ {gsub(/[ %\t]/,"",$2); print $2}')
+  [ -n "$used" ] || continue
+
+  if [ "$used" -ge "$THRESHOLD" ]; then
+    echo "WARNING: $dev percentage_used=${used}% (threshold ${THRESHOLD}%)"
+    STATUS=1
+  fi
+done
+
+exit "$STATUS"

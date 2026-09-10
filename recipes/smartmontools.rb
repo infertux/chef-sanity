@@ -27,3 +27,18 @@ file '/etc/smartd.conf' do
     '-s (S/../.././02|L/../../6/03)', # short self-test every day between 2-3am, and an extended self test weekly on Saturdays between 3-4am
   ].join(' ')
 end
+
+nvme_script = '/usr/local/sbin/nvme-check-wear'
+
+cookbook_file nvme_script do
+  owner  'root'
+  group  'root'
+  mode   '0755'
+end
+
+cron_d File.basename(nvme_script) do
+  hour 1
+  minute 0
+  user 'root'
+  command nvme_script
+end
