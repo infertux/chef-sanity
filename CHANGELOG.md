@@ -39,9 +39,9 @@
   BREAKING CHANGES:
   - dropped support for Debian 12, Debian 13 is now the minimum
   - dropped support for Ubuntu 24.04, Ubuntu 26.04 is now the minimum
-  - removed the sanity::workstation recipe (it was broken)
-  - removed node['sanity']['firewall']['type'] since nftables is the only supported firewall
-  - replaced /etc/network/interfaces with systemd-networkd (enabled by default, set node['sanity']['network']['interfaces']['manage'] to false to opt out): this requests a reboot, and custom files in /etc/network/interfaces.d make the Chef run fail
+  - removed the `sanity::workstation` recipe (it was broken)
+  - removed `node['sanity']['firewall']['type']` since nftables is the only supported firewall
+  - replaced /etc/network/interfaces with systemd-networkd (enabled by default, set `node['sanity']['network']['interfaces']['manage']` to false to opt out): this requests a reboot, and custom files in /etc/network/interfaces.d make the Chef run fail
 
 ## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
 
