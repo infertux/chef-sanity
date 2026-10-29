@@ -84,7 +84,7 @@ control 'postfix-4' do
   describe file('/var/spool/mail/') do
     it { should be_a_directory }
     it 'should be an empty directory' do
-      Dir.glob('/var/spool/mail/*').should eq []
+      expect(Dir.glob('/var/spool/mail/*')).to eq []
     end
   end
 end
