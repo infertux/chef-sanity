@@ -4,6 +4,7 @@
 
 ## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
 
+  * e14b1c9 - Use Ruby 4.0
   * e48f74f - Drop support for Debian 12 and Ubuntu 24.04
   * 88894df - Don't commit Gemfile.lock
   * 3d5617d - Update GitLab CI to test against Ubuntu 26.04 LTS
