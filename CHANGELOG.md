@@ -1,5 +1,10 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.0.0...master))
 
+  * TBD
+
+## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
+
+  * e48f74f - Drop support for Debian 12 and Ubuntu 24.04
   * 88894df - Don't commit Gemfile.lock
   * 3d5617d - Update GitLab CI to test against Ubuntu 26.04 LTS
   * b3ed23d - Bump firewall rate limits to prevent false positives
@@ -18,6 +23,11 @@
   * baca577 - Update dependencies
   * a6ccdd5 - Update aws-sdk-s3 and other Gems
   * 31c1923 - Don't use Ruby 4.0 yet
+
+  BREAKING CHANGES:
+  - dropped support for Debian 12, Debian 13 is now the minimum
+  - dropped support for Ubuntu 24.04, Ubuntu 26.04 is now the minimum
+  - replaced /etc/network/interfaces with systemd-networkd (enabled by default, set node['sanity']['network']['interfaces']['manage'] to false to opt out): this requests a reboot, and custom files in /etc/network/interfaces.d make the Chef run fail
 
 ## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
 

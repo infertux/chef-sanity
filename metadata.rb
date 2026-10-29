@@ -6,7 +6,7 @@ description      'Standardize configuration of various machines (VM, cloud, bare
 source_url       'https://github.com/infertux/chef-sanity'
 issues_url       'https://github.com/infertux/chef-sanity/issues'
 
-version          '3.14.0'
+version          '4.0.0'
 chef_version     '>= 18'
 
 supports 'debian', '>= 13.0'
