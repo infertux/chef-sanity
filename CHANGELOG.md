@@ -4,6 +4,7 @@
 
 ## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
 
+  * 708d739 - Test against Cinc 19 and make it the default
   * 049f7ec - Update Berksfile.lock for 4.0.0
   * e02f431 - Remove Gemfile workarounds for missing dependencies
   * d5d2e16 - Fix TESTING.md since tests run with Docker, not Vagrant
