@@ -3,7 +3,7 @@ driver:
   name: dokken
   privileged: true # allows systemd services to start
   chef_image: cincproject/cinc
-  chef_version: <%= ENV.fetch('CHEF_VERSION', 18) %>
+  chef_version: <%= ENV.fetch('CHEF_VERSION', 19) %>
 
 provisioner:
   name: dokken
@@ -38,20 +38,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-13.yml
-  - name: debian-12
-    driver:
-      image: dokken/debian-12
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get upgrade -y
-        - RUN /usr/bin/apt-get purge exim4* -y
-    verifier:
-      inspec_tests:
-        - path: profile/controls
-      input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-12.yml
+        - test/integration/default/inspec/input_files/control-waivers.yml
   - name: ubuntu-26.04
     driver:
       image: dokken/ubuntu-26.04
@@ -64,7 +51,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-ubuntu-2604.yml
+        - test/integration/default/inspec/input_files/control-waivers.yml
 
 suites:
   - name: default
@@ -78,7 +65,6 @@ suites:
         kex: "ecdh-sha2-nistp521,curve25519-sha256@libssh.org"
       } } }
       sanity:
-        firewall: { type: <%= ENV.fetch('FIREWALL_TYPE', 'nftables') %> }
         ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
         ipv6: false # XXX: no IPv6 connectivity available with dokken
         root_email: test@example.local

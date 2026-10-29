@@ -1,6 +1,47 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.0.0...master))
 
   * TBD
+
+## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
+
+  * 708d739 - Test against Cinc 19 and make it the default
+  * 049f7ec - Update Berksfile.lock for 4.0.0
+  * e02f431 - Remove Gemfile workarounds for missing dependencies
+  * d5d2e16 - Fix TESTING.md since tests run with Docker, not Vagrant
+  * bb06368 - Merge identical control waiver files
+  * 1e6329e - Use RSpec expect syntax to fix deprecation warning
+  * bbefe05 - Fix Chef warning about only_if block returning a string
+  * 3a714b8 - Remove firewall type attribute
+  * 87ce987 - Remove UsePrivilegeSeparation setting
+  * 00f60f3 - Remove obsolete apt-transport-https package and Debian family checks
+  * a811618 - Remove broken workstation recipe
+  * e14b1c9 - Use Ruby 4.0
+  * e48f74f - Drop support for Debian 12 and Ubuntu 24.04
+  * 88894df - Don't commit Gemfile.lock
+  * 3d5617d - Update GitLab CI to test against Ubuntu 26.04 LTS
+  * b3ed23d - Bump firewall rate limits to prevent false positives
+  * aab72d5 - Update dependencies
+  * 2cdecd0 - Check NVMe's wear daily and email warning when over 80%
+  * 799965d - Test against Ubuntu 26.04 LTS
+  * 06179b3 - Update deprecated GitHub Action
+  * 5b7f116 - Update dependencies
+  * 5a9b1e1 - Update dependencies
+  * 361648d - Allow mDNS
+  * 0410211 - Bump smartd temperature warning threshold
+  * 8de24de - Update dependencies
+  * aed8ec2 - Tweak Rubocop config
+  * 601749c - Replace /etc/network/interfaces with systemd-networkd
+  * a5652d6 - Update dependencies
+  * baca577 - Update dependencies
+  * a6ccdd5 - Update aws-sdk-s3 and other Gems
+  * 31c1923 - Don't use Ruby 4.0 yet
+
+  BREAKING CHANGES:
+  - dropped support for Debian 12, Debian 13 is now the minimum
+  - dropped support for Ubuntu 24.04, Ubuntu 26.04 is now the minimum
+  - removed the `sanity::workstation` recipe (it was broken)
+  - removed `node['sanity']['firewall']['type']` since nftables is the only supported firewall
+  - replaced /etc/network/interfaces with systemd-networkd (enabled by default, set `node['sanity']['network']['interfaces']['manage']` to false to opt out): this requests a reboot, and custom files in /etc/network/interfaces.d make the Chef run fail
 
 ## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
 

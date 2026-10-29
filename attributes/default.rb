@@ -10,7 +10,6 @@ default['sanity']['ipv6'] = true # set to false to disable IPv6
 
 default['sanity']['email2telegram'] = {} # set token and chat_id to forward outgoing emails to Telegram
 
-default['sanity']['firewall']['type'] = 'nftables'
 default['sanity']['firewall']['ssh_authorized_ips_v4'] = nil # nil means to ANY source IP
 default['sanity']['firewall']['ssh_authorized_ips_v6'] = nil # nil means to NO IPs, i.e. DROP
 
@@ -42,10 +41,7 @@ default['sanity']['packages']['install'] =
   )
 
 # Remove unwanted packages often installed by default
-default['sanity']['packages']['purge'] =
-  value_for_platform_family(
-    %w(debian) => %w(bind9 sysstat),
-  )
+default['sanity']['packages']['purge'] = %w(bind9 sysstat)
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 

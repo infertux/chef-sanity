@@ -1,5 +1,3 @@
-package value_for_platform_family(
-  %w(debian) => 'vrms',
-)
+package 'vrms'
 
 execute 'vrms'

@@ -33,6 +33,5 @@ end
 
 node.default['ssh-hardening']['ssh']['server']['allow_root_with_key'] = true
 node.default['ssh-hardening']['ssh']['server']['host_key_files'] = %w(/etc/ssh/ssh_host_ed25519_key)
-node.default['ssh-hardening']['ssh']['use_privilege_separation'] = 'sandbox'
 
 include_recipe 'ssh-hardening::default'
