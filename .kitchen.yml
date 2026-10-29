@@ -38,7 +38,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-13.yml
+        - test/integration/default/inspec/input_files/control-waivers.yml
   - name: ubuntu-26.04
     driver:
       image: dokken/ubuntu-26.04
@@ -51,7 +51,7 @@ platforms:
       inspec_tests:
         - path: profile/controls
       input_files:
-        - test/integration/default/inspec/input_files/control-waivers-ubuntu-2604.yml
+        - test/integration/default/inspec/input_files/control-waivers.yml
 
 suites:
   - name: default
