@@ -1,5 +1,0 @@
-include_recipe 'sanity::timezone'
-include_recipe 'sanity::resolver'
-include_recipe 'sanity::tmux'
-include_recipe 'sanity::htop'
-include_recipe 'sanity::vim'
