@@ -42,10 +42,7 @@ default['sanity']['packages']['install'] =
   )
 
 # Remove unwanted packages often installed by default
-default['sanity']['packages']['purge'] =
-  value_for_platform_family(
-    %w(debian) => %w(bind9 sysstat),
-  )
+default['sanity']['packages']['purge'] = %w(bind9 sysstat)
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
