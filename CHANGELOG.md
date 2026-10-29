@@ -1,6 +1,23 @@
 ## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...master))
 
-  * TBD
+  * 88894df - Don't commit Gemfile.lock
+  * 3d5617d - Update GitLab CI to test against Ubuntu 26.04 LTS
+  * b3ed23d - Bump firewall rate limits to prevent false positives
+  * aab72d5 - Update dependencies
+  * 2cdecd0 - Check NVMe's wear daily and email warning when over 80%
+  * 799965d - Test against Ubuntu 26.04 LTS
+  * 06179b3 - Update deprecated GitHub Action
+  * 5b7f116 - Update dependencies
+  * 5a9b1e1 - Update dependencies
+  * 361648d - Allow mDNS
+  * 0410211 - Bump smartd temperature warning threshold
+  * 8de24de - Update dependencies
+  * aed8ec2 - Tweak Rubocop config
+  * 601749c - Replace /etc/network/interfaces with systemd-networkd
+  * a5652d6 - Update dependencies
+  * baca577 - Update dependencies
+  * a6ccdd5 - Update aws-sdk-s3 and other Gems
+  * 31c1923 - Don't use Ruby 4.0 yet
 
 ## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
 
