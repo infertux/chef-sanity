@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         suite: ["default-debian-13", "default-ubuntu-2604"]
+        chef_version: [18, 19]
     steps:
       - uses: actions/checkout@v6
       - name: Set up Ruby
@@ -23,8 +24,10 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - name: Run Test Kitchen suite ${{ matrix.suite }}
+      - name: Run Test Kitchen suite ${{ matrix.suite }} with Cinc ${{ matrix.chef_version }}
         run: bundle exec rake kitchen:${{ matrix.suite }}
+        env:
+          CHEF_VERSION: ${{ matrix.chef_version }}
   style:
     runs-on: ubuntu-latest
     steps:
