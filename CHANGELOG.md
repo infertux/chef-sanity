@@ -4,6 +4,16 @@
 
 ## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
 
+  * 049f7ec - Update Berksfile.lock for 4.0.0
+  * e02f431 - Remove Gemfile workarounds for missing dependencies
+  * d5d2e16 - Fix TESTING.md since tests run with Docker, not Vagrant
+  * bb06368 - Merge identical control waiver files
+  * 1e6329e - Use RSpec expect syntax to fix deprecation warning
+  * bbefe05 - Fix Chef warning about only_if block returning a string
+  * 3a714b8 - Remove firewall type attribute
+  * 87ce987 - Remove UsePrivilegeSeparation setting
+  * 00f60f3 - Remove obsolete apt-transport-https package and Debian family checks
+  * a811618 - Remove broken workstation recipe
   * e14b1c9 - Use Ruby 4.0
   * e48f74f - Drop support for Debian 12 and Ubuntu 24.04
   * 88894df - Don't commit Gemfile.lock
@@ -28,6 +38,8 @@
   BREAKING CHANGES:
   - dropped support for Debian 12, Debian 13 is now the minimum
   - dropped support for Ubuntu 24.04, Ubuntu 26.04 is now the minimum
+  - removed the sanity::workstation recipe (it was broken)
+  - removed node['sanity']['firewall']['type'] since nftables is the only supported firewall
   - replaced /etc/network/interfaces with systemd-networkd (enabled by default, set node['sanity']['network']['interfaces']['manage'] to false to opt out): this requests a reboot, and custom files in /etc/network/interfaces.d make the Chef run fail
 
 ## v3.14.0, 2025-12-18 ([changes](https://github.com/infertux/chef-sanity/compare/3.13.2...3.14.0))
