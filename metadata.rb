@@ -9,8 +9,8 @@ issues_url       'https://github.com/infertux/chef-sanity/issues'
 version          '3.14.0'
 chef_version     '>= 18'
 
-supports 'debian', '>= 12.0'
-supports 'ubuntu', '>= 24.04'
+supports 'debian', '>= 13.0'
+supports 'ubuntu', '>= 26.04'
 
 depends 'apt', '~> 7.7'
 depends 'monit-ng', '~> 2.4'

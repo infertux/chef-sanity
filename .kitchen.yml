@@ -39,19 +39,6 @@ platforms:
         - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers-debian-13.yml
-  - name: debian-12
-    driver:
-      image: dokken/debian-12
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get upgrade -y
-        - RUN /usr/bin/apt-get purge exim4* -y
-    verifier:
-      inspec_tests:
-        - path: profile/controls
-      input_files:
-        - test/integration/default/inspec/input_files/control-waivers-debian-12.yml
   - name: ubuntu-26.04
     driver:
       image: dokken/ubuntu-26.04
