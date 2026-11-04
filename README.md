@@ -11,7 +11,7 @@ It applies a common set of packages and settings to any machine (VM, cloud, bare
 
 Here are some highlights of what it does:
 
-- sets up a basic firewall with nftables or iptables to block incoming connections (IPv4 and IPv6)
+- sets up a basic firewall with nftables to block incoming connections (IPv4 and IPv6)
 - sets up NTP and set timezone to UTC
 - sets up a reliable DNS resolver
 - sets up automatic package updates

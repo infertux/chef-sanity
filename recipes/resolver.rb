@@ -14,7 +14,7 @@ end
 
 # https://stackoverflow.com/questions/60549775/device-or-resource-busy-when-i-try-move-etc-resolv-conf-in-ubuntu18-04-how
 execute 'umount -v /etc/resolv.conf' do
-  only_if { ENV.fetch('TEST_KITCHEN', nil) }
+  only_if { ENV.key?('TEST_KITCHEN') }
   ignore_failure true # will fail if already unmounted
 end
 

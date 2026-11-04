@@ -1,8 +1,4 @@
-if platform_family?('debian')
-  package 'apt-transport-https'
-
-  apt_update
-end
+apt_update
 
 include_recipe 'sanity::profile'
 include_recipe 'sanity::swap'
