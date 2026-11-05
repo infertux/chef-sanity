@@ -10,7 +10,6 @@ version          '4.1.0'
 chef_version     '>= 18'
 
 supports 'debian', '>= 13.0'
-supports 'ubuntu', '>= 26.04'
 
 depends 'apt', '~> 7.7'
 depends 'monit-ng', '~> 2.4'

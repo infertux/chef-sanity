@@ -38,18 +38,6 @@ platforms:
         - path: profile/controls
       input_files:
         - test/integration/default/inspec/input_files/control-waivers.yml
-  - name: ubuntu-26.04
-    driver:
-      image: dokken/ubuntu-26.04
-      pid_one_command: /lib/systemd/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get upgrade -y
-    verifier:
-      inspec_tests:
-        - path: profile/controls
-      input_files:
-        - test/integration/default/inspec/input_files/control-waivers.yml
 
 suites:
   - name: default
