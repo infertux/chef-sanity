@@ -1,5 +1,7 @@
 require 'pathname'
 
+include_recipe 'sanity::sysctl'
+
 Pathname.glob('/proc/sys/net/ipv6/conf/*/disable_ipv6').map do |path|
   interface = path.to_s.split('/')[-2]
 

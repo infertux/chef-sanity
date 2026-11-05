@@ -1,5 +1,7 @@
 # Inspired by https://gitlab.archlinux.org/archlinux/infrastructure/-/blob/master/roles/hardening/tasks/main.yml
 
+include_recipe 'sanity::sysctl' # also for the os-hardening cookbook's sysctl settings
+
 sysctl 'kernel.kexec_load_disabled' do # https://sysctl-explorer.net/kernel/kexec_load_disabled/
   only_if { File.writable?('/proc/sys/kernel/kexec_load_disabled') } # unavailable on older kernels
   comment 'Disable kexec load'
