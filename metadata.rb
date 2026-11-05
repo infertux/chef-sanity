@@ -12,7 +12,6 @@ chef_version     '>= 18'
 supports 'debian', '>= 13.0'
 
 depends 'apt', '~> 7.7'
-depends 'monit-ng', '~> 2.4'
 depends 'os-hardening', '~> 4.2'
 depends 'postfix', '~> 7.0'
 depends 'resolver', '~> 4.2'

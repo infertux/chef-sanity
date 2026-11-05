@@ -23,6 +23,7 @@ default['sanity']['monit'] = {
   'swap' => '5%',
   'uptime' => '32 days',
   'filesystem' => { '/' => '75%' },
+  'start_delay' => 60 * 5, # in seconds
 }
 
 default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp package instead of systemd
