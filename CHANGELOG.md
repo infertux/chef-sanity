@@ -1,6 +1,21 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.0.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.1.0...master))
 
   * TBD
+
+## v4.1.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.0.0...4.1.0))
+
+  * 74acb32 - Update Postfix TLS settings to TLSRef guideline v6.0
+  * a7e5561 - Make Postfix use IPv4 only when IPv6 is disabled
+  * 789339a - Fix "postfix check" warnings
+  * bf4e4f2 - Don't chroot Postfix retry service, like upstream's master.cf
+  * e3c0f09 - Migrate to postfix cookbook 7.0 custom resources
+
+  UPGRADE NOTES:
+  - requires the postfix cookbook 7.0, which replaced its recipes and attributes with custom resources: wrappers should edit the `postfix 'default'` resource with `edit_resource!` (see README) instead of setting `node['postfix']` attributes, which the resource properties set by sanity take precedence over
+  - SASL is configured when `smtp_sasl_auth_enable` is `yes` on the `postfix 'default'` resource instead of when `node['postfix']['sasl']` is set
+  - Postfix uses IPv4 only when `node['sanity']['ipv6']` is false: set `node['sanity']['postfix']['inet_protocols']` (instead of `node['postfix']['main']['inet_protocols']`) to override it
+  - outbound SMTP requires TLS 1.2 or later (TLS 1.0 and 1.1 were allowed)
+  - Postfix uses `compatibility_level = 3.6`: `mynetworks` only covers the host itself instead of its subnets, so other hosts on the local network can no longer relay through it, and `relay_domains` is empty
 
 ## v4.0.0, 2026-10-29 ([changes](https://github.com/infertux/chef-sanity/compare/3.14.0...4.0.0))
 
