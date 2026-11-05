@@ -28,6 +28,25 @@ Here are some highlights of what it does:
 
 You can include [extra recipes](https://github.com/infertux/chef-sanity/tree/master/recipes) as you see fit.
 
+### Customizing Postfix
+
+[`sanity::postfix`](https://github.com/infertux/chef-sanity/tree/master/recipes/postfix.rb) configures Postfix with the `postfix 'default'` resource from the [postfix cookbook](https://github.com/sous-chefs/postfix).
+To customize it, edit that resource from a wrapper recipe after including sanity, e.g. to send emails through a relayhost with SASL authentication:
+
+```ruby
+include_recipe 'sanity'
+
+edit_resource!(:postfix, 'default') do
+  main_settings(
+    main_settings.merge(
+      'relayhost' => '[email-smtp.us-west-2.amazonaws.com]:587',
+      'smtp_sasl_auth_enable' => 'yes', # also configures SASL using the credentials below
+    ),
+  )
+  sasl('[email-smtp.us-west-2.amazonaws.com]:587' => { 'username' => 'AKIA...', 'password' => 'secret' })
+end
+```
+
 ## License
 
 MIT

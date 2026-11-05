@@ -18,14 +18,22 @@ template script do
   )
 end
 
-node.default['postfix']['master']['telegram'] = {
-  active: true,
-  order: 600,
-  type: 'unix',
-  unpriv: false,
-  chroot: false,
-  command: 'pipe',
-  args: ["flags=X user=#{username} argv=#{script}"],
-}
+include_recipe 'sanity::postfix'
 
-node.default['postfix']['main']['content_filter'] = 'telegram'
+edit_resource!(:postfix, 'default') do
+  master_settings(
+    master_settings.merge(
+      'telegram' => {
+        'active' => true,
+        'order' => 600,
+        'type' => 'unix',
+        'unpriv' => false,
+        'chroot' => false,
+        'command' => 'pipe',
+        'args' => ["flags=X user=#{username} argv=#{script}"],
+      },
+    ),
+  )
+
+  main_settings(main_settings.merge('content_filter' => 'telegram'))
+end
