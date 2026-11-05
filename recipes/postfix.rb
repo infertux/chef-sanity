@@ -4,28 +4,34 @@ settings = {
   'inet_interfaces' => 'all',
   'inet_protocols' => node['sanity']['postfix']['inet_protocols'] || (node['sanity']['ipv6'] ? 'all' : 'ipv4'),
 
-  # TLS shared options
+  # TLS options
+  # generated 2026-11-05, TLSRef Guideline v6.0, Postfix 3.10.6, OpenSSL 3.5.5, modern config
+  # https://configurator.tlsref.org/#server=postfix&version=3.10.6&config=modern&openssl=3.5.5&guideline=6.0
+  # (Postfix and OpenSSL versions from Ubuntu 26.04, Debian 13 has newer ones)
   # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
   'tls_preempt_cipherlist' => 'no',
+  'tls_eecdh_auto_curves' => 'X25519MLKEM768 X25519 prime256v1 secp384r1',
+  'tls_ffdhe_auto_groups' => '',
 
   # smtp(d)_use_tls are deprecated in favor of smtp(d)_tls_security_level: nil removes the cookbook's defaults from main.cf,
   # so we have to set the settings the cookbook derives from them ourselves
   'smtp_use_tls' => nil,
   'smtpd_use_tls' => nil,
 
-  # TLS client options
-  'smtp_tls_security_level' => 'verify',
+  # TLS client options (smtp_*)
+  'smtp_tls_security_level' => 'verify', # stricter than the guideline's "may"
+  # the guideline's >=TLSv1.3 could make emails bounce from servers which don't support TLS 1.3 yet
+  'smtp_tls_protocols' => '>=TLSv1.2',
+  'smtp_tls_mandatory_protocols' => '>=TLSv1.2',
   'smtp_tls_note_starttls_offer' => 'yes',
   'smtp_tls_CAfile' => '/etc/ssl/certs/ca-certificates.crt',
   'smtp_tls_session_cache_database' => 'btree:${data_directory}/smtp_scache',
 
   # TLS server options (smtpd_*)
-  # generated 2022-12-05, Mozilla Guideline v5.6, Postfix 3.5.13, OpenSSL 1.1.1n, modern configuration
-  # https://ssl-config.mozilla.org/#server=postfix&version=3.5.13&config=modern&openssl=1.1.1n&guideline=5.6
   'smtpd_tls_auth_only' => 'yes',
   'smtpd_tls_security_level' => 'may',
-  'smtpd_tls_protocols' => '!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2',
-  'smtpd_tls_mandatory_protocols' => '!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2',
+  'smtpd_tls_protocols' => '>=TLSv1.3',
+  'smtpd_tls_mandatory_protocols' => '>=TLSv1.3',
   'smtpd_tls_session_cache_database' => 'btree:${data_directory}/smtpd_scache',
   # XXX: If smtpd is going to be used, proper certificates should be generated and
   # set with smtpd_tls_cert_file and smtpd_tls_key_file (see README)
