@@ -5,9 +5,8 @@ settings = {
   'inet_protocols' => node['sanity']['postfix']['inet_protocols'] || (node['sanity']['ipv6'] ? 'all' : 'ipv4'),
 
   # TLS options
-  # generated 2026-11-05, TLSRef Guideline v6.0, Postfix 3.10.6, OpenSSL 3.5.5, modern config
-  # https://configurator.tlsref.org/#server=postfix&version=3.10.6&config=modern&openssl=3.5.5&guideline=6.0
-  # (Postfix and OpenSSL versions from Ubuntu 26.04, Debian 13 has newer ones)
+  # generated 2026-11-05, TLSRef Guideline v6.0, Postfix 3.10.13, OpenSSL 3.5.7, modern config
+  # https://configurator.tlsref.org/#server=postfix&version=3.10.13&config=modern&openssl=3.5.7&guideline=6.0
   # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
   'tls_preempt_cipherlist' => 'no',
   'tls_eecdh_auto_curves' => 'X25519MLKEM768 X25519 prime256v1 secp384r1',
