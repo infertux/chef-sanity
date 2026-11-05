@@ -2,15 +2,9 @@ DEPENDENCIES
   monit-ng
     git: https://github.com/creativemarket/monit-ng.git
     revision: fe054cfc53ac6a7e12e225a9af7f5eb7ac2e6e27
-  os-hardening
-    git: https://github.com/dev-sec/chef-os-hardening.git
-    revision: 202ccdd4551fd0eb2ae10d6ede2b52eae092aa15
   sanity
     path: .
     metadata: true
-  ssh-hardening
-    git: https://github.com/dev-sec/chef-ssh-hardening.git
-    revision: a3bff54dffc816b77d2c71c79265799dd83f8aae
 
 GRAPH
   apt (7.7.0)
