@@ -1,5 +1,5 @@
 control 'postfix-1' do
-  title 'Postfix is listening'
+  title 'Postfix is listening on IPv4 only' # since IPv6 is disabled in .kitchen.yml
   impact 1.0
 
   describe service('postfix') do
@@ -8,8 +8,8 @@ control 'postfix-1' do
 
   describe port(25) do
     it { should be_listening }
-    its('protocols') { should cmp %w(tcp tcp6) }
-    its('addresses') { should cmp %w(0.0.0.0 ::) }
+    its('protocols') { should cmp %w(tcp) }
+    its('addresses') { should cmp %w(0.0.0.0) }
     its('processes') { should cmp %w(master) }
   end
 end
@@ -20,6 +20,10 @@ control 'postfix-2' do
 
   describe command('postconf -h mynetworks') do
     its('stdout') { should match /127\.0\.0\.[01]/ }
+  end
+
+  describe command('postconf -h inet_protocols') do
+    its('stdout') { should cmp "ipv4\n" }
   end
 
   describe command('postconf -h compatibility_level') do
