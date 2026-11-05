@@ -2,6 +2,7 @@ settings = {
   # https://www.postfix.org/COMPATIBILITY_README.html
   'compatibility_level' => '3.6',
   'inet_interfaces' => 'all',
+  'inet_protocols' => node['sanity']['postfix']['inet_protocols'] || (node['sanity']['ipv6'] ? 'all' : 'ipv4'),
 
   # TLS shared options
   # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays

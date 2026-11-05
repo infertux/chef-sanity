@@ -6,7 +6,7 @@ ipaddress = IPAddr.new(node['ipaddress'])
 default['sanity']['ipv4_reachable'] = !ipaddress.private? && !ipaddress.link_local? && !ipaddress.loopback? # override to false if you don't have a reachable public IPv4
 Chef::Log.info "Primary IPv4 address #{ipaddress} auto-detected as #{'NOT ' unless node['sanity']['ipv4_reachable']}reachable"
 
-default['sanity']['ipv6'] = true # set to false to disable IPv6
+default['sanity']['ipv6'] = true # set to false to disable IPv6 (also makes SSH and Postfix use IPv4 only)
 
 default['sanity']['email2telegram'] = {} # set token and chat_id to forward outgoing emails to Telegram
 
@@ -44,6 +44,8 @@ default['sanity']['packages']['install'] =
 default['sanity']['packages']['purge'] = %w(bind9 sysstat)
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
+
+default['sanity']['postfix']['inet_protocols'] = nil # nil means 'all', or 'ipv4' if IPv6 is disabled; set to 'ipv4' to keep IPv6 but not for Postfix
 
 default['sanity']['smartmontools']['enable'] = true # set to false for machines without HDD/SSD storage
 
