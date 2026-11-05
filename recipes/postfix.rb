@@ -32,7 +32,7 @@ postfix 'default' do
       'active' => true,
       'order' => 900, # should be last, see postfix_default_master_settings in https://github.com/sous-chefs/postfix/blob/main/libraries/helpers.rb
       'type' => 'unix',
-      'chroot' => true,
+      'chroot' => false,
       'command' => 'error',
       'args' => [],
     },
