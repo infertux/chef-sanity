@@ -1,6 +1,15 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.1.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.2.0...master))
 
   * TBD
+
+## v4.2.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.1.0...4.2.0))
+
+  * 029c5fe - Drop support for Ubuntu
+  * c86904c - Use Supermarket versions of os-hardening and ssh-hardening
+  * b649a1a - Create /etc/sysctl.conf for Chef < 19.4.20 instead of in tests
+
+  UPGRADE NOTES:
+  - dropped support for Ubuntu, Debian 13 is the only supported platform
 
 ## v4.1.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.0.0...4.1.0))
 

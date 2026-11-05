@@ -15,7 +15,7 @@ GRAPH
   os-hardening (4.2.0)
   postfix (7.0.3)
   resolver (4.3.0)
-  sanity (4.1.0)
+  sanity (4.2.0)
     apt (~> 7.7)
     monit-ng (~> 2.4)
     os-hardening (~> 4.2)
