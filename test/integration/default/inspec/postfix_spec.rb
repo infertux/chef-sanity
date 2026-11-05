@@ -22,12 +22,17 @@ control 'postfix-2' do
     its('stdout') { should match /127\.0\.0\.[01]/ }
   end
 
-  describe command('postconf -h smtp_use_tls') do
-    its('stdout') { should cmp "yes\n" }
+  describe command('postconf -h compatibility_level') do
+    its('stdout') { should cmp "3.6\n" }
   end
 
-  describe command('postconf -h smtpd_use_tls') do
-    its('stdout') { should cmp "yes\n" }
+  # deprecated in favor of smtp(d)_tls_security_level
+  describe command('postconf -n') do
+    its('stdout') { should_not match /^smtpd?_use_tls\b/ }
+  end
+
+  describe command('postconf -h smtp_tls_security_level') do
+    its('stdout') { should cmp "verify\n" }
   end
 
   describe command('postconf -h smtpd_tls_security_level') do
@@ -53,6 +58,26 @@ control 'postfix-2' do
   describe command('postconf -h tls_preempt_cipherlist') do
     # https://security.stackexchange.com/questions/200176/is-tls-preempt-cipherlist-yes-in-postfix-a-good-idea-nowadays
     its('stdout') { should cmp "no\n" }
+  end
+end
+
+control 'postfix-2b' do
+  title 'Postfix configuration has no warnings'
+  impact 0.5
+
+  describe command('postfix check') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should cmp '' }
+    its('stderr') { should cmp '' }
+  end
+
+  # Debian's chroot syncing is disabled since no service runs chrooted
+  describe command('postfix chroot query') do
+    its('stdout') { should cmp "off\n" }
+  end
+
+  describe file('/var/spool/postfix/etc') do
+    it { should_not exist }
   end
 end
 
