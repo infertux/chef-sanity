@@ -1,6 +1,16 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.2.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.3.0...master))
 
   * TBD
+
+## v4.3.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.2.0...4.3.0))
+
+  * 60c5db8 - Only run CI on push for master
+  * 49f56dd - Configure Monit without the monit-ng cookbook
+  * 140bfb7 - Add a ci job to require in branch protection
+
+  UPGRADE NOTES:
+  - no longer depends on the monit-ng cookbook: `node['monit']` attributes have no effect anymore, set `node['sanity']['monit']['start_delay']` instead of `node['monit']['config']['start_delay']`
+  - Monit uses Debian's `/etc/monit/monitrc`, which is restored where monit-ng had replaced it, and sanity's settings are in `/etc/monit/conf.d/sanity.conf`: Monit gets a new id and starts with a fresh state once, since its id file, state file and event queue move to Debian's paths under `/var/lib/monit`
 
 ## v4.2.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.1.0...4.2.0))
 
