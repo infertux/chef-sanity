@@ -48,11 +48,27 @@ control 'postfix-2' do
   end
 
   describe command('postconf -h smtpd_tls_mandatory_protocols') do
-    its('stdout') { should cmp "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2\n" }
+    its('stdout') { should cmp ">=TLSv1.3\n" }
   end
 
   describe command('postconf -h smtpd_tls_protocols') do
-    its('stdout') { should cmp "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, !TLSv1.2\n" }
+    its('stdout') { should cmp ">=TLSv1.3\n" }
+  end
+
+  describe command('postconf -h smtp_tls_mandatory_protocols') do
+    its('stdout') { should cmp ">=TLSv1.2\n" }
+  end
+
+  describe command('postconf -h smtp_tls_protocols') do
+    its('stdout') { should cmp ">=TLSv1.2\n" }
+  end
+
+  describe command('postconf -h tls_eecdh_auto_curves') do
+    its('stdout') { should cmp "X25519MLKEM768 X25519 prime256v1 secp384r1\n" }
+  end
+
+  describe command('postconf -h tls_ffdhe_auto_groups') do
+    its('stdout') { should cmp "\n" }
   end
 
   describe command('postconf -h smtpd_tls_mandatory_ciphers') do
@@ -115,5 +131,20 @@ control 'postfix-4' do
     it 'should be an empty directory' do
       expect(Dir.glob('/var/spool/mail/*')).to eq []
     end
+  end
+end
+
+control 'postfix-5' do
+  title 'Postfix negotiates TLS properly'
+  impact 0.5
+
+  # offering only the post-quantum hybrid group makes the handshake fail if the server doesn't support it
+  describe command('openssl s_client -connect 127.0.0.1:25 -starttls smtp -groups X25519MLKEM768 -brief </dev/null 2>&1') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /^Protocol version: TLSv1\.3$/ }
+  end
+
+  describe command('openssl s_client -connect 127.0.0.1:25 -starttls smtp -tls1_2 -brief </dev/null 2>&1') do
+    its('exit_status') { should_not eq 0 }
   end
 end
