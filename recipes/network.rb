@@ -32,6 +32,10 @@ systemd_unit 'systemd-networkd.service' do
   action %i(enable)
 end
 
+# Without IPv6, systemd-networkd must neither get public addresses and routes from router advertisements, nor enable
+# IPv6 on the interfaces again for link-local addresses, which sanity::ipv6 would disable again on the next Chef run
+ipv6 = node['sanity']['ipv6'] ? 'IPv6AcceptRA=true' : "IPv6AcceptRA=false\nLinkLocalAddressing=no"
+
 file '/etc/systemd/network/20-wired.network' do
   owner 'root'
   group 'root'
@@ -44,7 +48,7 @@ file '/etc/systemd/network/20-wired.network' do
 
     [Network]
     DHCP=ipv4
-    IPv6AcceptRA=true
+    #{ipv6}
 
     [DHCPv4]
     UseDNS=false
