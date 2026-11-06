@@ -19,6 +19,7 @@ Here are some highlights of what it does:
 - sets up a local Mail Transfer Agent using Postfix to send emails to sysadmin, directly or through a relay
 - sets up Monit to alert sysadmin when CPU, memory, disk, etc. is overused
 - sets up SMART to monitor hard drive failures
+- sets up sysstat to record CPU, memory, disk and network activity every minute, to look back at it with `sar`
 - installs a few useful packages like tmux, btop, curl, etc.
 - hardens various OS settings for better security
 

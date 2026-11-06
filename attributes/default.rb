@@ -42,7 +42,7 @@ default['sanity']['packages']['install'] =
   )
 
 # Remove unwanted packages often installed by default
-default['sanity']['packages']['purge'] = %w(bind9 sysstat)
+default['sanity']['packages']['purge'] = %w(bind9)
 
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
@@ -68,3 +68,6 @@ default['sanity']['ssh']['authorized_keys'] = nil # don't touch keys if nil/empt
 default['sanity']['swap']['swappiness'] = 10
 default['sanity']['swap']['swapfile']['path'] = '/swapfile'
 default['sanity']['swap']['swapfile']['size'] = 0 # in GiB, set to 0 to disable
+
+default['sanity']['sysstat']['enable'] = true # set to false to stop recording system activity and purge sysstat, which deletes the recorded history in /var/log/sysstat
+default['sanity']['sysstat']['interval'] = 1 # in minutes, how often to record system activity: must divide 60 (1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 or 60)
