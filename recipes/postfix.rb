@@ -38,6 +38,14 @@ settings = {
   'smtpd_tls_key_file' => '/etc/ssl/private/ssl-cert-snakeoil.key',
 }
 
+relay = node['sanity']['postfix']['relay']
+unless relay.empty?
+  settings['relayhost'] = relay.fetch('host')
+  settings['smtp_sasl_auth_enable'] = 'yes' if relay['username'] # also makes the postfix resource configure SASL
+  # relays usually only accept their own address as sender: send everything (root@fqdn, monit@fqdn, etc.) from root_email
+  settings['sender_canonical_maps'] = "static:#{node['sanity']['root_email']}" unless node['sanity']['root_email'].empty?
+end
+
 # None of our master.cf services run chrooted, so don't let Debian copy files into the chroot (/var/spool/postfix/etc):
 # it copies /etc/resolv.conf with its owner (systemd-resolve), and "postfix check" warns that it's not owned by root.
 # XXX: chrooted services would need SYNC_CHROOT to get these files (see /usr/share/doc/postfix/README.Debian.gz)
@@ -66,6 +74,8 @@ postfix 'default' do
 
   use_virtual_aliases true
   virtual_aliases("@#{node['fqdn']}" => node['sanity']['root_email']) # send ALL emails for our FQDN to root_email
+
+  sasl(relay['host'] => { 'username' => relay['username'], 'password' => relay['password'] }) if relay['username']
 end
 
 # the path unit also copies /etc/resolv.conf into the chroot whenever it changes

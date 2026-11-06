@@ -53,4 +53,7 @@ suites:
         ssh: { authorized_keys: ["ssh-ed25519 AAAA+testkey test@example.net"] }
         ipv6: false # XXX: no IPv6 connectivity available with dokken
         root_email: test@example.local
+        postfix:
+          # unreachable relay: emails stay queued, which lets tests inspect them
+          relay: { host: "[smtp.example.local]:587", username: test@example.local, password: secret }
         monit: { start_delay: 0 } # start Monit immediately to run tests
