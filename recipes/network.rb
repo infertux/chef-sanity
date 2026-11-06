@@ -3,8 +3,29 @@ return unless node['sanity']['network']['interfaces']['manage']
 interface = node['network']['default_interface']
 raise "Unexpected default interface: #{interface}" unless interface.start_with?('e')
 
+# systemd-networkd only gets DHCP and IPv6 autoconfiguration (see 20-wired.network below): refuse to replace any other
+# configuration, e.g. a static address would be lost, or silently replaced by another one if a DHCP server answers
+if ::File.exist?('/etc/network/interfaces')
+  config = ::File.read('/etc/network/interfaces').gsub("\\\n", '') # a line ending with a backslash goes on with the next one
+  problems = []
+
+  methods = config.scan(/^\s*iface\s+\S+\s+(\S+)\s+(\S+)/).map { |family, method| "#{family} #{method}" }.uniq
+  methods -= ['inet loopback', 'inet6 loopback', 'inet dhcp', 'inet6 auto']
+  problems << "/etc/network/interfaces uses #{methods.join(', ')}" unless methods.empty?
+
+  # Sourced files can't be checked reliably, ifupdown expands their paths like a shell (see interfaces(5)): only accept
+  # the source directive written by Debian's installer, for /etc/network/interfaces.d, which must be empty
+  sources = config.scan(/^\s*source(?:-directory)?\s.*$/).map { |line| line.split.join(' ') }
+  sources -= ['source /etc/network/interfaces.d/*', 'source-directory /etc/network/interfaces.d']
+  problems << "/etc/network/interfaces sources other files (#{sources.join(', ')})" unless sources.empty?
+  custom = ::Dir.exist?('/etc/network/interfaces.d') ? ::Dir.children('/etc/network/interfaces.d').sort : []
+  problems << "/etc/network/interfaces.d has files (#{custom.join(', ')})" unless custom.empty?
+
+  raise "Refusing to switch to systemd-networkd, which only gets DHCP and IPv6 autoconfiguration: #{problems.join('; ')} (convert the configuration manually or set node['sanity']['network']['interfaces']['manage'] to false)" unless problems.empty?
+end
+
 directory '/etc/network/interfaces.d' do
-  action :delete # XXX: will fail on purpose if any custom files are present
+  action :delete # empty, see above
 end
 
 systemd_unit 'systemd-networkd.service' do
