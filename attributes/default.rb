@@ -47,6 +47,7 @@ default['sanity']['packages']['purge'] = %w(bind9 sysstat)
 default['sanity']['packages']['fail_on_leftover_configuration_files'] = false
 
 default['sanity']['postfix']['inet_protocols'] = nil # nil means 'all', or 'ipv4' if IPv6 is disabled; set to 'ipv4' to keep IPv6 but not for Postfix
+default['sanity']['postfix']['relay'] = {} # set host (e.g. '[smtp.example.net]:587') to send all emails through that relay from root_email, plus username and password if it requires authentication
 
 default['sanity']['smartmontools']['enable'] = true # set to false for machines without HDD/SSD storage
 

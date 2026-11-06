@@ -148,3 +148,43 @@ control 'postfix-5' do
     its('exit_status') { should_not eq 0 }
   end
 end
+
+control 'postfix-6' do
+  title 'Postfix sends emails through the relay with SASL authentication'
+  impact 1
+
+  describe command('postconf -h relayhost') do
+    its('stdout') { should cmp "[smtp.example.local]:587\n" }
+  end
+
+  describe command('postconf -h smtp_sasl_auth_enable') do
+    its('stdout') { should cmp "yes\n" }
+  end
+
+  describe file('/etc/postfix/sasl_passwd') do
+    it { should be_owned_by 'root' }
+    its('mode') { should cmp '0400' }
+  end
+
+  # look up the compiled map, whatever its database type
+  describe command('postmap -q "[smtp.example.local]:587" "$(postconf -h smtp_sasl_password_maps)"') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should cmp "test@example.local:secret\n" }
+  end
+end
+
+control 'postfix-7' do
+  title 'Postfix sends all emails from root_email through the relay'
+  impact 1
+
+  describe command('postconf -h sender_canonical_maps') do
+    its('stdout') { should cmp "static:test@example.local\n" }
+  end
+
+  # the relay is unreachable so the email stays queued with its rewritten sender
+  describe command('printf "Subject: sender test\n\ntest\n" | /usr/sbin/sendmail -f root nobody@example.net && sleep 2 && postqueue -j') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /"sender": ?"test@example\.local"/ }
+    its('stdout') { should_not match /"sender": ?"root/ }
+  end
+end
