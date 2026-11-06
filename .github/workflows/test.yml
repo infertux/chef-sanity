@@ -20,6 +20,8 @@ jobs:
         chef_version: [18, 19]
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false # no job pushes, keep the token off the disk
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -33,6 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -46,6 +50,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Install dnsmasq
         run: sudo apt-get update && sudo apt-get install -y dnsmasq-base
       - name: Run network tests, with IPv6
