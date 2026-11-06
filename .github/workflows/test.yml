@@ -40,10 +40,20 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run style checks
         run: bundle exec rake style:ruby
+  network:
+    # switching from ifupdown to systemd-networkd, which Test Kitchen can't cover
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install dnsmasq
+        run: sudo apt-get update && sudo apt-get install -y dnsmasq-base
+      - name: Run network tests, with IPv6
+        run: sudo env REQUIRE_IPV6=1 test/network/test.sh
   ci:
     # single status check to require in branch protection: it doesn't change with the matrix
     if: always()
-    needs: [kitchen, style]
+    needs: [kitchen, style, network]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless all jobs succeeded
