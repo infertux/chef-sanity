@@ -1,6 +1,23 @@
-## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.3.0...master))
+## Unreleased ([changes](https://github.com/infertux/chef-sanity/compare/4.4.0...master))
 
   * TBD
+
+## v4.4.0, 2026-11-11 ([changes](https://github.com/infertux/chef-sanity/compare/4.3.0...4.4.0))
+
+  * 117b3de - Note in CLAUDE.md that only fresh Debian 13 installs are supported
+  * 4848039 - Don't keep the GitHub token in the CI checkouts
+  * 2e6fd9e - Test the switch to systemd-networkd in a GitHub Actions job
+  * b613b8b - Keep public IPv6 away when node['sanity']['ipv6'] is false
+  * 57e8231 - Refuse to switch configurations other than DHCP to systemd-networkd
+  * 9c4af7d - Switch to systemd-networkd without rebooting
+  * e7302bb - Record system activity every minute with sysstat instead of purging it
+  * f35e06c - Add relay attribute to send emails through an SMTP relay
+
+  UPGRADE NOTES:
+  - sysstat is now installed and records system activity every minute instead of being purged: set `node['sanity']['sysstat']['enable']` to false to keep purging it (which also deletes its history in `/var/log/sysstat`), or `node['sanity']['sysstat']['interval']` (a divisor of 60) to record less often
+  - the switch from ifupdown to systemd-networkd no longer reboots the machine: ifupdown's units are stopped and systemd-networkd takes over in the same Chef run
+  - the Chef run now fails before changing anything when `/etc/network/interfaces` uses a method other than loopback, dhcp or inet6 auto (e.g. a static address), sources files outside `/etc/network/interfaces.d`, or when that directory isn't empty
+  - when `node['sanity']['ipv6']` is false, systemd-networkd no longer accepts router advertisements or configures link-local addresses, so machines get no public IPv6 address or route
 
 ## v4.3.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.2.0...4.3.0))
 
