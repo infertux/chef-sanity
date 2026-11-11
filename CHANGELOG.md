@@ -15,9 +15,10 @@
 
   UPGRADE NOTES:
   - sysstat is now installed and records system activity every minute instead of being purged: set `node['sanity']['sysstat']['enable']` to false to keep purging it (which also deletes its history in `/var/log/sysstat`), or `node['sanity']['sysstat']['interval']` (a divisor of 60) to record less often
-  - the switch from ifupdown to systemd-networkd no longer reboots the machine: ifupdown's units are stopped and systemd-networkd takes over in the same Chef run
-  - the Chef run now fails before changing anything when `/etc/network/interfaces` uses a method other than loopback, dhcp or inet6 auto (e.g. a static address), sources files outside `/etc/network/interfaces.d`, or when that directory isn't empty
-  - when `node['sanity']['ipv6']` is false, systemd-networkd no longer accepts router advertisements or configures link-local addresses, so machines get no public IPv6 address or route
+  - when `node['sanity']['network']['interfaces']['manage']` is true (the default), sanity::network:
+    - switches from ifupdown to systemd-networkd without rebooting the machine: ifupdown's units are stopped and systemd-networkd takes over in the same Chef run
+    - fails before changing the network configuration when `/etc/network/interfaces` uses a method other than loopback, dhcp or inet6 auto (e.g. a static address), has source directives other than `source /etc/network/interfaces.d/*` or `source-directory /etc/network/interfaces.d`, or when `/etc/network/interfaces.d` isn't empty: convert the configuration manually or set `node['sanity']['network']['interfaces']['manage']` to false
+    - configures systemd-networkd to accept no router advertisements and configure no link-local addresses when `node['sanity']['ipv6']` is false, so machines get no public IPv6 address or route
 
 ## v4.3.0, 2026-11-05 ([changes](https://github.com/infertux/chef-sanity/compare/4.2.0...4.3.0))
 
