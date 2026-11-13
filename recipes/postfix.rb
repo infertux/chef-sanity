@@ -73,7 +73,8 @@ postfix 'default' do
   use_alias_maps true
 
   use_virtual_aliases true
-  virtual_aliases("@#{node['fqdn']}" => node['sanity']['root_email']) # send ALL emails for our FQDN to root_email
+  # send ALL emails for our FQDN to root_email, without one they're delivered to local mailboxes
+  virtual_aliases(node['sanity']['root_email'].empty? ? {} : { "@#{node['fqdn']}" => node['sanity']['root_email'] })
 
   sasl(relay['host'] => { 'username' => relay['username'], 'password' => relay['password'] }) if relay['username']
 end
