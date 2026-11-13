@@ -23,6 +23,28 @@ node.override['ssh-hardening']['ssh']['server']['listen_to'] =
 
 node.default['ssh-hardening']['network']['ipv6']['enable'] = node['sanity']['ipv6']
 
+# At boot, network.target doesn't wait for the addresses: sshd can start before systemd-networkd has the primary address
+# it listens on, fail to bind it and exit with 255, which Debian's ssh.service doesn't restart. Restart it until it
+# binds instead. Every 5 seconds stays under systemd's default start limit (5 starts in 10 seconds), so it never gives up.
+# Each failed start also emails root through sanity::systemd's OnFailure handler, so the delay grows to 5 minutes.
+# (Waiting for network-online.target would delay sshd by systemd-networkd-wait-online's 2 minutes whenever a link it
+# waits for never comes up, e.g. an unplugged NIC.)
+directory '/etc/systemd/system/ssh.service.d'
+
+systemd_unit 'ssh.service.d/sanity.conf' do
+  content <<~SYSTEMD
+    [Service]
+    Restart=on-failure
+    RestartPreventExitStatus=
+    RestartSec=5s
+    RestartSteps=8
+    RestartMaxDelaySec=5min
+  SYSTEMD
+
+  verify false # XXX: drop-ins fail verification, like service.d/10-all.conf in sanity::systemd
+  action :create
+end
+
 %w(client server).each do |component|
   # recommended crypto from https://github.com/dev-sec/ssh-baseline
   # and https://sshcheck.com/
