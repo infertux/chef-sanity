@@ -1,5 +1,7 @@
 # Inspired by https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html
 
+email = node['sanity']['root_email'].empty? ? 'root' : node['sanity']['root_email'] # root's local mailbox without root_email
+
 directory '/etc/systemd/system/failure-handler@.service.d'
 
 link '/etc/systemd/system/failure-handler@.service.d/10-all.conf' do
@@ -13,7 +15,7 @@ systemd_unit 'failure-handler@.service' do
 
     [Service]
     Type=oneshot
-    ExecStart=/bin/bash -c 'echo "Service %i failed on %l\\n\\n$(journalctl --no-pager -n 15 -u %i)" | /usr/bin/mail #{node['sanity']['root_email']}'
+    ExecStart=/bin/bash -c 'echo "Service %i failed on %l\\n\\n$(journalctl --no-pager -n 15 -u %i)" | /usr/bin/mail #{email}'
   SYSTEMD
 
   action :create

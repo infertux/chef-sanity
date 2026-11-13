@@ -7,4 +7,6 @@ token="<%= @token %>"
 chat_id="<%= @chat_id %>"
 url="https://api.telegram.org/bot${token}/sendMessage"
 
-curl -s -X POST "${url}" -d chat_id="${chat_id}" --data-urlencode text="${message::2048}"
+# Exit with EX_TEMPFAIL when Telegram doesn't take the message (--fail makes curl exit non-zero on HTTP errors), so that
+# Postfix keeps it queued and retries instead of considering it delivered
+curl -sS --fail --max-time 60 -X POST "${url}" -d chat_id="${chat_id}" --data-urlencode text="${message::2048}" >/dev/null || exit 75
