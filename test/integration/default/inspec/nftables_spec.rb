@@ -14,3 +14,14 @@ control 'nftables-1' do
     its('stdout') { should match /ip saddr .+ tcp dport ({ 22 }|22) ct state new/ }
   end
 end
+
+control 'nftables-2' do
+  title 'custom rules are rebuilt without any sanity_nft'
+  impact 0.5
+
+  # the suite declares no sanity_nft: custom.nft is still written, which is what empties it when the last one is removed
+  describe file('/etc/nftables.d/custom.nft') do
+    it { should be_file }
+    its('content') { should eq '' }
+  end
+end
