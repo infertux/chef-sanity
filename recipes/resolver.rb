@@ -1,7 +1,12 @@
 package 'systemd-resolved'
 
+# IPv6 servers are left out here rather than in sanity's attributes, which are computed before the attribute files and
+# recipes of wrapper cookbooks can disable IPv6 (an IPv6 address has at least two colons, an IPv4 one at most one)
+dns_servers = Array(node['sanity']['resolver']['dns']).flat_map { |servers| servers.split(/[\s,]+/) }.reject(&:empty?) # also a string, like the resolver cookbook takes
+dns_servers = dns_servers.reject { |server| server.count(':') >= 2 } unless node['sanity']['ipv6']
+
 resolver_systemd_resolved_config '/etc/systemd/resolved.conf' do
-  dns node['sanity']['resolver']['dns']
+  dns dns_servers
   dnssec node['sanity']['resolver']['dnssec']
   dns_over_tls 'opportunistic'
 end
