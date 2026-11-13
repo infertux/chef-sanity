@@ -113,24 +113,28 @@ control 'postfix-3' do
 end
 
 control 'postfix-4' do
-  title 'Postfix is forwarding mails to root'
+  title 'Postfix forwards mail for local users to root_email'
   impact 1
 
-  command('date | /usr/sbin/sendmail root')
-  command('date | /usr/sbin/sendmail nobody')
-  command('date | /usr/sbin/sendmail catchall')
-  command('sleep 1')
-
-  describe command('mailq') do
+  # the relay is unreachable so the emails stay queued: list each one as "original recipient -> recipient", so a bounce
+  # (sent back to the rewritten sender) can't stand in for an email that wasn't forwarded
+  queue = <<~'SH'
+    for user in root nobody catchall; do date | /usr/sbin/sendmail "$user" || exit; done && sleep 2 &&
+    for id in $(postqueue -j | sed -n 's/.*"queue_id": *"\([^"]*\)".*/\1/p'); do
+      postcat -eq "$id" | sed -n 's/^original_recipient: //p; s/^recipient: / -> /p' | tr -d '\n'; echo
+    done
+  SH
+  describe command(queue) do
     its('exit_status') { should eq 0 }
-    its('stderr') { should cmp '' }
+    %w(root nobody catchall).each do |user|
+      its('stdout') { should match /^#{user} -> test@example\.local$/ }
+    end
   end
 
-  describe file('/var/spool/mail/') do
-    it { should be_a_directory }
-    it 'should be an empty directory' do
-      expect(Dir.glob('/var/spool/mail/*')).to eq []
-    end
+  # nothing is delivered to local mailboxes (/var/spool/mail is a symlink to /var/mail, which find wouldn't follow)
+  describe command('find /var/mail -mindepth 1') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should eq '' }
   end
 end
 

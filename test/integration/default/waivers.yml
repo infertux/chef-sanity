@@ -38,11 +38,15 @@ sshd-01:
   run: false
 
 sshd-02:
-  justification: "we need the weak ecdh-sha2-nistp521 kex for inspec which is overridden in .kitchen.yml - the actual recipe ssh.rb will set the recommended kex"
+  justification: "sanity::ssh sets its own kex, see recipes/ssh.rb"
   run: false
 
 sshd-03:
   justification: "same as ssh-10 regarding hmac-ripemd160"
+  run: false
+
+sshd-14:
+  justification: "sanity::ssh only uses the ed25519 host key"
   run: false
 
 sshd-16:
