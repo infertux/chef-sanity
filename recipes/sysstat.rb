@@ -7,6 +7,9 @@ interval = node['sanity']['sysstat']['interval']
 valid_interval = interval.is_a?(Integer) && interval.positive? && (60 % interval).zero?
 raise ArgumentError, "node['sanity']['sysstat']['interval'] must be a number of minutes that divides 60 (1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 or 60), got #{interval.inspect}" if enable && !valid_interval
 
+# systemd rejects a repetition as long as the range it repeats in (*:00/60), so every 60 minutes is at minute 0
+calendar = interval == 60 ? '*:00' : "*:00/#{interval}"
+
 package 'sysstat' do
   action enable ? :install : :purge
 end
@@ -34,7 +37,7 @@ systemd_unit 'sysstat-collect.timer.d/sanity.conf' do
 
     [Timer]
     OnCalendar=
-    OnCalendar=*:00/#{interval}
+    OnCalendar=#{calendar}
   SYSTEMD
 
   verify false # XXX: drop-ins fail verification, like service.d/10-all.conf in sanity::systemd
