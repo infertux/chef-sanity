@@ -31,13 +31,16 @@ end
 
 nvme_script = '/usr/local/sbin/nvme-check-wear'
 
+# it needs smartctl, from smartmontools
 cookbook_file nvme_script do
+  action enable ? :create : :delete
   owner  'root'
   group  'root'
   mode   '0755'
 end
 
 cron_d File.basename(nvme_script) do
+  action enable ? :create : :delete
   hour 1
   minute 0
   user 'root'
