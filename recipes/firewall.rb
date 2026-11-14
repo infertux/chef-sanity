@@ -18,16 +18,6 @@ end
 
 package 'nftables'
 
-service 'nftables' do
-  action %i(enable)
-end
-
-execute 'nft-check' do
-  action :nothing
-  command 'nft --check -f /etc/nftables.conf'
-  notifies :restart, 'service[nftables]', :immediately
-end
-
 directory '/etc/nftables.d' do
   owner 'root'
   group 'root'
@@ -39,11 +29,25 @@ template '/etc/nftables.conf' do
   owner 'root'
   group 'root'
   mode '0500'
-  notifies :run, 'execute[nft-check]'
+  verify 'nft --check -f %{path}' # a configuration nft can't load would also leave no firewall at the next boot
+  notifies :reload, 'service[nftables]', :immediately
   variables(
     ssh_authorized_ips_v4: ssh_authorized_ips_v4,
     ssh_authorized_ips_v6: ssh_authorized_ips_v6,
   )
 end
 
-sanity_firewall # initialize the default ruleset
+# Reload rather than restart to apply changes: reloading applies /etc/nftables.conf in a single transaction, which
+# keeps the current rules if it fails, while restarting flushes them first and would leave no firewall at all.
+# A reload does nothing when the service isn't active, so it's started here, after the configuration is written:
+# starting it before would load the previous one, which can't be repaired if nft rejects it.
+service 'nftables' do
+  supports reload: true
+  action %i(enable start)
+end
+
+# Rebuild custom.nft at the end of every run, from the sanity_nft rules declared by then: this also empties it when the
+# last one is removed.
+sanity_firewall 'default' do
+  delayed_action :rebuild
+end

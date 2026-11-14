@@ -1,4 +1,5 @@
 enable = node['sanity']['smartmontools']['enable']
+email = node['sanity']['root_email'].empty? ? 'root' : node['sanity']['root_email'] # root's local mailbox without root_email
 
 package 'smartmontools' do
   action enable ? :install : :purge
@@ -17,7 +18,7 @@ file '/etc/smartd.conf' do
   notifies :restart, 'service[smartmontools]'
   content [
     'DEVICESCAN -a', # monitor all attributes
-    "-m #{node['sanity']['root_email']}", # send warning emails to this address
+    "-m #{email}", # send warning emails to this address
     '-M exec /usr/share/smartmontools/smartd-runner', # use helper script shipped with https://packages.debian.org/bullseye/amd64/smartmontools/filelist
     '-S on', # enables Attribute Autosave when smartd starts up
     '-W 5,60,65', # log changes of 5+ degrees, or when temp over 60, and warns when over 65 (typical manufacturer max temp is 60 for HDDs and 70 for (NVME) SSDs)
@@ -30,13 +31,16 @@ end
 
 nvme_script = '/usr/local/sbin/nvme-check-wear'
 
+# it needs smartctl, from smartmontools
 cookbook_file nvme_script do
+  action enable ? :create : :delete
   owner  'root'
   group  'root'
   mode   '0755'
 end
 
 cron_d File.basename(nvme_script) do
+  action enable ? :create : :delete
   hour 1
   minute 0
   user 'root'

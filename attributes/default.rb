@@ -26,7 +26,7 @@ default['sanity']['monit'] = {
   'start_delay' => 60 * 5, # in seconds
 }
 
-default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use the ntp package instead of systemd
+default['sanity']['ntp'] = 'systemd-timesyncd' # set to 'ntp' to use ntpsec instead of systemd
 
 # Install useful packages
 default['sanity']['packages']['install'] =
@@ -57,11 +57,10 @@ default['sanity']['repositories']['testing'] = false
 default['sanity']['repositories']['protocol'] = 'https' # http|https
 
 # Use Cloudflare & OpenDNS by default
-default['sanity']['resolver']['dns'] = %w(1.1.1.1 208.67.222.222)
-default['sanity']['resolver']['dns'].unshift(*%w(2606:4700:4700::1111 2620:119:35::35)) if node['sanity']['ipv6']
+default['sanity']['resolver']['dns'] = %w(2606:4700:4700::1111 2620:119:35::35 1.1.1.1 208.67.222.222) # IPv6 servers are left out if IPv6 is disabled
 default['sanity']['resolver']['dnssec'] = true
 
-default['sanity']['root_email'] = '' # administrator's email
+default['sanity']['root_email'] = '' # administrator's email, emails for root stay in root's local mailbox if empty
 
 default['sanity']['ssh']['authorized_keys'] = nil # don't touch keys if nil/empty
 

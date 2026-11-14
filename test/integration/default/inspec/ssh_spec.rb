@@ -29,3 +29,17 @@ control 'ssh-3' do
     its('content') { should eq 'ssh-ed25519 AAAA+testkey test@example.net' }
   end
 end
+
+control 'ssh-4' do
+  title 'sshd is restarted until it can bind its addresses'
+  impact 1.0
+
+  # --all shows RestartPreventExitStatus even though it's empty
+  describe command('systemctl show --all --property=Restart,RestartPreventExitStatus,RestartUSec,RestartSteps,RestartMaxDelayUSec ssh.service') do
+    its('stdout') { should match /^Restart=on-failure$/ }
+    its('stdout') { should match /^RestartPreventExitStatus=$/ }
+    its('stdout') { should match /^RestartUSec=5s$/ }
+    its('stdout') { should match /^RestartSteps=8$/ }
+    its('stdout') { should match /^RestartMaxDelayUSec=5min$/ }
+  end
+end
