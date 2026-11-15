@@ -16,11 +16,6 @@ action :create do
     firewall.rules[new_resource.priority] ||= []
     firewall.rules[new_resource.priority] |= [new_resource.name] # its action can run more than once
 
-    # a sanity_nft notified with a delayed action can converge after the firewall has been rebuilt: rebuild it again then
-    if firewall.rebuilt
-      firewall.queue_rebuild
-    else
-      firewall.delayed_action :rebuild
-    end
+    firewall.rebuild_after_converge
   end
 end

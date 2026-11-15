@@ -46,8 +46,6 @@ service 'nftables' do
   action %i(enable start)
 end
 
-# Rebuild custom.nft at the end of every run, from the sanity_nft rules declared by then: this also empties it when the
-# last one is removed.
-sanity_firewall 'default' do
-  delayed_action :rebuild
-end
+# Rebuild after a successful converge, including all delayed sanity_nft actions.
+# Declaring the default also clears custom.nft when the last custom rule is removed.
+sanity_firewall 'default'
