@@ -31,6 +31,18 @@ jobs:
         run: bundle exec rake kitchen:${{ matrix.suite }}
         env:
           CHEF_VERSION: ${{ matrix.chef_version }}
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Install latest stable Cinc
+        run: |
+          curl -fsSL https://omnitruck.cinc.sh/install.sh -o "$RUNNER_TEMP/install-cinc.sh"
+          sudo bash "$RUNNER_TEMP/install-cinc.sh" -v latest
+      - name: Test firewall lifecycle with Cinc
+        run: /opt/cinc/embedded/bin/ruby test/unit/firewall_test.rb
   style:
     runs-on: ubuntu-latest
     steps:
@@ -59,7 +71,7 @@ jobs:
   ci:
     # single status check to require in branch protection: it doesn't change with the matrix
     if: always()
-    needs: [kitchen, style, network]
+    needs: [kitchen, unit, style, network]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless all jobs succeeded
