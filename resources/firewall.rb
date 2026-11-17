@@ -28,7 +28,11 @@ action :create do
 end
 
 action :rebuild do
+  # A :rebuild run by Chef itself, as the resource's action or from a notification, joins the others after the
+  # converge, so that its rules are checked with theirs and nftables is reloaded once they're all written.
   firewalls = Sanity::FirewallRebuild.rebuilding(run_context)
+  next new_resource.rebuild_after_converge unless firewalls
+
   file new_resource.path do
     owner 'root'
     group 'root'

@@ -18,10 +18,10 @@ class Sanity
       handler.firewalls << firewall unless handler.firewalls.any? { |known| known.equal?(firewall) }
     end
 
-    # the firewalls being rebuilt, whose new rules each file is checked with
+    # the firewalls being rebuilt, whose new rules each file is checked with, or nil before the converge completes
     def self.rebuilding(run_context)
       handler = run_context.events.subscribers.find { |subscriber| subscriber.is_a?(self) }
-      handler&.rebuilding || []
+      handler&.rebuilding
     end
 
     attr_reader :rebuilding
@@ -45,6 +45,8 @@ class Sanity
         firewall.updated_by_last_action?
       end
       runner.run_action(@run_context.resource_collection.find('service[nftables]'), :reload) if updated.any?
+    ensure
+      @rebuilding = nil
     end
   end
 end

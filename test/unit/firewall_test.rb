@@ -255,6 +255,57 @@ class FirewallTest < Minitest::Test
     assert_equal "add rule inet filter extra accept\n", File.read(web)
     refute_path_exists RELOADS
   end
+
+  def test_explicit_rebuild_is_checked_and_reloaded_with_the_others
+    File.write(CUSTOM, '')
+    File.chmod(0400, CUSTOM) # the default firewall is unchanged, so only the explicit rebuild needs a reload
+    @recipe.sanity_firewall('default')
+    @recipe.firewall('web') do
+      path File.join(RULES, 'web.nft')
+      rules(100 => ['web rule'])
+      action :rebuild
+    end
+    converge
+    assert_equal "web rule\n", File.read(File.join(RULES, 'web.nft'))
+    assert_equal ["reload\n"], File.readlines(RELOADS)
+  end
+
+  def test_rebuild_notified_to_an_idle_firewall_reloads
+    File.write(CUSTOM, '')
+    File.chmod(0400, CUSTOM)
+    @recipe.sanity_firewall('default')
+    @recipe.firewall('web') do
+      path File.join(RULES, 'web.nft')
+      rules(100 => ['web rule'])
+      action :nothing
+    end
+    @recipe.ruby_block('notify web') do
+      block { true }
+      notifies :rebuild, 'firewall[web]', :delayed
+    end
+    converge
+    assert_equal "web rule\n", File.read(File.join(RULES, 'web.nft'))
+    assert_equal ["reload\n"], File.readlines(RELOADS)
+  end
+
+  def test_explicit_rebuild_with_rejected_rules_changes_nothing
+    @recipe.firewall('default') do
+      rules(100 => ['INVALID'])
+      action :rebuild
+    end
+    assert_raises(Chef::Exceptions::ValidationFailed) { converge }
+    assert_preserved
+  end
+
+  def test_explicit_rebuild_is_skipped_by_a_failed_run
+    @recipe.firewall('default') do
+      rules(100 => ['new rule'])
+      action :rebuild
+    end
+    @recipe.ruby_block('fail') { block { raise 'failure' } }
+    assert_raises(RuntimeError) { converge }
+    assert_preserved
+  end
 end
 
 Minitest.after_run { FileUtils.remove_entry(FirewallTest::ROOT) }
