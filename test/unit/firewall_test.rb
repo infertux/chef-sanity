@@ -225,6 +225,36 @@ class FirewallTest < Minitest::Test
     assert_equal "new rule\n", File.read(CUSTOM)
     assert_equal "web rule\n", File.read(File.join(RULES, 'web.nft'))
   end
+
+  def test_firewalls_depending_on_each_other_are_checked_and_reloaded_together
+    web = File.join(RULES, 'web.nft')
+    File.write(CUSTOM, "add chain inet filter extra\n")
+    File.write(web, "add rule inet filter extra accept\n")
+    @recipe.sanity_firewall('default')
+    @recipe.firewall('web') { path web }
+    converge
+    assert_empty File.read(CUSTOM)
+    assert_empty File.read(web)
+    assert_equal ["reload\n"], File.readlines(RELOADS)
+  end
+
+  def test_firewall_skipped_by_its_guard_keeps_its_rules_in_the_check
+    web = File.join(RULES, 'web.nft')
+    flag = File.join(ROOT, 'manage-web')
+    File.write(flag, '')
+    File.write(CUSTOM, "add chain inet filter extra\n")
+    File.write(web, "add rule inet filter extra accept\n")
+    @recipe.sanity_firewall('default')
+    @recipe.firewall('web') do
+      path web
+      only_if { ::File.exist?(flag) }
+    end
+    @recipe.ruby_block('stop managing web') { block { ::File.delete(flag) } }
+    assert_raises(Chef::Exceptions::ValidationFailed) { converge }
+    assert_equal "add chain inet filter extra\n", File.read(CUSTOM)
+    assert_equal "add rule inet filter extra accept\n", File.read(web)
+    refute_path_exists RELOADS
+  end
 end
 
 Minitest.after_run { FileUtils.remove_entry(FirewallTest::ROOT) }
