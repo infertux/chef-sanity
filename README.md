@@ -61,6 +61,58 @@ edit_resource!(:postfix, 'default') do
 end
 ```
 
+### Custom firewall rules
+
+[`sanity::firewall`](https://github.com/infertux/chef-sanity/tree/master/recipes/firewall.rb) blocks all incoming connections except SSH.
+To open more ports, declare `sanity_nft` resources with full `nft` commands, e.g. in the `input-custom` chain:
+
+```ruby
+sanity_nft 'add rule inet filter input-custom tcp dport { 80, 443 } counter accept'
+```
+
+- `priority` (default `100`): rules are written in ascending priority order, then in declaration order, so a chain can be created before the rules that use it.
+- `firewall_name` (default `'default'`): the `sanity_firewall` to add the rule to.
+  Each `sanity_firewall` (alias `firewall`) writes its rules to its `path`, `/etc/nftables.d/custom.nft` for the default one.
+
+Rules are only applied once the Chef run succeeds: each file is then checked with `nft --check` along with the rest of the ruleset, written, and nftables is reloaded once.
+If the run fails or `nft` rejects a rule, the current rules are kept.
+Removing the last `sanity_nft` empties the file.
+
+## Attributes
+
+All attributes live under `node['sanity']`, see [`attributes/default.rb`](https://github.com/infertux/chef-sanity/tree/master/attributes/default.rb) for their defaults.
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `automatic_reboot` | `'monthly'` | Reboot at a random time `'monthly'` or `'weekly'`; `false` to disable |
+| `email2telegram` | `{}` | Set `token` and `chat_id` to forward outgoing emails to Telegram |
+| `firewall.ssh_authorized_ips_v4` | `nil` | IPv4 sources allowed to SSH; `nil` means any |
+| `firewall.ssh_authorized_ips_v6` | `nil` | IPv6 sources allowed to SSH; `nil` means none |
+| `ipv4_reachable` | auto-detected | Whether the primary IPv4 is public; if so, sshd only listens on it |
+| `ipv6` | `true` | `false` disables IPv6, and makes SSH and Postfix use IPv4 only |
+| `monit` | see defaults | Alert thresholds (`cpu`, `loadavg`, `memory`, `swap`, `uptime`, `filesystem`, etc.) |
+| `network.interfaces.manage` | `true` | Switch the network configuration to systemd-networkd (DHCP and IPv6 autoconfiguration) |
+| `ntp` | `'systemd-timesyncd'` | `'ntp'` to use ntpsec instead |
+| `packages.install` | `btop`, `curl`, `vim`, etc. | Packages to install |
+| `packages.purge` | `['bind9']` | Packages to purge |
+| `packages.fail_on_leftover_configuration_files` | `false` | Fail the run if `*.dpkg-*` or `*.ucf-*` files are left in `/etc` |
+| `postfix.inet_protocols` | `nil` | `'all'`, or `'ipv4'` if IPv6 is disabled; set to `'ipv4'` to keep IPv6 but not for Postfix |
+| `postfix.relay` | `{}` | See [Sending emails through a relay](#sending-emails-through-a-relay) |
+| `repositories.backports` | `false` | Add backports (pinned, so only installed on request) |
+| `repositories.testing` | `false` | Add testing, pinned to 100 (`apt install -t testing foo`) |
+| `repositories.firmware` | `nil` | Add the non-free-firmware component; `nil` means only on bare metal |
+| `repositories.protocol` | `'https'` | `'http'` or `'https'` |
+| `resolver.dns` | Cloudflare and OpenDNS | DNS servers, IPv6 ones are left out if IPv6 is disabled |
+| `resolver.dnssec` | `true` | Validate DNSSEC |
+| `root_email` | `''` | Where emails for root go; they stay in root's local mailbox if empty |
+| `smartmontools.enable` | `true` | `false` for machines without HDD/SSD storage |
+| `ssh.authorized_keys` | `nil` | Keys written to root's `authorized_keys`; left untouched if empty |
+| `swap.swappiness` | `10` | `vm.swappiness` |
+| `swap.swapfile.path` | `'/swapfile'` | Path of the swap file |
+| `swap.swapfile.size` | `0` | Swap file size in GiB; `0` to disable |
+| `sysstat.enable` | `true` | `false` purges sysstat and its history |
+| `sysstat.interval` | `1` | Minutes between recordings, must divide 60 |
+
 ## License
 
 MIT
