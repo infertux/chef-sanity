@@ -29,5 +29,6 @@ end
 
 execute 'check that DNS is working' do
   command 'resolvectl query deb.debian.org'
+  not_if 'resolvectl query deb.debian.org' # only runs, and counts as a change, when the first query fails
   retries 3 # XXX: retry if needed since DNS resolution fails from time to time
 end
