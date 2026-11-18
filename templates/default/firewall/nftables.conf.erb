@@ -39,7 +39,17 @@ table inet filter {
         echo-request, # ping
         destination-unreachable,
         time-exceeded, # traceroute
-        packet-too-big # MTU discovery
+        packet-too-big, # MTU discovery
+        parameter-problem # RFC 4890 section 4.4.1: must not be dropped
+    } counter accept
+
+    # MLD (RFC 2710, RFC 3810): link-local only, so require hop limit 1 (RFC 4890 section 4.4.1)
+    # Needed for multicast (incl. ND solicited-node groups) on links that use MLD snooping.
+    meta l4proto ipv6-icmp ip6 hoplimit 1 icmpv6 type {
+        mld-listener-query, # 130
+        mld-listener-report, # 131
+        mld-listener-done, # 132
+        mld2-listener-report # 143
     } counter accept
 
     # https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
