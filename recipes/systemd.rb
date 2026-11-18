@@ -32,3 +32,29 @@ systemd_unit 'service.d/10-all.conf' do
   verify false # XXX: can be safely ignored, this would fail verification even though `systemd-analyze verify` succeeds
   action :create
 end
+
+# Email root about each new coredump, which systemd-coredump logs from its own systemd-coredump@.service instance
+directory '/etc/systemd/system/systemd-coredump@.service.d'
+
+systemd_unit 'systemd-coredump@.service.d/10-all.conf' do
+  content <<~CONF
+    [Unit]
+    OnSuccess=coredump-handler@%i.service
+  CONF
+
+  verify false # XXX: same as service.d/10-all.conf above
+  action :create
+end
+
+systemd_unit 'coredump-handler@.service' do
+  content <<~SYSTEMD
+    [Unit]
+    Description=Send email notification when a process dumps core
+
+    [Service]
+    Type=oneshot
+    ExecStart=/bin/bash -c 'journalctl --sync; echo "To: #{email}\\nSubject: Coredump on %l\\n\\n$(journalctl --no-pager --boot=0 -u systemd-coredump@%i.service)" | /usr/sbin/sendmail -t'
+  SYSTEMD
+
+  action :create
+end

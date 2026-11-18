@@ -34,7 +34,11 @@ bash 'looking for leftover configuration files' do
   BASH
 end
 
-execute 'looking for coredumps' do
-  # XXX: fail the Chef run if coredumps are found
-  command 'test -z "$(ls -A /var/lib/systemd/coredump)"'
+# Warn about coredumps at the end of the run, instead of failing before the following recipes (e.g. the firewall) converge
+# or counting as a change: sanity::systemd emails each new one
+Chef.event_handler do
+  on :run_completed do
+    coredumps = Dir.glob('/var/lib/systemd/coredump/*')
+    Chef::Log.warn("Found coredumps, see coredumpctl list: #{coredumps.join(' ')}") unless coredumps.empty?
+  end
 end
