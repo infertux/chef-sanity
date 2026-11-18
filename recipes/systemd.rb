@@ -13,7 +13,7 @@ systemd_unit 'failure-handler@.service' do
 
     [Service]
     Type=oneshot
-    ExecStart=/bin/bash -c 'echo "Service %i failed on %l\\n\\n$(journalctl --no-pager -n 15 -u %i)" | /usr/bin/mail #{node['sanity']['root_email']}'
+    ExecStart=/bin/bash -c 'echo "To: #{node['sanity']['root_email']}\\nSubject: Service %i failed on %l\\n\\n$(journalctl --no-pager -n 15 -u %i)" | /usr/sbin/sendmail -t'
   SYSTEMD
 
   action :create
