@@ -11,4 +11,15 @@ control 'monit-1' do
     its('stdout') { should match /^System '.+'$/ }
     its('stdout') { should match /^Filesystem '.+'$/ }
   end
+
+  describe port(2812) do
+    it { should_not be_listening }
+  end
+
+  describe file('/run/monit.sock') do
+    it { should be_socket }
+    its('owner') { should eq 'root' }
+    its('group') { should eq 'root' }
+    its('mode') { should cmp '0600' }
+  end
 end
