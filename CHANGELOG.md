@@ -2,6 +2,10 @@
 
   * TBD
 
+  UPGRADE NOTES:
+  - on bare metal (i.e. not a virtualization guest), the `non-free-firmware` component is now enabled and the CPU's microcode package (`intel-microcode` or `amd64-microcode`) is installed: set `node['sanity']['repositories']['firmware']` to false to keep only `main`, or to true to also enable it on virtualization guests
+  - when `node['sanity']['repositories']['testing']` is true, testing is now pinned to 100 so its packages are only installed with `apt install -t testing` and stable versions are no longer replaced by testing ones
+
 ## v4.4.0, 2026-11-11 ([changes](https://github.com/infertux/chef-sanity/compare/4.3.0...4.4.0))
 
   * 117b3de - Note in CLAUDE.md that only fresh Debian 13 installs are supported

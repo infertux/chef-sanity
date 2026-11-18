@@ -53,7 +53,8 @@ default['sanity']['smartmontools']['enable'] = true # set to false for machines 
 
 # All backports are deactivated by default (i.e. the packages are pinned to 100 by using ButAutomaticUpgrades: yes in the Release files.
 default['sanity']['repositories']['backports'] = false
-default['sanity']['repositories']['testing'] = false
+default['sanity']['repositories']['testing'] = false # testing is pinned to 100 so its packages are only installed on request (e.g. apt install -t testing foo)
+default['sanity']['repositories']['firmware'] = nil # adds the non-free-firmware component (CPU microcode and firmware); nil means only on bare metal, not on virtualization guests
 default['sanity']['repositories']['protocol'] = 'https' # http|https
 
 # Use Cloudflare & OpenDNS by default
