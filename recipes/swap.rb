@@ -9,7 +9,7 @@ swapfile = node['sanity']['swap']['swapfile']['path']
 
 bash 'swapfile' do
   only_if { node['sanity']['swap']['swapfile']['size'].positive? }
-  creates swapfile
+  not_if "grep -q '^#{swapfile} ' /proc/swaps"
   user 'root'
   group 'root'
   code <<~BASH
@@ -22,7 +22,7 @@ bash 'swapfile' do
     mkswap #{swapfile}
     swapon #{swapfile}
 
-    echo "#{swapfile} swap swap auto 0 0" | tee -a /etc/fstab
+    grep -q '^#{swapfile} ' /etc/fstab || echo "#{swapfile} swap swap auto 0 0" | tee -a /etc/fstab
 
     sysctl -w vm.swappiness=#{node['sanity']['swap']['swappiness']}
   BASH
