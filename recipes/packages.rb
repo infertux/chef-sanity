@@ -4,6 +4,14 @@ end
 
 package node['sanity']['packages']['install']
 
+# CPU microcode security fixes come from the non-free-firmware component, see sanity::repositories
+firmware = node['sanity']['repositories']['firmware']
+firmware = node.dig('virtualization', 'role') != 'guest' if firmware.nil?
+if firmware
+  microcode = { 'GenuineIntel' => 'intel-microcode', 'AuthenticAMD' => 'amd64-microcode' }[node.dig('cpu', '0', 'vendor_id')]
+  package microcode if microcode
+end
+
 include_recipe 'sanity::tmux'
 
 execute 'looking for non-Debian packages' do
