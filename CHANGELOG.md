@@ -4,6 +4,7 @@
 
   UPGRADE NOTES:
   - Monit's HTTP interface now listens on the root-only Unix socket `/run/monit.sock` instead of `localhost:2812`, which let any local user control Monit without credentials: `monit status` keeps working for root, but anything that connected to port 2812 must be changed
+  - sanity::packages no longer fails the Chef run when `/var/lib/systemd/coredump` isn't empty: existing coredumps are logged as a warning at the end of the run, and each new one is emailed to root
   - on bare metal (i.e. not a virtualization guest), the `non-free-firmware` component is now enabled and the CPU's microcode package (`intel-microcode` or `amd64-microcode`) is installed: set `node['sanity']['repositories']['firmware']` to false to keep only `main`, or to true to also enable it on virtualization guests
   - when `node['sanity']['repositories']['testing']` is true, testing is now pinned to 100 so its packages are only installed with `apt install -t testing` and stable versions are no longer replaced by testing ones
 
