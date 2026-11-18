@@ -14,31 +14,21 @@ end
 
 include_recipe 'sanity::tmux'
 
-execute 'looking for non-Debian packages' do
-  command 'apt-forktracer | sort'
-  only_if 'which apt-forktracer'
+leftovers = -> { Dir.glob('/etc/**/*.{dpkg-*,ucf-*,merge-error}', File::FNM_DOTMATCH) }
+
+ruby_block 'failing on leftover configuration files' do
+  block { raise "Found leftover configuration files: #{leftovers.call.join(' ')}" }
+  only_if { node['sanity']['packages']['fail_on_leftover_configuration_files'] && leftovers.call.any? }
 end
 
-bash 'looking for leftover configuration files' do
-  user 'root'
-  group 'root'
-  code <<~BASH
-    #!/bin/bash
-
-    set -euo pipefail
-
-    files=$(find /etc -name '*.dpkg-*' -o -name '*.ucf-*' -o -name '*.merge-error')
-    echo "$files"
-
-    #{'[ -z "$files" ]' if node['sanity']['packages']['fail_on_leftover_configuration_files']}
-  BASH
-end
-
-# Warn about coredumps at the end of the run, instead of failing before the following recipes (e.g. the firewall) converge
-# or counting as a change: sanity::systemd emails each new one
+# Warn at the end of the run, instead of failing before the following recipes (e.g. the firewall) converge or counting
+# as changes: sanity::systemd also emails each new coredump
 Chef.event_handler do
   on :run_completed do
-    coredumps = Dir.glob('/var/lib/systemd/coredump/*')
-    Chef::Log.warn("Found coredumps, see coredumpctl list: #{coredumps.join(' ')}") unless coredumps.empty?
+    {
+      'coredumps, see coredumpctl list' => Dir.glob('/var/lib/systemd/coredump/*'),
+      'leftover configuration files' => leftovers.call,
+      'non-Debian packages' => File.exist?('/usr/bin/apt-forktracer') ? `apt-forktracer`.lines(chomp: true).sort : [],
+    }.each { |what, found| Chef::Log.warn("Found #{what}: #{found.join(', ')}") unless found.empty? }
   end
 end
