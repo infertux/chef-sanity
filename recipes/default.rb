@@ -19,7 +19,6 @@ include_recipe 'sanity::monit'
 include_recipe 'sanity::smartmontools'
 include_recipe 'sanity::sysstat'
 include_recipe 'sanity::systemd'
-include_recipe 'sanity::vrms'
 
 node.default['os-hardening']['auditd']['space_left'] = '30%'
 node.default['os-hardening']['auditd']['space_left_action'] = 'rotate'
