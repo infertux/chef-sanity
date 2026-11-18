@@ -40,9 +40,14 @@ file '/etc/monit/conf.d/sanity.conf' do
 
     #{alert}
 
-    # needed by `monit status`
-    set httpd port 2812 and
-      use address localhost
+    # needed by `monit status`: a Unix socket only root can connect to, rather than a TCP port
+    # any local user could use to query and control Monit (start, stop or restart its services)
+    set httpd unixsocket /run/monit.sock
+      uid root
+      gid root
+      permission 0600
+      # Monit doesn't start its HTTP interface without an allow rule, but doesn't apply host rules to Unix sockets:
+      # the socket's permission above is what restricts access
       allow localhost
   MONIT
 end
