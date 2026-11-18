@@ -1,3 +1,0 @@
-package 'vrms'
-
-execute 'vrms'
