@@ -1,36 +1,77 @@
-# Sanity Cookbook
+# chef-sanity
 
-[![Funding](https://img.shields.io/liberapay/patrons/infertux.svg?logo=liberapay)](https://liberapay.com/infertux/donate)
-[![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.getchef.com/cookbooks/sanity)
+[![Cookbook](https://img.shields.io/cookbook/v/sanity.svg)](https://supermarket.chef.io/cookbooks/sanity)
 [![Build Status](https://github.com/infertux/chef-sanity/actions/workflows/test.yml/badge.svg)](https://github.com/infertux/chef-sanity/actions)
+[![Funding](https://img.shields.io/liberapay/patrons/infertux.svg?logo=liberapay)](https://liberapay.com/infertux/donate)
 
 ***chef-sanity brings back your sanity as a sysadmin.***
 
-This cookbook helps you standardize configuration on various machines.
-It applies a common set of packages and settings to any machine (VM, cloud, bare metal, etc.) so you have a solid base to build on.
+One Chef recipe turns a fresh Debian 13 machine (VM, cloud or bare metal) into a locked-down, self-updating server that emails you when something goes wrong.
 
-Here are some highlights of what it does:
+## What you get
 
-- sets up a basic firewall with nftables to block incoming connections (IPv4 and IPv6)
-- sets up NTP and set timezone to UTC
-- sets up a reliable DNS resolver
-- sets up automatic package updates
-- hardens sshd config with public key authentication and strong ciphers
-- sets up a local Mail Transfer Agent using Postfix to send emails to sysadmin, directly or through a relay
-- sets up Monit to alert sysadmin when CPU, memory, disk, etc. is overused
-- sets up SMART to monitor hard drive failures
-- emails sysadmin when a systemd service fails or a process dumps core
-- sets up sysstat to record CPU, memory, disk and network activity every minute, to look back at it with `sar`
-- installs a few useful packages like tmux, btop, curl, etc.
-- hardens various OS settings for better security
+**Locked down**
+
+- An nftables firewall that drops incoming traffic except SSH and a few essentials (ping, DHCP, mDNS and the ICMPv6 that IPv6 needs per [RFC 4890](https://www.rfc-editor.org/rfc/rfc4890)), and rate-limits floods
+- sshd with public keys only, post-quantum key exchange and AEAD ciphers, on IPv4 and IPv6
+- Kernel and OS hardening from [dev-sec](https://dev-sec.io/), tested against its Linux and SSH baselines
+
+**Watched**
+
+- Monit alerts when CPU, load, memory, swap or disk usage stays high (`monit status` for root)
+- An email whenever a systemd service fails, a process dumps core (with its stack trace) or SMART reports a failing disk
+- sysstat records CPU, memory, disk and network activity every minute, to look back at it with `sar`
+- Postfix delivers all of it to your mailbox, directly or through a relay, and can forward it to Telegram
+
+**Kept up to date**
+
+- Unattended upgrades from every configured repository, rebooting when an upgrade needs it and monthly at a random time
+- Debian repositories over HTTPS, with optional backports and testing pinned so nothing comes from them unless you ask
+- CPU microcode updates on bare metal, from Debian's non-free-firmware component
+
+**Sensible basics**
+
+- systemd-networkd with DHCP and IPv6 autoconfiguration, NTP, UTC, and a DNSSEC-validating resolver
+- tmux, btop, curl, vim, rsync, sudo and a few aliases for root
+
+## Quick start
+
+Add the cookbook to your `Berksfile` (or `depends 'sanity'` in your wrapper's `metadata.rb`):
+
+```ruby
+cookbook 'sanity'
+```
+
+Then include it from a wrapper recipe, with at least your email and SSH key:
+
+```ruby
+node.default['sanity']['root_email'] = 'admin@example.net'
+node.default['sanity']['ssh']['authorized_keys'] = ['ssh-ed25519 AAAA... admin@laptop']
+
+include_recipe 'sanity'
+```
+
+Converge the machine as usual, e.g. with `knife bootstrap` or `chef-client`. Chef 18 or later (or Cinc) is required.
+
+### Before your first run
+
+sanity is opinionated and only supports fresh Debian 13 installs. Check that these suit you:
+
+- Only SSH is reachable from outside, and over IPv6 only from `firewall.ssh_authorized_ips_v6`
+- SSH only accepts keys, and only OpenSSH 6.5+ clients (some mobile apps and libraries can't connect)
+- The machine reboots monthly, and after upgrades that need it: set `automatic_reboot` to `false` to opt out
+- The network is switched to systemd-networkd; the run fails first if `/etc/network/interfaces` uses anything but DHCP (e.g. a static address), unless `network.interfaces.manage` is `false`
+- root's `authorized_keys` is replaced by `ssh.authorized_keys` when set
+- `/etc/apt/sources.list`, root's `.bashrc` and `/etc/tmux.conf` are overwritten, and bind9 is purged
 
 ## Recipes
 
-[`sanity::default`](https://github.com/infertux/chef-sanity/tree/master/recipes/default.rb) is a curated list of recipes that should fit most setups.
+[`sanity::default`](https://github.com/infertux/chef-sanity/tree/master/recipes/default.rb) runs all of them.
+To pick only some, include the [individual recipes](https://github.com/infertux/chef-sanity/tree/master/recipes) instead, e.g. `sanity::firewall`.
 
-You can include [extra recipes](https://github.com/infertux/chef-sanity/tree/master/recipes) as you see fit.
+## Customizing
 
-### Sending emails through a relay
+### Send emails through a relay
 
 By default, Postfix delivers emails directly to the recipients' mail servers, so they come from each machine's FQDN.
 To send them through a relay instead, e.g. a mail provider's SMTP submission server, set these attributes:
@@ -49,7 +90,7 @@ since relays usually only accept their own address as sender (e.g. Proton Mail's
 It also means only one domain sends emails on behalf of all your machines, which keeps SPF and DMARC simple.
 To use another sender, override `sender_canonical_maps` as shown below.
 
-### Customizing Postfix
+### Customize Postfix
 
 [`sanity::postfix`](https://github.com/infertux/chef-sanity/tree/master/recipes/postfix.rb) configures Postfix with the `postfix 'default'` resource from the [postfix cookbook](https://github.com/sous-chefs/postfix).
 To customize it further, edit that resource from a wrapper recipe after including sanity, e.g. to change a `main.cf` setting:
@@ -62,7 +103,7 @@ edit_resource!(:postfix, 'default') do
 end
 ```
 
-### Custom firewall rules
+### Open ports in the firewall
 
 [`sanity::firewall`](https://github.com/infertux/chef-sanity/tree/master/recipes/firewall.rb) blocks all incoming connections except SSH.
 To open more ports, declare `sanity_nft` resources with full `nft` commands, e.g. in the `input-custom` chain:
@@ -98,7 +139,7 @@ All attributes live under `node['sanity']`, see [`attributes/default.rb`](https:
 | `packages.purge` | `['bind9']` | Packages to purge |
 | `packages.fail_on_leftover_configuration_files` | `false` | Fail the run if `*.dpkg-*` or `*.ucf-*` files are left in `/etc` |
 | `postfix.inet_protocols` | `nil` | `'all'`, or `'ipv4'` if IPv6 is disabled; set to `'ipv4'` to keep IPv6 but not for Postfix |
-| `postfix.relay` | `{}` | See [Sending emails through a relay](#sending-emails-through-a-relay) |
+| `postfix.relay` | `{}` | See [Sending emails through a relay](#send-emails-through-a-relay) |
 | `repositories.backports` | `false` | Add backports (pinned, so only installed on request) |
 | `repositories.testing` | `false` | Add testing, pinned to 100 (`apt install -t testing foo`) |
 | `repositories.firmware` | `nil` | Add the non-free-firmware component; `nil` means only on bare metal |
@@ -113,6 +154,11 @@ All attributes live under `node['sanity']`, see [`attributes/default.rb`](https:
 | `swap.swapfile.size` | `0` | Swap file size in GiB; `0` to disable |
 | `sysstat.enable` | `true` | `false` purges sysstat and its history |
 | `sysstat.interval` | `1` | Minutes between recordings, must divide 60 |
+
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/infertux/chef-sanity/issues).
+See [TESTING.md](TESTING.md) to run the test suite and [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
