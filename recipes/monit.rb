@@ -32,7 +32,7 @@ file '/etc/monit/conf.d/sanity.conf' do
 
     set mail-format {
       from: monit@#{node['fqdn'] || 'localhost'}
-      subject: $SERVICE $EVENT at $DATE
+      subject: [$HOST] $SERVICE $EVENT at $DATE
       message: Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION.
       Yours sincerely,
       monit
