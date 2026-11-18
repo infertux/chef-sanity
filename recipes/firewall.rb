@@ -24,6 +24,17 @@ directory '/etc/nftables.d' do
   mode '0500'
 end
 
+# sanity_firewall wrote rules without a final newline before 4.5.0, and nft can't parse a file included after such a
+# fragment, so the check of /etc/nftables.conf below would fail until they're rebuilt after the converge (#48)
+::Dir.glob('/etc/nftables.d/*.nft').each do |fragment|
+  rules = ::File.read(fragment)
+  next if rules.empty? || rules.end_with?("\n")
+
+  file fragment do
+    content "#{rules}\n"
+  end
+end
+
 template '/etc/nftables.conf' do
   source 'firewall/nftables.conf.erb'
   owner 'root'
