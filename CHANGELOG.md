@@ -6,6 +6,8 @@
   - Monit's HTTP interface now listens on the root-only Unix socket `/run/monit.sock` instead of `localhost:2812`, which let any local user control Monit without credentials: `monit status` keeps working for root, but anything that connected to port 2812 must be changed
   - on bare metal (i.e. not a virtualization guest), the `non-free-firmware` component is now enabled and the CPU's microcode package (`intel-microcode` or `amd64-microcode`) is installed: set `node['sanity']['repositories']['firmware']` to false to keep only `main`, or to true to also enable it on virtualization guests
   - when `node['sanity']['repositories']['testing']` is true, testing is now pinned to 100 so its packages are only installed with `apt install -t testing` and stable versions are no longer replaced by testing ones
+  - sshd now also listens on `::` when `node['sanity']['ipv6']` is true and the primary IPv4 is public (it only listened on that IPv4 before), and `node['ssh-hardening']['ssh']['server']['listen_to']` is set at default level instead of override, so a role or an override attribute can change it
+  - sshd and ssh only allow kex `mlkem768x25519-sha256`, `sntrup761x25519-sha512` and `curve25519-sha256` (no more `diffie-hellman-group-exchange-sha256`), ciphers `chacha20-poly1305@openssh.com` and `aes256-gcm@openssh.com` (no more `aes256-ctr`), and MAC `hmac-sha2-512-etm@openssh.com`. OpenSSH 6.5 or later can still connect (post-quantum kex needs 9.9 or later), but other SSH clients and libraries, e.g. some mobile apps, may not: check before upgrading
 
 ## v4.4.0, 2026-11-11 ([changes](https://github.com/infertux/chef-sanity/compare/4.3.0...4.4.0))
 

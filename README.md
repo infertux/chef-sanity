@@ -88,7 +88,7 @@ All attributes live under `node['sanity']`, see [`attributes/default.rb`](https:
 | `email2telegram` | `{}` | Set `token` and `chat_id` to forward outgoing emails to Telegram |
 | `firewall.ssh_authorized_ips_v4` | `nil` | IPv4 sources allowed to SSH; `nil` means any |
 | `firewall.ssh_authorized_ips_v6` | `nil` | IPv6 sources allowed to SSH; `nil` means none |
-| `ipv4_reachable` | auto-detected | Whether the primary IPv4 is public; if so, sshd only listens on it |
+| `ipv4_reachable` | auto-detected | Whether the primary IPv4 is public; if so, sshd listens on it instead of all IPv4 addresses (and still on `::` if IPv6 is enabled) |
 | `ipv6` | `true` | `false` disables IPv6, and makes SSH and Postfix use IPv4 only |
 | `monit` | see defaults | Alert thresholds (`cpu`, `loadavg`, `memory`, `swap`, `uptime`, `filesystem`, etc.) |
 | `network.interfaces.manage` | `true` | Switch the network configuration to systemd-networkd (DHCP and IPv6 autoconfiguration) |

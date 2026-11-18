@@ -43,3 +43,30 @@ control 'ssh-4' do
     its('stdout') { should match /^RestartMaxDelayUSec=5min$/ }
   end
 end
+
+control 'ssh-5' do
+  title 'sshd and ssh only allow modern crypto'
+  impact 1.0
+
+  kex = 'mlkem768x25519-sha256,sntrup761x25519-sha512,curve25519-sha256'
+  ciphers = 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com'
+  macs = 'hmac-sha2-512-etm@openssh.com'
+
+  # sshd -T and ssh -G print the configuration in effect, and fail on algorithms OpenSSH doesn't know.
+  # sshd only offers host key algorithms it has a key for, so the ed25519 host key alone limits them to ssh-ed25519.
+  describe command('sshd -T') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /^kexalgorithms #{Regexp.escape(kex)}$/ }
+    its('stdout') { should match /^ciphers #{Regexp.escape(ciphers)}$/ }
+    its('stdout') { should match /^macs #{Regexp.escape(macs)}$/ }
+    its('stdout') { should match %r{^hostkey /etc/ssh/ssh_host_ed25519_key$} }
+    its('stdout') { should_not match %r{^hostkey (?!/etc/ssh/ssh_host_ed25519_key$)} }
+  end
+
+  describe command('ssh -G localhost') do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /^kexalgorithms #{Regexp.escape(kex)}$/ }
+    its('stdout') { should match /^ciphers #{Regexp.escape(ciphers)}$/ }
+    its('stdout') { should match /^macs #{Regexp.escape(macs)}$/ }
+  end
+end
