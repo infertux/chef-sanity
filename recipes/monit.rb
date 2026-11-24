@@ -52,7 +52,7 @@ file '/etc/monit/conf.d/sanity.conf' do
   MONIT
 end
 
-cmd = Mixlib::ShellOut.new('df -x devtmpfs -x tmpfs -x overlay --output=target')
+cmd = Mixlib::ShellOut.new('df -x devtmpfs -x tmpfs -x efivarfs -x overlay --output=target')
 cmd.run_command
 cmd.error! # raise an exception if it didn't exit with 0
 filesystems = cmd.stdout.lines.map(&:strip).drop(1)
