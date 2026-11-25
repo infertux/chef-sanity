@@ -62,12 +62,14 @@ table inet filter {
     # DHCPv6
     meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "accept DHCPOFFER messages"
 
-    # SSH: accepted before the throttling below, otherwise a flood with a forged source address could lock an
-    # authorized client out for a minute. sshd's MaxStartups and PerSourcePenalties still limit unauthenticated connections.
-    <% unless @ssh_authorized_ips_v4.empty? %>
+    # SSH from explicitly authorized sources: accepted before the throttling below, otherwise a flood of SYNs with a forged
+    # or shared (NAT) source address could lock them out for a minute. When any source is allowed, SSH stays throttled.
+    <% ssh_any_v4 = @ssh_authorized_ips_v4.include?('0.0.0.0/0') %>
+    <% ssh_any_v6 = @ssh_authorized_ips_v6.include?('::/0') %>
+    <% unless @ssh_authorized_ips_v4.empty? || ssh_any_v4 %>
     meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
     <% end %>
-    <% unless @ssh_authorized_ips_v6.empty? %>
+    <% unless @ssh_authorized_ips_v6.empty? || ssh_any_v6 %>
     meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
     <% end %>
 
@@ -85,6 +87,14 @@ table inet filter {
     # mDNS
     ip  daddr 224.0.0.251 udp dport mdns counter accept comment "IPv4 mDNS"
     ip6 daddr ff02::fb    udp dport mdns counter accept comment "IPv6 mDNS"
+
+    # SSH from any source
+    <% if ssh_any_v4 %>
+    meta nfproto ipv4 ip saddr { <%= @ssh_authorized_ips_v4.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
+    <% end %>
+    <% if ssh_any_v6 %>
+    meta nfproto ipv6 ip6 saddr { <%= @ssh_authorized_ips_v6.join(',') %> } tcp dport { <%= Array(node['ssh-hardening']['ssh']['ports'] || 22).join(',') %> } ct state new log prefix "nftables: New SSH connection: " flags all counter accept
+    <% end %>
 
     jump input-custom
 
