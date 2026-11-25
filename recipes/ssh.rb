@@ -14,14 +14,6 @@ file '/root/.ssh/authorized_keys' do
   not_if { ssh_authorized_keys.empty? }
 end
 
-# Default level so a wrapper can still change it, e.g. with a role or override attribute.
-# On IPv6, sshd listens on :: rather than the primary address: SLAAC addresses come up late at boot and can change, and
-# the firewall only accepts SSH over IPv6 from node['sanity']['firewall']['ssh_authorized_ips_v6'] anyway.
-# sshd only exits when it can bind none of its addresses, so :: never stops it from listening on IPv4.
-listen_to = [node['sanity']['ipv4_reachable'] ? node['ipaddress'] : '0.0.0.0']
-listen_to << '::' if node['sanity']['ipv6']
-node.default['ssh-hardening']['ssh']['server']['listen_to'] = listen_to
-
 node.default['ssh-hardening']['network']['ipv6']['enable'] = node['sanity']['ipv6']
 
 # At boot, network.target doesn't wait for the addresses: sshd can start before systemd-networkd has the primary address
@@ -63,3 +55,13 @@ node.default['ssh-hardening']['ssh']['server']['allow_root_with_key'] = true
 node.default['ssh-hardening']['ssh']['server']['host_key_files'] = %w(/etc/ssh/ssh_host_ed25519_key)
 
 include_recipe 'ssh-hardening::default'
+
+# Default level so a wrapper can still change it, e.g. with a role or override attribute. Set after including
+# ssh-hardening: its server recipe sets listen_to at default level too, and the last write wins (sshd_config reads it
+# when it's rendered, at converge time).
+# On IPv6, sshd listens on :: rather than the primary address: SLAAC addresses come up late at boot and can change, and
+# the firewall only accepts SSH over IPv6 from node['sanity']['firewall']['ssh_authorized_ips_v6'] anyway.
+# sshd only exits when it can bind none of its addresses, so :: never stops it from listening on IPv4.
+listen_to = [node['sanity']['ipv4_reachable'] ? node['ipaddress'] : '0.0.0.0']
+listen_to << '::' if node['sanity']['ipv6']
+node.default['ssh-hardening']['ssh']['server']['listen_to'] = listen_to
