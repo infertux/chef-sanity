@@ -12,6 +12,7 @@ template script do
   owner username
   group username
   mode '0500'
+  sensitive true # don't print the token in diffs
   variables(
     token: node['sanity']['email2telegram']['token'],
     chat_id: node['sanity']['email2telegram']['chat_id'],
